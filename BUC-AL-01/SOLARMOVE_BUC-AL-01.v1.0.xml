@@ -1,0 +1,1083 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SOLAR-MOVE | BUC-AL-01 | Coordinated PV-Integrated EV Charging Cluster Operation and Virtual Power Plant Management
+  IEC 62559-3-STYLE serialization (DRAFT).
+  Structure & field vocabulary aligned to the IEC 62559-2 template as rendered by the
+  Sparx Enterprise Architect / MODSARUS toolchain (reference: the public 'Smart Grid Use
+  Cases' renderings of the BRIDGE EDF/Elering use cases).
+  NOTE: element names are indicative; this file is NOT validated against the normative
+  IEC 62559-3 XSD. UUIDs are deterministic (uuid5) placeholders, not repository-assigned.
+  Source: SOLARMOVE_BUC-AL-01.docx
+-->
+<IEC62559UseCaseArtefacts profile="IEC 62559-3-style, aligned to the IEC 62559-2 template as rendered by the Sparx EA / MODSARUS toolchain" status="DRAFT - not validated against the normative IEC 62559-3 XSD" basedOnTemplate="IEC 62559-2:2015" generatedFrom="SOLARMOVE_BUC-AL-01.docx" namespaceNote="urn:solarmove:iec62559-3-style:v0">
+  <UseCase uuid="e4828cca-f255-55cd-9cd3-4627d16b14c9" id="BUC-AL-01" version="1.0">
+    <UseCaseIdentification>
+      <ID>BUC-AL-01</ID>
+      <Name>Coordinated PV-Integrated EV Charging Cluster Operation and Virtual Power Plant Management</Name>
+      <Area>Energy System</Area>
+      <Domains>Distribution System, DER, Customer Premises</Domains>
+      <Zones>Operation, Enterprise, Market</Zones>
+    </UseCaseIdentification>
+    <VersionControl>
+      <Version number="1.0">
+        <Date>20.10.2026</Date>
+        <Author>UPT Team, Klajdi Kamberi</Author>
+        <Changes>First public version</Changes>
+        <ApprovalStatus/>
+      </Version>
+    </VersionControl>
+    <ScopeAndObjectives>
+      <Scope>
+        <Paragraph>This BUC-AL-01 focuses on the coordinated operation and intelligent management of distributed Electric Vehicle (EV) charging clusters integrated with Photovoltaic (PV) generation through a centralized Energy Management System (EMS). The pilot is implemented within the SOLAR-MOVE project through the collaboration of the Municipality of Tirana, OSHEE Group, the Polytechnic University of Tirana (UPT), and SUSALB Center.</Paragraph>
+        <Paragraph>The demonstration comprises three geographically distributed charging clusters representing different ownership structures, user profiles, and operational environments, including public, semi-public, and private charging infrastructure. These clusters are located at Tirana municipal facilities, the headquarters of OSHEE Group, and the Faculty of Electrical Engineering of UPT.</Paragraph>
+        <Paragraph>A centralized Energy Management System (EMS) will coordinate the operation of all charging clusters by collecting real-time charging and energy production data, optimizing charging schedules according to PV generation availability, and aggregating the flexibility of all clusters into a Virtual Power Plant (VPP). The pilot aims to maximize local renewable energy utilization, increase the hosting capacity of EV charging infrastructure, reduce peak demand, and investigate flexibility services that can support both the Distribution System Operator (DSO) and the Transmission System Operator (TSO).</Paragraph>
+        <Paragraph>Beyond the technical validation, the pilot also investigates a scalable operational model for intelligent EV charging infrastructure that can support future commercial deployment of EMS-based charging services, smart charging, and VPP operation under the evolving Albanian electricity market.</Paragraph>
+        <Paragraph>The following System Use Cases (SUCs) define the technical realization of this Business Use Case:</Paragraph>
+        <Item>SUC-AL-01.1: Integrated Energy Data Aggregation – Collection and synchronization of charging session data, PV generation measurements, and operational information from all charging clusters through the centralized EMS.</Item>
+        <Item>SUC-AL-01.2: PV-Aware Smart Charging Optimization – Optimization of EV charging schedules using PV generation forecasts, charging demand forecasts, and predefined operational constraints in order to maximize renewable energy self-consumption.</Item>
+        <Item>SUC-AL-01.3: Cluster Flexibility Management and Virtual Power Plant Operation – Aggregation of charging flexibility from all charging clusters to support coordinated load management, peak shaving, and future grid-support services.</Item>
+      </Scope>
+      <Objectives>
+        <Objective id="OBJ-1">Demonstrate the coordinated operation of distributed EV charging clusters under a centralized Energy Management System.</Objective>
+        <Objective id="OBJ-2">Maximize the utilization of locally generated photovoltaic energy for EV charging.</Objective>
+        <Objective id="OBJ-3">Improve the operational efficiency of public, semi-public and private charging infrastructure through intelligent charging management.</Objective>
+        <Objective id="OBJ-4">Demonstrate coordinated charging strategies capable of operating under constrained grid connection capacities without requiring immediate network reinforcement.</Objective>
+        <Objective id="OBJ-5">Evaluate the technical and commercial potential of aggregated charging flexibility to support future Demand Response, ancillary services, and electricity market participation.</Objective>
+        <Objective id="OBJ-6">Demonstrate the operation of a Virtual Power Plant capable of aggregating geographically distributed charging clusters into a controllable flexibility resource.</Objective>
+        <Objective id="OBJ-7">Assess the impact of coordinated charging on grid performance, renewable energy integration, and future large-scale EV deployment in Albania.</Objective>
+      </Objectives>
+      <RelatedBusinessCases>
+        <Paragraph>This Business Use Case is developed within the SOLAR-MOVE project, which aims to accelerate the deployment of photovoltaic-integrated EV charging infrastructure and intelligent energy management systems. The pilot establishes the technical and business foundation for the future commercialization of EMS-supported charging services. During the project, SUSALB is responsible for supplying, installing, operating, and maintaining the EV charging infrastructure, while jointly developing the EMS and VPP software platform together with project partners. After project completion, the charging infrastructure will be transferred to the respective site owners (Municipality of Tirana, OSHEE Group, and UPT), whereas the EMS platform will remain a commercial software solution operated and further developed by SUSALB through future service agreements.</Paragraph>
+      </RelatedBusinessCases>
+    </ScopeAndObjectives>
+    <Narrative>
+      <ShortDescription>
+        <Paragraph>The Albanian pilot demonstrates the coordinated operation of distributed EV charging clusters integrated with PV generation through a centralized EMS. The pilot comprises three charging clusters located at the Municipality of Tirana, OSHEE Group headquarters, and the Faculty of Electrical Engineering of the UPT. These clusters include public, semi-public, and private charging stations serving municipal fleets, utility vehicles, university users, and public EV users.</Paragraph>
+        <Paragraph>The EMS continuously collects operational data from EV chargers, PV systems, and smart meters to optimize charging schedules according to renewable energy availability, electricity prices, user charging preferences, and network operational constraints. By aggregating the flexibility of all charging clusters into a VPP, the pilot demonstrates how coordinated charging can maximize renewable energy utilization, reduce peak demand, improve the operational efficiency of charging infrastructure, and establish a scalable framework for future flexibility services and intelligent EV charging deployment.</Paragraph>
+      </ShortDescription>
+      <CompleteDescription>
+        <Paragraph>Uncoordinated EV charging may coincide with periods of high electricity demand while renewable generation is low, creating local network congestion, increasing peak demand, reducing renewable energy self-consumption, and potentially requiring costly grid reinforcement. These challenges become more significant when charging infrastructure is deployed across geographically distributed municipal, university, and utility sites that operate independently and cannot exploit their collective flexibility.</Paragraph>
+        <Paragraph>The Albanian pilot addresses these challenges through a centralized Energy Management System (EMS) that coordinates three geographically distributed EV charging clusters located at the Municipal Fleet Operator &amp; Site Owner (Municipality of Tirana - Cluster 1), DSO headquarters (OSHEE Group - Cluster 2), and the Campus Prosumer (Faculty of Electrical Engineering of UPT - Cluster 3). The EMS continuously acquires operational data from EV chargers, PV systems, and smart meters, combining real-time measurements with PV generation forecasts, electricity prices, charging requests, expected departure times, and network operational constraints to optimize charging schedules. By aggregating the flexibility available across all charging clusters into a VPP, the pilot establishes a controllable flexibility resource capable of reducing peak demand, increasing renewable energy utilization, and supporting future demand response.</Paragraph>
+        <Paragraph>The implementation of coordinated charging provides different operational and economic incentives for the participating stakeholders.</Paragraph>
+        <Paragraph>Municipal Fleet Operator &amp; Site Owner (Municipality of Tirana - Cluster 1) benefits from optimized charging of its municipal EV fleet, improved utilization of locally generated renewable energy, lower electricity procurement costs through intelligent charging scheduling, and more efficient use of the existing distribution infrastructure without immediate network reinforcement.</Paragraph>
+        <Paragraph>DSO (OSHEE Group - Cluster 2) is dedicated exclusively to the charging of OSHEE corporate and operational fleet vehicles and does not provide commercial public charging services. The charging infrastructure therefore operates as a closed internal fleet network in accordance with Directive (EU) 2019/944 and does not compete with commercial Charging Point Operators. Coordinated charging enables OSHEE to evaluate transformer and feeder loading, reduce local peak demand, defer potential network reinforcement, and assess future flexibility services under realistic operating conditions.</Paragraph>
+        <Paragraph>Campus Prosumer &amp; PV Producer (UPT – Cluster 3) integrates rooftop photovoltaic generation with EV charging infrastructure, increasing local PV self-consumption and reducing electricity procurement costs while simultaneously providing a research and demonstration platform for advanced charging control algorithms. The pilot also evaluates how locally generated flexibility may create future value as Albanian flexibility markets evolve.</Paragraph>
+        <Paragraph>Charging Point Operator (CPO) and EMSP – SUSALB and project partners. The centralized EMS reduces operational complexity by coordinating geographically distributed charging stations through a single management platform. During the project, the EMS and charging platform are validated as scalable solutions for future commercial deployment, while future revenue streams from charging services and distributed energy resources remain subject to the applicable Albanian regulatory framework.</Paragraph>
+        <Paragraph>EV Users. The EMS supports multiple charging strategies, including photovoltaic-priority charging, time-of-use tariffs, and electricity price optimization based on hourly market prices. Charging costs and available charging windows are communicated through the charging application, enabling users to select charging periods according to both operational needs and economic preferences.</Paragraph>
+        <Paragraph>Two different user profiles are considered within the pilot:</Paragraph>
+        <Paragraph>Profile A – Managed fleet users include municipal fleet vehicles (Cluster 1) and OSHEE operational vehicles (Cluster 2). These vehicles operate under predefined operational schedules and organizational charging policies; therefore, charging optimization can be implemented without requiring additional economic incentives from individual drivers.</Paragraph>
+        <Paragraph>Profile G – Public and university users include public users of the municipal charging infrastructure together with university staff, students, and visitors using the UPT charging facilities. Since these users have greater flexibility in selecting charging priorities, future large-scale deployment will require commercial mechanisms that encourage participation in optimized charging, including dynamic tariffs, transparent charging costs, and other user-oriented incentive schemes.</Paragraph>
+        <Paragraph>The EMS constitutes the core intelligence of the pilot by continuously monitoring charging infrastructure, photovoltaic generation, and electrical measurements across all charging clusters. Based on real-time operational data and forecasting information, the EMS dynamically updates charging schedules to maximize renewable energy utilization while respecting user charging requirements and distribution network constraints. Simultaneously, the EMS aggregates the available charging flexibility into a Virtual Power Plant capable of coordinated load management, peak shaving, and future participation in flexibility services.</Paragraph>
+        <Paragraph>SUC-AL-01.1 – Integrated Energy Data Aggregation establishes the common operational data platform by continuously collecting, validating, and synchronizing measurements from EV charging stations, photovoltaic systems, and smart metering devices deployed across all charging clusters. The aggregated dataset provides the operational visibility required for optimization and directly supports OBJ-1, OBJ-2, and OBJ-7.</Paragraph>
+        <Paragraph>SUC-AL-01.2 – PV-Aware Smart Charging Optimization performs intelligent charging scheduling by combining photovoltaic generation forecasts, electricity prices, charging demand forecasts, user charging priorities, and network operational constraints. This functionality maximizes renewable energy utilization while reducing peak demand and improving charging efficiency, directly contributing to OBJ-2, OBJ-3, OBJ-4, and OBJ-7.</Paragraph>
+        <Paragraph>SUC-AL-01.3 – Cluster Flexibility Management and Virtual Power Plant Operation aggregates the charging flexibility available across all pilot sites to perform coordinated load management and Virtual Power Plant operation. The EMS evaluates available flexibility, coordinates charging power among clusters, and prepares the infrastructure for future flexibility and ancillary service participation, thereby supporting OBJ-4, OBJ-5, OBJ-6, and OBJ-7.</Paragraph>
+        <Paragraph>The coordinated operation of the charging clusters creates measurable value for all participating stakeholders. It increases renewable energy self-consumption, reduces peak electricity demand, improves utilization of existing distribution infrastructure, and enhances the operational efficiency of EV charging systems. For distribution system operators, the approach contributes to reduced grid stress and may defer conventional network reinforcement. For EV users, it enables transparent and economically optimized charging. For infrastructure owners, it improves the utilization of photovoltaic generation and establishes the technical foundation for future flexibility services and Virtual Power Plant operation. The modular architecture demonstrated by the pilot also provides a scalable framework that can be replicated in municipalities, universities, business parks, and other multi-site charging environments.</Paragraph>
+        <Paragraph>The demonstrated architecture therefore establishes not only a technical validation platform but also a foundation for future commercial deployment of coordinated EV charging services.</Paragraph>
+      </CompleteDescription>
+    </Narrative>
+    <KeyPerformanceIndicators>
+      <KPI uuid="d0d53e35-9071-53f0-a05c-140ca78d8658" id="U04">
+        <Name>Operation Cost (ePIPV)</Name>
+        <Description>≥25% reduction compared to non-optimised operation. Performance will be evaluated against a baseline scenario representing unmanaged EV charging using operational data collected through the EMS during the demonstration period. In the Albanian pilot, it demonstrates the business value of the EMS and VPP by reducing energy procurement costs and improving the economic performance of the ePIPV infrastructure.</Description>
+        <ReferenceToObjectives>OBJ-3, OBJ-5</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="ebcc6c79-3830-55e9-bb58-e4c7caadc1f4" id="U06">
+        <Name>Flexibility Potential</Name>
+        <Description>≥25% increase compared to the baseline operation without coordinated flexibility management. The KPI will be calculated using EMS operational records throughout the pilot demonstration.</Description>
+        <ReferenceToObjectives>OBJ-5, OBJ-6</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="4af2e0e0-01cc-5f52-a04f-db6bc63185aa" id="U07">
+        <Name>Constraints Violation Occurrence</Name>
+        <Description>15% reduction in the number of recorded constraint-violation events compared with the baseline operation. Constraint-violation events include exceedances of predefined network or site operational limits, such as voltage limits or connection/loading constraints, recorded during equivalent evaluation periods.</Description>
+        <ReferenceToObjectives>OBJ-4</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="ecf1cf68-8a90-5663-be9b-3fc553d8fa8e" id="U08">
+        <Name>Willingness to Participate (Flex.)</Name>
+        <Description>≥40%. Measures the willingness of users or asset owners to participate in flexibility services. In the Albanian pilot, it reflects stakeholder engagement in the VPP and demand response framework.</Description>
+        <ReferenceToObjectives>OBJ-5, OBJ-6, OBJ-7</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="b1eceded-3b4d-5dc3-a1d7-bc326c5dbcef" id="U10">
+        <Name>Collective Self-Consumption</Name>
+        <Description>≥75% of locally generated PV energy consumed on-site. The KPI will be calculated by comparing photovoltaic generation with locally consumed PV energy measured through smart metering during the pilot operation. PV generation and EV charging/load consumption are measured separately, using PV inverter data and dedicated metering data respectively</Description>
+        <ReferenceToObjectives>OBJ-2</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="356aa841-bf86-54cd-be58-e5b9899a9fbf" id="U11">
+        <Name>Renewables Curtailment Avoidance</Name>
+        <Description>≥25% at pilot level ≥50% (ER2); ≥25% (ER4, ER5) Measures the amount of renewable energy that can be utilized instead of being curtailed. In the Albanian pilot, coordinated EMS and VPP operation maximise PV utilisation, improving renewable energy integration and increasing the return on renewable energy investments.</Description>
+        <ReferenceToObjectives>OBJ-2</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="8bf20542-db6b-50ab-8262-18bbd7fb91d2" id="U12">
+        <Name>Peak Consumption Reduction (DR)</Name>
+        <Description>≥25% reduction in peak consumption by participating in DR programmes, compared to the peak without intelligent management. Peak demand will be determined using smart meter measurements collected before and during EMS-controlled operation. It demonstrates how coordinated DER operation reduces network stress, lowers operational costs and improves the efficiency of the local electricity system.</Description>
+        <ReferenceToObjectives>OBJ-4, OBJ-5</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="9b50d146-6645-5fd0-9ecb-bc1b271d54a2" id="U13">
+        <Name>Increase in revenue created from DERs;</Name>
+        <Description>≥ 25% increase compared with the reference operation. Revenue estimates will be derived from EMS operational data and evaluated within the pilot demonstration framework. It evaluates the business opportunities created through energy optimisation, self-consumption and future participation in flexibility and ancillary service markets.</Description>
+        <ReferenceToObjectives>OBJ-5, OBJ-6</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="ead2ced6-4a50-5065-9818-d388eacdb749" id="U14">
+        <Name>Use of DERs in Parking Lots</Name>
+        <Description>≥50% increase compared with the baseline operation without coordinated EMS optimisation. Measures the increase in local PV energy utilisation within the pilot EV charging infrastructure relative to an uncoordinated baseline. It captures how effectively the EMS coordinates EV charging demand with available PV generation, increasing the use of locally generated renewable energy and reducing dependence on grid-imported electricity.</Description>
+        <ReferenceToObjectives>OBJ-3, OBJ-6</ReferenceToObjectives>
+      </KPI>
+      <Notes>
+        <Paragraph>The KPIs will be evaluated by comparing the coordinated EMS operation against a baseline scenario representing unmanaged EV charging. Unless otherwise specified, KPI values will be calculated over equivalent operational periods using data collected through the centralized EMS, smart meters, EV chargers, and photovoltaic monitoring systems. Performance assessment will be performed throughout the demonstration period in accordance with the SOLAR-MOVE evaluation methodology.</Paragraph>
+      </Notes>
+    </KeyPerformanceIndicators>
+    <UseCaseConditions>
+      <Assumptions>
+        <Assumption>The Albanian pilot consists of three distributed EV charging clusters located at the Municipality of Tirana, OSHEE Group headquarters, and the Faculty of Electrical Engineering of the Polytechnic University of Tirana (UPT).</Assumption>
+        <Assumption>All charging stations included in the pilot are connected to a centralized Energy Management System (EMS), enabling the collection, monitoring and management of charging sessions.</Assumption>
+        <Assumption>Photovoltaic (PV) generation systems are available or planned within the pilot sites, allowing the implementation and evaluation of PV-aware charging strategies.</Assumption>
+        <Assumption>The EMS is capable of collecting operational data from charging stations, PV systems and other monitoring devices through secure communication interfaces.</Assumption>
+        <Assumption>The participating EV fleets (municipal vehicles, OSHEE vehicles and other authorised users) follow predefined operational schedules that can be considered during charging optimization.</Assumption>
+        <Assumption>The charging clusters can operate independently while also being coordinated through a centralized Virtual Power Plant (VPP) platform for aggregated flexibility management.</Assumption>
+        <Assumption>Communication infrastructure between field devices and the EMS is available throughout the demonstration period.</Assumption>
+        <Assumption>The pilot is implemented in compliance with the existing Albanian regulatory framework governing EV charging infrastructure, distributed renewable energy integration, and electricity market operation. The demonstration validates the technical capability of coordinated EV charging and Virtual Power Plant operation under current regulatory conditions. Where participation in flexibility services or ancillary service markets is not yet fully enabled by the existing regulatory framework, such functionalities will be demonstrated through pilot validation, simulation, or controlled testing scenarios. The pilot will also contribute to identifying regulatory gaps and future requirements necessary for the large-scale deployment of flexibility services and market participation in Albania.</Assumption>
+        <Assumption>Where flexibility services or electricity market participation are evaluated, the required operational procedures, simulation environments, and regulatory assumptions shall be defined before the execution of the corresponding pilot activities.</Assumption>
+      </Assumptions>
+      <Prerequisites>
+        <Prerequisite>All charging stations, PV systems and monitoring devices must be installed, commissioned and fully operational before the start of the demonstration activities.</Prerequisite>
+        <Prerequisite>Reliable communication channels shall be established between charging stations, PV systems and the centralized EMS.</Prerequisite>
+        <Prerequisite>The EMS shall be configured to collect, store and process operational data from all participating charging clusters.</Prerequisite>
+        <Prerequisite>The operational characteristics of the participating EV fleets, including vehicle availability, charging priorities and energy requirements, shall be defined before implementing smart charging strategies.</Prerequisite>
+        <Prerequisite>PV generation measurements and, where available, PV production forecasts shall be accessible to the EMS for charging optimization.</Prerequisite>
+        <Prerequisite>Cybersecurity, interoperability and data exchange mechanisms between all participating systems shall comply with the technical specifications defined within the SOLAR-MOVE project.</Prerequisite>
+        <Prerequisite>The participating organizations (Municipality of Tirana, OSHEE Group, UPT and Qendra SUSALB) shall provide the necessary operational support and access to the pilot infrastructure during the demonstration period.</Prerequisite>
+        <Prerequisite>Performance monitoring mechanisms shall be available to evaluate the Key Performance Indicators (KPIs) defined for this Business Use Case.</Prerequisite>
+      </Prerequisites>
+    </UseCaseConditions>
+    <ClassificationInformation>
+      <RelationToOtherUseCases>
+        <Paragraph>This Business Use Case is directly supported by the following System Use Cases:</Paragraph>
+        <Item>SUC-AL-01.1 – Integrated Energy Data Aggregation</Item>
+        <Item>SUC-AL-01.2 – PV-Aware Smart Charging Optimization</Item>
+        <Item>SUC-AL-01.3 – Cluster Flexibility Management and VPP Operation</Item>
+        <Paragraph>Together, these System Use Cases provide the technical implementation necessary to achieve the business objectives defined in BUC-AL-01.</Paragraph>
+      </RelationToOtherUseCases>
+      <LevelOfDepth>Detailed Business Use Case supported by three complementary System Use Cases covering data acquisition, intelligent charging optimization, and coordinated flexibility management.</LevelOfDepth>
+      <Prioritisation>The use case represents one of the core pilot demonstrations within the Albanian activities of the SOLAR-MOVE project and forms the basis for evaluating intelligent EV charging, renewable energy integration, and VPP operation.</Prioritisation>
+      <GenericRegionalNationalRelation>
+        <Paragraph>This Business Use Case demonstrates a scalable and technology-neutral architecture for coordinated EV charging and photovoltaic integration that can be replicated beyond the Albanian pilot. The proposed three-layer engineering architecture—Integrated Energy Data Aggregation, PV-Aware Smart Charging Optimization, and Cluster Flexibility Management through a VPP—is independent of the specific pilot sites and can be implemented in different geographical regions.</Paragraph>
+        <Paragraph>The proposed solution is particularly applicable to universities, public campuses, municipal buildings, utility facilities, business parks, industrial sites, hospitals, airports, logistics centres, and private or semi-private parking facilities equipped with photovoltaic generation and EV charging infrastructure.</Paragraph>
+        <Paragraph>Successful replication requires interoperable charging infrastructure, distributed energy resources, reliable communication networks, smart metering, and an EMS capable of coordinating distributed charging assets. The implementation also depends on the local regulatory framework supporting intelligent charging, data exchange, dynamic electricity tariffs, and future flexibility market participation.</Paragraph>
+        <Paragraph>Some implementation aspects remain country-specific and may influence replication, including electricity market regulations, tariff and billing structures, EV charging legislation, flexibility market maturity, climatic conditions affecting photovoltaic generation, fleet characteristics, and user charging behaviour. Consequently, while the technical architecture is directly transferable, the business processes and regulatory arrangements should be adapted to national and regional conditions.</Paragraph>
+      </GenericRegionalNationalRelation>
+      <NatureOfUseCase>Business Use Case with strong technical implementation aspects, demonstrating coordinated EV charging, distributed renewable energy integration, EMS operation, and VPP functionality.</NatureOfUseCase>
+      <FurtherKeywords>Smart Grid, Electric Vehicles, Smart Charging, Energy Management System, Virtual Power Plant, Distributed Energy Resources, Photovoltaic Integration, Demand Response, Flexibility Services, Renewable Energy, EV Charging Infrastructure, Distribution System Operator, Campus Energy Management, Municipal Charging Infrastructure.</FurtherKeywords>
+    </ClassificationInformation>
+    <GeneralRemarks>
+      <Paragraph>Further comments which are not considered elsewhere.</Paragraph>
+    </GeneralRemarks>
+    <Diagrams>
+      <Diagram number="Figure 1" type="Use case diagram">
+        <Caption>BUC-AL-01 — Coordinated PV-Integrated EV Charging Cluster Operation and Virtual Power Plant Management (use case diagram)</Caption>
+        <ImageReference>images/fig1-buc-al-01-use-case-diagram.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 2" type="Sequence diagram">
+        <Caption>SUC-AL-01.1 — Integrated Energy Data Aggregation (sequence diagram)</Caption>
+        <ImageReference>images/fig2-suc-al-01.1-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 3" type="Sequence diagram">
+        <Caption>SUC-AL-01.2 — PV-Aware Smart Charging Optimisation (sequence diagram)</Caption>
+        <ImageReference>images/fig3-suc-al-01.2-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 4" type="Sequence diagram">
+        <Caption>SUC-AL-01.3 — Cluster Flexibility Management and Virtual Power Plant Operation (sequence diagram)</Caption>
+        <ImageReference>images/fig4-suc-al-01.3-sequence.png</ImageReference>
+      </Diagram>
+    </Diagrams>
+    <References>
+      <Reference number="1">
+        <Type>Directive</Type>
+        <Description>Directive (EU) 2019/944 of the European Parliament and of the Council of 5 June 2019 on common rules for the internal market for electricity and amending Directive 2012/27/EU (recast)</Description>
+        <Status>In force</Status>
+        <ImpactOnUseCase>Defines the roles and responsibilities of electricity market participants, DSO responsibilities, active customers and demand response.</ImpactOnUseCase>
+        <Originator>EUR-Lex</Originator>
+        <Link>https://eur-lex.europa.eu/eli/dir/2019/944/oj/eng</Link>
+      </Reference>
+      <Reference number="2">
+        <Type>Regulation</Type>
+        <Description>Regulation (EU) 2019/943 on the internal market for electricity</Description>
+        <Status>In force</Status>
+        <ImpactOnUseCase>Supports flexibility services, market participation and efficient operation of electricity markets.</ImpactOnUseCase>
+        <Originator>European Parliament / Council</Originator>
+        <Link>https://eur-lex.europa.eu/eli/reg/2019/943/oj/eng</Link>
+      </Reference>
+      <Reference number="3">
+        <Type>National Law</Type>
+        <Description>Law No. 59/2026 "On the Power Sector"</Description>
+        <Status>In force</Status>
+        <ImpactOnUseCase>Defines the Albanian electricity market structure, DSO responsibilities and customer connection rules.</ImpactOnUseCase>
+        <Originator>Ministry of Infrastructure and Energy</Originator>
+        <Link/>
+      </Reference>
+      <Reference number="4">
+        <Type>Regulatory act</Type>
+        <Description>ERE Decision No. 100/2008</Description>
+        <Status>In force</Status>
+        <ImpactOnUseCase>Defines the functioning of the electricity network, the connection of consumers to the network, the roles and responsibilities of system operators, and the integration of new generation capacities.</ImpactOnUseCase>
+        <Originator>ERE- Albania</Originator>
+        <Link>https://www.ere.gov.al/images/archive/Kodi_Shperndarjes_Vendimi_nr.100,_date_26.8.2008.pdf</Link>
+      </Reference>
+      <Reference number="5">
+        <Type>Regulatory act</Type>
+        <Description>ERE Board Decision No. 255, dated 15 October 2025</Description>
+        <Status>In force</Status>
+        <ImpactOnUseCase>Determines the electricity tariff for charging electric vehicles at stations with installed power capacity above 11 kW</ImpactOnUseCase>
+        <Originator>ERE- Albania</Originator>
+        <Link>https://www.ere.gov.al/media/files/2025/10/15/Vendim_Nr_255_2025.pdf</Link>
+      </Reference>
+      <Reference number="6">
+        <Type>Regulatory act</Type>
+        <Description>ERE Board Decision No. 294, dated 13 November 2025</Description>
+        <Status>In force</Status>
+        <ImpactOnUseCase>Provides guidelines for reflecting electricity consumption in consumers’ monthly bills.</ImpactOnUseCase>
+        <Originator>ERE- Albania</Originator>
+        <Link>https://www.ere.gov.al/media/files/2026/02/06/Vendim_Nr_294_2025_udhezimi.pdf</Link>
+      </Reference>
+      <Reference number="7">
+        <Type>Regulatory act</Type>
+        <Description>ERE Decision No. 128/2018</Description>
+        <Status>In force</Status>
+        <ImpactOnUseCase>Specifies the permissible technical parameter limits</ImpactOnUseCase>
+        <Originator>ERE- Albania</Originator>
+        <Link>https://www.ere.gov.al/doc/VENDIM_NR.128_2018.pdf</Link>
+      </Reference>
+    </References>
+    <StepByStepAnalysis>
+      <ScenariosOverview>
+        <ScenarioOverview number="1">
+          <ScenarioName>Integrated Energy Data Aggregation (SUC-AL-01.1)</ScenarioName>
+          <ScenarioDescription>Continuous collection, validation and synchronization of operational data from EV charging stations, PV systems and monitoring devices deployed across all pilot clusters.</ScenarioDescription>
+          <PrimaryActor>EMS</PrimaryActor>
+          <TriggeringEvent>New operational measurements become available from any charging cluster.</TriggeringEvent>
+          <PreCondition>Communication infrastructure established; charging stations, PV systems and monitoring devices operational.</PreCondition>
+          <PostCondition>A unified and validated operational dataset is available for optimisation and flexibility management.</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="2">
+          <ScenarioName>PV-Aware Smart Charging Optimization (SUC-AL-01.2)</ScenarioName>
+          <ScenarioDescription>The EMS optimises EV charging schedules by combining charging requests, PV generation forecasts, electricity prices and grid constraints across the three charging clusters.</ScenarioDescription>
+          <PrimaryActor>EMS</PrimaryActor>
+          <TriggeringEvent>A new charging request is received or updated operational data become available.</TriggeringEvent>
+          <PreCondition>Aggregated system data available; EV connected; optimisation engine operational.</PreCondition>
+          <PostCondition>Optimised charging schedules are dispatched to the corresponding charging stations, maximising renewable energy utilisation while satisfying user requirements.</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="3">
+          <ScenarioName>Cluster Flexibility Management and Virtual Power Plant Operation (SUC-AL-01.3)</ScenarioName>
+          <ScenarioDescription>The EMS aggregates the available flexibility of all charging clusters and coordinates charging operation to reduce peak demand, improve renewable energy self-consumption and enable future participation in flexibility markets.</ScenarioDescription>
+          <PrimaryActor>EMS</PrimaryActor>
+          <TriggeringEvent>Flexibility request received, operational threshold exceeded or optimisation cycle initiated.</TriggeringEvent>
+          <PreCondition>EMS has access to operational data from all clusters and controllable charging infrastructure.</PreCondition>
+          <PostCondition>Cluster flexibility is coordinated, peak demand is reduced, and system performance indicators are generated for pilot evaluation.</PostCondition>
+        </ScenarioOverview>
+      </ScenariosOverview>
+      <Scenarios>
+        <Scenario name="4.2.1 Integrated Energy Data Aggregation (SUC-AL-01.1)">
+          <Step number="St.1">
+            <Event>Operational data available</Event>
+            <NameOfProcessActivity>Report operational data (EV chargers)</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EV chargers collect and transmit real-time charger status and session measurements to the EMS.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EV Chargers</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-02</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-04</RID>
+              <RID>R-AIC-05</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-INT-02</RID>
+              <RID>R-MVR-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.2">
+            <Event>Operational data available</Event>
+            <NameOfProcessActivity>Report operational data (PV systems)</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>PV systems collect and transmit real-time PV generation measurements to the EMS.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>PV System</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-03</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-04</RID>
+              <RID>R-AIC-05</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-INT-04</RID>
+              <RID>R-MVR-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.3">
+            <Event>Operational data available</Event>
+            <NameOfProcessActivity>Report operational data (smart meters)</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Smart meters collect and transmit real-time site-load and metering measurements to the EMS.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>Smart Meter</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-04</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-04</RID>
+              <RID>R-AIC-05</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-MVR-02</RID>
+              <RID>R-MVR-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.4">
+            <Event>Data received</Event>
+            <NameOfProcessActivity>Validate incoming data</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The EMS validates data integrity, communication status and measurement consistency.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-02, IE-03, IE-04</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-02</RID>
+              <RID>R-DAT-03</RID>
+              <RID>R-DAT-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.5">
+            <Event>Validated dataset</Event>
+            <NameOfProcessActivity>Aggregate system information</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Operational data from all charging clusters are aggregated into a unified dataset.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-05</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-01</RID>
+              <RID>R-DAT-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.6">
+            <Event>Dataset available</Event>
+            <NameOfProcessActivity>Store operational information</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Aggregated operational data are stored in the EMS database for optimisation and monitoring purposes.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-05</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-05</RID>
+              <RID>R-DAT-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.7">
+            <Event>Data updated</Event>
+            <NameOfProcessActivity>Provide data to optimisation services</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The validated dataset is made available to optimisation, monitoring and flexibility management modules.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS Optimisation Module</InformationReceiver>
+            <InformationExchanged>IE-05</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-04</RID>
+              <RID>R-EMS-01</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.2 PV-Aware Smart Charging Optimisation (SUC-AL-01.2)">
+          <Step number="St.1">
+            <Event>Charging request</Event>
+            <NameOfProcessActivity>Receive charging request</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The EMS receives a charging request including user preferences, requested energy and expected departure time.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EV User / Charging Mobile App</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-01</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-01</RID>
+              <RID>R-SC-02</RID>
+              <RID>R-UI-02</RID>
+              <RID>R-CYB-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.2">
+            <Event>Operational data available</Event>
+            <NameOfProcessActivity>Retrieve operational information</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The EMS retrieves the aggregated operational dataset (measurements, PV forecasts, electricity prices and charging station availability) from the EMS database.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-03, IE-04, IE-05, IE-11</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-01</RID>
+              <RID>R-FOR-01</RID>
+              <RID>R-FOR-02</RID>
+              <RID>R-EMS-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.3">
+            <Event>Optimisation initiated</Event>
+            <NameOfProcessActivity>Calculate charging schedule</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The EMS calculates the optimal charging schedule considering PV production, grid constraints and charging priorities.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-06, IE-07</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-03</RID>
+              <RID>R-EMS-04</RID>
+              <RID>R-FOR-05</RID>
+              <RID>R-FOR-08</RID>
+              <RID>R-SC-04</RID>
+              <RID>R-SC-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.4">
+            <Event>Charging schedule generated</Event>
+            <NameOfProcessActivity>Dispatch charging commands</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The charging schedule and charging set-points are transmitted to the selected charging station.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EV Chargers</InformationReceiver>
+            <InformationExchanged>IE-07</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-03</RID>
+              <RID>R-SC-03</RID>
+              <RID>R-COM-03</RID>
+              <RID>R-RTC-01</RID>
+              <RID>R-CYB-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.5">
+            <Event>Charging session active</Event>
+            <NameOfProcessActivity>Execute charging session</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The charging station executes the charging schedule and continuously reports operational status.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>EV Chargers</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-02</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-01</RID>
+              <RID>R-RTC-06</RID>
+              <RID>R-MVR-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.6">
+            <Event>System conditions change</Event>
+            <NameOfProcessActivity>Update charging schedule</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The EMS recalculates and updates charging schedules whenever PV generation, demand or user requirements change.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EV Chargers</InformationReceiver>
+            <InformationExchanged>IE-07</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-05</RID>
+              <RID>R-FOR-07</RID>
+              <RID>R-RTC-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.7">
+            <Event>Charging completed</Event>
+            <NameOfProcessActivity>Close charging session</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Charging session data are stored and made available for monitoring and reporting.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EV Chargers</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-02</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-05</RID>
+              <RID>R-MVR-03</RID>
+              <RID>R-MVR-06</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.3 Cluster Flexibility Management and Virtual Power Plant Operation (SUC-AL-01.3)">
+          <Step number="St.1">
+            <Event>Operational status updated</Event>
+            <NameOfProcessActivity>Assess available flexibility</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The EMS evaluates the available charging flexibility across all charging clusters based on current operating conditions.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-06, IE-09</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-06</RID>
+              <RID>R-GFR-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.2">
+            <Event>Grid event detected</Event>
+            <NameOfProcessActivity>Receive grid constraints</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Grid constraints, operational limits or demand response requests are received from the DSO.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>DSO</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-08</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-07</RID>
+              <RID>R-GFR-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.3">
+            <Event>Flexibility required</Event>
+            <NameOfProcessActivity>Calculate flexibility strategy</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The EMS determines the optimal flexibility strategy considering user requirements and system constraints.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-09</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-04</RID>
+              <RID>R-FOR-05</RID>
+              <RID>R-RTC-07</RID>
+              <RID>R-GFR-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.4">
+            <Event>Flexibility strategy available</Event>
+            <NameOfProcessActivity>Dispatch flexibility commands</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Updated charging power limits and charging schedules are transmitted to the corresponding charging stations.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EV Chargers</InformationReceiver>
+            <InformationExchanged>IE-07</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-03</RID>
+              <RID>R-SC-03</RID>
+              <RID>R-COM-03</RID>
+              <RID>R-CYB-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.5">
+            <Event>Control activated</Event>
+            <NameOfProcessActivity>Execute coordinated charging control</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>During the controlled test, charging stations adjust charging power according to EMS instructions.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>EV Chargers</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-02</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-RTC-05</RID>
+              <RID>R-RTC-06</RID>
+              <RID>R-SAF-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.6">
+            <Event>Monitoring active</Event>
+            <NameOfProcessActivity>Monitor system response</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The EMS continuously monitors system response, PV utilisation, and site-level and aggregated cluster demand after flexibility activation.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EV Chargers / PV System / Smart Meter</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-03, IE-04, IE-05</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-01</RID>
+              <RID>R-RTC-02</RID>
+              <RID>R-RTC-06</RID>
+              <RID>R-GFR-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.7">
+            <Event>Event completed</Event>
+            <NameOfProcessActivity>Finalise flexibility event</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The EMS restores normal charging operation when the flexibility event ends.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EV Chargers</InformationReceiver>
+            <InformationExchanged>IE-07</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-GFR-07</RID>
+              <RID>R-SAF-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.8">
+            <Event>Operation completed</Event>
+            <NameOfProcessActivity>Generate KPI report</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Operational data and flexibility performance indicators are stored for reporting and pilot evaluation.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>IE-10</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-07</RID>
+              <RID>R-MVR-06</RID>
+              <RID>R-MVR-07</RID>
+              <RID>R-MVR-08</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+      </Scenarios>
+    </StepByStepAnalysis>
+    <InformationExchanged>
+      <Information uuid="ed3142ad-b162-58b4-ab4d-2165a79b3e54" id="IE-01">
+        <Name>EV Charging Request Information</Name>
+        <Description>Charging request generated when an EV user initiates a charging session, containing EV identifier, EV charger identifier, current state of charge (SoC), requested energy, charging priority, and expected departure time.</Description>
+        <RequirementReferences>
+          <RID>R-SC-02</RID>
+          <RID>R-UI-02</RID>
+          <RID>R-CYB-01</RID>
+          <RID>R-CYB-06</RID>
+          <RID>R-DAT-02</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="55e35863-87db-5e7a-92ff-25479a7a105b" id="IE-02">
+        <Name>EV Charger Status &amp; Session Information</Name>
+        <Description>Operational information exchanged between EV chargers and the EMS, including charger availability, connection status, charging progress, energy delivered and fault notifications.</Description>
+        <RequirementReferences>
+          <RID>R-SC-01</RID>
+          <RID>R-DAT-01</RID>
+          <RID>R-COM-02</RID>
+          <RID>R-MVR-03</RID>
+          <RID>R-SAF-02</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="82c59e75-6d74-506e-a15b-67cd8fa4b66e" id="IE-03">
+        <Name>PV Generation &amp; Forecast Data</Name>
+        <Description>Real-time PV generation measurements and forecasted PV production profiles used by the EMS for charging optimisation and energy management.</Description>
+        <RequirementReferences>
+          <RID>R-DAT-01</RID>
+          <RID>R-DAT-02</RID>
+          <RID>R-DAT-04</RID>
+          <RID>R-FOR-01</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="b319159f-52bb-5d48-b535-273e9d2efb4b" id="IE-04">
+        <Name>Site Load &amp; Smart Meter Measurements</Name>
+        <Description>Real-time and forecasted electricity demand of the buildings, including building-level load and aggregated consumption</Description>
+        <RequirementReferences>
+          <RID>R-DAT-01</RID>
+          <RID>R-FOR-02</RID>
+          <RID>R-MVR-01</RID>
+          <RID>R-MVR-02</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="41ef4b02-ec78-5348-af7e-00bd802e4a2f" id="IE-05">
+        <Name>Aggregated Energy System Data</Name>
+        <Description>Aggregated operational dataset combining EV charging data, PV generation, campus demand and grid status information used by the EMS optimisation engine.</Description>
+        <RequirementReferences>
+          <RID>R-EMS-01</RID>
+          <RID>R-DAT-03</RID>
+          <RID>R-DAT-04</RID>
+          <RID>R-DAT-08</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="d6e6db0c-0818-558e-a2d2-60874d4b10c8" id="IE-06">
+        <Name>EMS Optimisation Results</Name>
+        <Description>Optimisation decisions generated by the EMS, including charging priorities, energy allocation, flexibility assessment and operational control decisions.</Description>
+        <RequirementReferences>
+          <RID>R-EMS-03</RID>
+          <RID>R-EMS-04</RID>
+          <RID>R-EMS-06</RID>
+          <RID>R-FOR-05</RID>
+          <RID>R-RTC-07</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="839b0ec9-5511-5c82-8f90-3530c85f9cb8" id="IE-07">
+        <Name>Charging Schedule &amp; Control Set-Points</Name>
+        <Description>Charging schedules, charging power limits and real-time control commands transmitted by the EMS to the EV charging stations.</Description>
+        <RequirementReferences>
+          <RID>R-EMS-03</RID>
+          <RID>R-SC-03</RID>
+          <RID>R-COM-03</RID>
+          <RID>R-CYB-04</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="7ef57e9a-d8a2-5503-b419-9e640984fc82" id="IE-08">
+        <Name>Demand Response &amp; Grid Constraint Signals</Name>
+        <Description>Demand response requests, grid operating constraints, network alerts and operational signals exchanged between the DSO and the EMS.</Description>
+        <RequirementReferences>
+          <RID>R-COM-07</RID>
+          <RID>R-GFR-01</RID>
+          <RID>R-RTC-05</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="ccaf3658-8a24-5736-bd73-0ddbc29b0b12" id="IE-09">
+        <Name>Cluster Flexibility Information</Name>
+        <Description>Information describing the available charging flexibility across the three pilot clusters, including flexibility availability, activation status and coordinated charging capability for future VPP implementation.</Description>
+        <RequirementReferences>
+          <RID>R-EMS-06</RID>
+          <RID>R-GFR-02</RID>
+          <RID>R-GFR-08</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="20f7d90a-ede4-5eed-80d8-bac361101318" id="IE-10">
+        <Name>Performance Monitoring &amp; KPI Reports</Name>
+        <Description>Aggregated operational data and calculated KPIs including self-consumption, peak reduction, PV utilisation, charging efficiency, and periodic reports.</Description>
+        <RequirementReferences>
+          <RID>R-DAT-05</RID>
+          <RID>R-DAT-07</RID>
+          <RID>R-MVR-06</RID>
+          <RID>R-MVR-07</RID>
+          <RID>R-MVR-08</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="d6476bce-550b-51d2-8930-f460a0288be4" id="IE-11">
+        <Name>Dynamic Tariff and Green Window Pricing Information</Name>
+        <Description>Dynamic tariff schedules and Green Window pricing information generated or processed by the EMS and communicated through the EMSP to the Charging Mobile App, enabling EV users to identify preferred charging periods based on electricity prices and expected renewable energy availability.</Description>
+        <RequirementReferences>
+          <RID>R-UI-02</RID>
+        </RequirementReferences>
+      </Information>
+      <Notes>
+        <Item>These information objects are corresponding to the “Name of Information” of the “Information Exchanged” column referenced in the scenario steps in template section 4 “Step by Step Analysis”. If appropriate, further requirements to the information objects can be added.</Item>
+      </Notes>
+    </InformationExchanged>
+    <CommonTermsAndDefinitions/>
+  </UseCase>
+  <ActorList>
+    <Actor uuid="7aab0399-62a1-5a6d-b22b-42b8a2fbb087">
+      <Name>CPO</Name>
+      <Type>Business</Type>
+      <Description>Charging Point Operator: Entity responsible for operating and maintaining the EV charging infrastructure deployed across the pilot charging clusters.</Description>
+      <FurtherInformation>SUSALB acts as or coordinates the CPO function for the charging infrastructure deployed across the Municipality of Tirana, OSHEE Group and UPT pilot sites.</FurtherInformation>
+    </Actor>
+    <Actor uuid="9ee79852-73c8-5a54-9470-161e5a9a1ee5">
+      <Name>EMSP</Name>
+      <Type>Business</Type>
+      <Description>Electric Mobility Service Provider: Provides mobility services to EV users, including access to charging stations, user account management, billing, and tariff communication.</Description>
+      <FurtherInformation>SUSALB manages service interface and dynamic pricing distribution.</FurtherInformation>
+    </Actor>
+    <Actor uuid="90c35496-1b7f-54ce-a05d-c636380ceb5a">
+      <Name>DSO</Name>
+      <Type>Business</Type>
+      <Description>Distribution System Operator (DSO) means a natural or legal entity responsible for operating, ensuring the maintenance of and, if necessary, developing the distribution system in a given area and, where applicable, its interconnections with other systems and for ensuring the long-term ability of the system to meet reasonable demands for the distribution of electricity.</Description>
+      <FurtherInformation>OSHEE – Albanian Distribution System Operator.</FurtherInformation>
+    </Actor>
+    <Actor uuid="bed93f2c-47de-581a-b66d-1728e62cac10">
+      <Name>EV User</Name>
+      <Type>Business</Type>
+      <Description>End-user of EV charging services.</Description>
+      <FurtherInformation>Includes university staff, employees, students and authorised visitors.</FurtherInformation>
+    </Actor>
+    <Actor uuid="1171080a-e1ab-5f68-8d07-c9d5b9f7f10a">
+      <Name>UPT Facility Managers</Name>
+      <Type>Business</Type>
+      <Description>Responsible for the operation and supervision of the campus energy infrastructure, including PV installations, EV charging facilities and energy management activities.</Description>
+      <FurtherInformation>Represents the campus operator and facility management personnel.</FurtherInformation>
+    </Actor>
+    <Actor uuid="dd9cb48e-47fa-50fe-8566-79e7401c9380">
+      <Name>Market operator</Name>
+      <Type>Business</Type>
+      <Description>Entity responsible for organising and operating the electricity market where electricity trading takes place.</Description>
+      <FurtherInformation>ALPEX</FurtherInformation>
+    </Actor>
+    <Actor uuid="29f8d632-3907-593f-b236-d915b02796a6">
+      <Name>PV Producer</Name>
+      <Type>Business</Type>
+      <Description>Legal or business entity that owns, operates, and maintains physical solar generation assets.</Description>
+      <FurtherInformation>Represents the owners of the photovoltaic generation assets participating in the pilot.</FurtherInformation>
+    </Actor>
+    <Actor uuid="ae5363e3-abee-5f35-b7bf-5cf5c936931d">
+      <Name>PV System</Name>
+      <Type>System</Type>
+      <Description>Photovoltaic installations in the FIE building for the production of electricity with the main aim of covering the electricity consumption of building</Description>
+      <FurtherInformation>UPT – Polytechnic University of Tirana provides the premises for installation</FurtherInformation>
+    </Actor>
+    <Actor uuid="3695545f-d980-5393-bc52-07fc4d6131c2">
+      <Name>EV Chargers</Name>
+      <Type>System</Type>
+      <Description>EV charging equipment</Description>
+      <FurtherInformation>SUSALB deployed across the Municipality of Tirana, OSHEE Group and UPT pilot sites.</FurtherInformation>
+    </Actor>
+    <Actor uuid="0948bfc7-2b82-590a-8a68-b5a747a89705">
+      <Name>EMS (Hardware)</Name>
+      <Type>System</Type>
+      <Description>Physical equipment installed for monitoring, scheduling, operation and control of power flows and feedback</Description>
+      <FurtherInformation>SUSALB</FurtherInformation>
+    </Actor>
+    <Actor uuid="c2e2c4b9-8240-5ea1-9439-5d4d0c628262">
+      <Name>Smart Meter</Name>
+      <Type>System</Type>
+      <Description>A device that measures the energy fed into and consumed from the grid, they can provide real-time information on energy-usage to consumers and suppliers. Installed at the PCC and/or selected campus loads to provide real-time electrical measurements.</Description>
+      <FurtherInformation>SUSALB will install smart meters at the pilot charging clusters to provide real-time electrical measurements.</FurtherInformation>
+    </Actor>
+    <Actor uuid="c947792d-2cf2-5bb0-8278-40949fe7015d">
+      <Name>Charging Mobile App</Name>
+      <Type>System</Type>
+      <Description>User-facing digital interface enabling EV charger discovery, reservation, and tariff visibility.</Description>
+      <FurtherInformation>Acts as the front-end interface between EMSP and EV users.</FurtherInformation>
+    </Actor>
+  </ActorList>
+  <RequirementList>
+    <RequirementCategory id="CAT-01">
+      <Name>Asset integration and commissioning</Name>
+      <Description>All physical assets must be installed, commissioned, operational and addressable before pilot operation</Description>
+      <Requirement uuid="0cec22ba-1333-5e1b-8251-2670dc8d9c55" id="R-AIC-01">
+        <Name>Asset commissioning status</Name>
+        <Description>Each EVSE, PV inverter, smart meter, communication gateway and EMS component actually deployed at the Municipality of Tirana, OSHEE Group or UPT pilot site shall have a recorded commissioning status before operational testing.</Description>
+      </Requirement>
+      <Requirement uuid="3d650123-38a8-553a-ac7a-f418a0be91af" id="R-AIC-04">
+        <Name>Connectivity verification</Name>
+        <Description>Commissioning shall verify that each monitored asset can transmit the required telemetry to the centralized EMS and that each controllable EVSE can receive charging schedules or power limits and return acknowledgement and status information.</Description>
+      </Requirement>
+      <Requirement uuid="10c14a07-d64d-575e-95f0-ef2566ac12f1" id="R-AIC-05">
+        <Name>Time and configuration setup</Name>
+        <Description>All integrated devices shall be configured with a common time source, agreed sampling intervals (15-minute minimum) and the correct site association before pilot operation.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-02">
+      <Name>Energy Management System capabilities</Name>
+      <Description>Contains requirements related to EMS functionalities and capabilities</Description>
+      <Requirement uuid="c64cb848-53a8-5d17-a0c8-649a26321b59" id="R-EMS-01">
+        <Name>Unified site and cluster model</Name>
+        <Description>The centralized EMS shall maintain a unified operational model of the three charging clusters at the Municipality of Tirana, OSHEE Group and UPT, while preserving the status, constraints and asset relationships of each individual site.</Description>
+      </Requirement>
+      <Requirement uuid="b8fa358f-52e7-56c9-8272-ecb1ff6f805d" id="R-EMS-03">
+        <Name>Schedule and setpoint generation</Name>
+        <Description>The EMS shall translate the optimisation results of SUC-AL-01.2 and the coordinated flexibility decisions of SUC-AL-01.3 into EVSE-level charging schedules, power limits and control set-points.</Description>
+      </Requirement>
+      <Requirement uuid="7765d0a0-8e44-544e-8f94-0c193f5c7095" id="R-EMS-04">
+        <Name>Constraint enforcement</Name>
+        <Description>The EMS shall prevent charging dispatch that exceeds the configured site connection limits or EVSE ratings or conflicts with fleet schedules, declared user energy needs, departure times or other site-specific operating constraints.</Description>
+      </Requirement>
+      <Requirement uuid="dd257c09-8f23-5144-bbde-2de40ff67100" id="R-EMS-05">
+        <Name>Execution monitoring and rescheduling</Name>
+        <Description>The EMS shall compare measured PV generation, site demand and charging-session behaviour with the active plan and shall update the charging schedule when deviations exceed configurable thresholds.</Description>
+      </Requirement>
+      <Requirement uuid="9b8f9a95-6a33-5e9c-8fe9-76d5646f39d9" id="R-EMS-06">
+        <Name>Flexibility estimation</Name>
+        <Description>For technical validation of SUC-AL-01.3, the EMS shall estimate the upward and downward charging flexibility available from each cluster and from the aggregated portfolio, including power, energy, duration and limiting constraints. The estimate does not constitute a commercial market commitment.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-03">
+      <Name>Smart charging, V2G and mobility-service constraints</Name>
+      <Description>The charging infrastructure functionalities and capabilities</Description>
+      <Requirement uuid="9572253a-6a45-51e3-a493-af3c0fb3fda1" id="R-SC-01">
+        <Name>Charging-session detection</Name>
+        <Description>The charging backend and EMS shall detect and report EV connection, authorisation where used, session start, active charging, suspension, completion, disconnection and charger-availability events for the EVSEs included in the Albanian pilot.</Description>
+      </Requirement>
+      <Requirement uuid="3b9de090-11db-5cbe-9d48-3fa754ad231d" id="R-SC-02">
+        <Name>Charging requirement capture</Name>
+        <Description>For managed sessions, the system shall capture the available charging requirement information, including requested energy or target state of charge where available, expected departure time, vehicle or user profile and priority class. Fleet schedules shall be used for Municipality of Tirana and OSHEE vehicles, while declared preferences may be used for public and university users.</Description>
+      </Requirement>
+      <Requirement uuid="2263807f-408c-537f-ba3b-4cbd69c7552a" id="R-SC-03">
+        <Name>Dynamic charging control</Name>
+        <Description>Each controllable pilot EVSE shall accept remote charging schedules or dynamic power limits issued by the centralized EMS through the charging backend. Controllability shall be verified during commissioning.</Description>
+      </Requirement>
+      <Requirement uuid="ec0e3d4c-1f39-5270-a82c-7efd047ae399" id="R-SC-04">
+        <Name>Mobility requirement guarantee</Name>
+        <Description>PV-aware scheduling and coordinated flexibility control shall preserve the confirmed energy requirement and departure-time constraint of managed fleet and user sessions, subject always to equipment and electrical safety limits.</Description>
+      </Requirement>
+      <Requirement uuid="7ffeab03-fa35-5b75-a9d3-7f71a38430e6" id="R-SC-05">
+        <Name>Priority-based allocation</Name>
+        <Description>The EMS shall allocate available charging capacity according to configurable site-specific priorities, distinguishing the operational schedules of Municipality of Tirana and OSHEE fleet vehicles from the more flexible charging preferences of public and university users.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-04">
+      <Name>Communications and connectivity</Name>
+      <Description>Collection of requirements to enable reliable communication</Description>
+      <Requirement uuid="dac004e3-12ef-568b-83df-7f2e01488eb2" id="R-COM-01">
+        <Name>Bidirectional communications</Name>
+        <Description>Bidirectional communication shall support telemetry, charging-command dispatch and acknowledgements between the EVSEs, charging backend and centralized EMS. PV systems and smart meters shall provide the measurements required by the applicable pilot scenarios.</Description>
+      </Requirement>
+      <Requirement uuid="22b1f039-b95e-5d04-b408-e25e534d5f73" id="R-COM-02">
+        <Name>Communication health monitoring</Name>
+        <Description>The EMS shall monitor connection status and last-message time for the charging backend and the PV and metering interfaces of each cluster and shall flag unavailable or stale data.</Description>
+      </Requirement>
+      <Requirement uuid="eccc6d2c-549a-54b1-88a8-b7d648ff77a5" id="R-COM-03">
+        <Name>Message acknowledgement</Name>
+        <Description>Charging schedules and power-limit commands sent to pilot EVSEs shall return acceptance, rejection or failure status and, where supported, execution feedback. Messages exchanged in a controlled external-platform test shall follow the same acknowledgement principle.</Description>
+      </Requirement>
+      <Requirement uuid="bc300525-e2cf-552f-9b6f-525a72aca1ee" id="R-COM-07">
+        <Name>External platform connectivity</Name>
+        <Description>Where flexibility-service or electricity-market participation is evaluated through simulation or controlled testing, the EMS shall provide a documented and reliable interface for exchanging activation requests, grid constraints, operational signals and response information with the relevant DSO, TSO or external flexibility/market platform. This interface is not required for normal PV-aware smart charging or internal VPP aggregation.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-05">
+      <Name>Data acquisition, quality and storage</Name>
+      <Description>Requirements for common data management mechanisms</Description>
+      <Requirement uuid="a6b46252-485a-5ce0-a58a-1057cbb67ac2" id="R-DAT-01">
+        <Name>Operational telemetry acquisition</Name>
+        <Description>The EMS shall acquire the EVSE session and status data, PV generation measurements, smart-meter readings and available site-demand and mobility information required by SUC-AL-01.1, SUC-AL-01.2 and SUC-AL-01.3.</Description>
+      </Requirement>
+      <Requirement uuid="cf737a9f-1022-539c-a608-a834d30f8e1c" id="R-DAT-02">
+        <Name>Common timestamping</Name>
+        <Description>Measurements, charging-session events, forecasts, EMS decisions and command responses from all three clusters shall be timestamped using a common time base with timezone or UTC information.</Description>
+      </Requirement>
+      <Requirement uuid="1b862d07-1263-5ff2-9e28-48e09ba20665" id="R-DAT-03">
+        <Name>Data validation</Name>
+        <Description>Incoming EVSE, PV and smart-meter data shall be checked for missing values, staleness, invalid ranges, inconsistent units and implausible changes before being used for optimisation or KPI calculation.</Description>
+      </Requirement>
+      <Requirement uuid="1943219d-b78e-5487-b0de-a7ce7915b263" id="R-DAT-04">
+        <Name>Data-quality status</Name>
+        <Description>The EMS shall associate a validity or data-quality status with the measurements and forecasts used for PV-aware scheduling, flexibility estimation and pilot reporting, distinguishing valid live data from missing or stale inputs. (see SUC-AL-01.2)</Description>
+      </Requirement>
+      <Requirement uuid="7de1322b-fbfd-55c5-8b47-11542814dd03" id="R-DAT-05">
+        <Name>Historical data retention</Name>
+        <Description>Session data, PV generation readings, EMS schedules, tariff signals and EVSE responses shall be retained for the duration required for KPI computation, pilot reporting and post-hoc analysis.</Description>
+      </Requirement>
+      <Requirement uuid="9ca5acc2-3c5e-59d9-9458-ca07da7c5931" id="R-DAT-07">
+        <Name>Data lineage</Name>
+        <Description>Calculated flexibility, baselines and KPI results shall be traceable to the source measurements, algorithms, configuration parameters and software versions used in the Albanian pilot.</Description>
+      </Requirement>
+      <Requirement uuid="01723c2d-75b5-5023-af8d-2c84c17559bf" id="R-DAT-08">
+        <Name>Distributed-cluster synchronisation</Name>
+        <Description>Data received from the Municipality of Tirana, OSHEE Group and UPT clusters shall be time-synchronised and associated with the correct site, EVSE and electrical connection point.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-06">
+      <Name>Semantic and protocol interoperability</Name>
+      <Description>Requirements for enabling interoperable communications</Description>
+      <Requirement uuid="9519a39e-35e7-588b-be83-c0f3cb811fcd" id="R-INT-02">
+        <Name>EV charging protocol support</Name>
+        <Description>EVSE-to-backend communication shall use OCPP or an equivalent supported standard providing the metering, charger-status and smart-charging functions required by the Albanian pilot scenarios.</Description>
+      </Requirement>
+      <Requirement uuid="e7b18333-660d-5b73-882c-fbad7523dd18" id="R-INT-04">
+        <Name>DER interface abstraction</Name>
+        <Description>Vendor-specific PV inverter and smart-meter interfaces used at the pilot sites shall be implemented through adapters or documented mappings that expose a consistent EMS-facing information model.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-07">
+      <Name>Forecasting and optimisation</Name>
+      <Description>Contains requirements enabling reliable predictive capabilities</Description>
+      <Requirement uuid="ce01bb3d-2035-5c37-b937-f1c456b35f0d" id="R-FOR-01">
+        <Name>PV forecasting</Name>
+        <Description>The EMS or an integrated forecasting service shall provide PV generation forecasts for pilot sites with available or planned PV generation, at a resolution and horizon suitable for PV-aware charging optimisation.</Description>
+      </Requirement>
+      <Requirement uuid="4a2df201-b59a-5c33-b938-336a1649f352" id="R-FOR-02">
+        <Name>Load forecasting</Name>
+        <Description>The EMS shall estimate the relevant site demand and available charging capacity for each cluster using smart-meter measurements, available historical data and known operating schedules.</Description>
+      </Requirement>
+      <Requirement uuid="fbb0c9b4-f68e-58e5-9989-56e0451d1de8" id="R-FOR-05">
+        <Name>Constraint-aware optimisation</Name>
+        <Description>Charging optimisation shall incorporate EVSE power limits, configured site connection constraints, PV availability, fleet and user charging requirements, departure times and the verified controllability of participating assets.</Description>
+      </Requirement>
+      <Requirement uuid="2f728c5e-2357-5be6-b4f5-35fc6e0d69ca" id="R-FOR-07">
+        <Name>Forecast-error handling</Name>
+        <Description>The EMS shall detect material deviations between forecast and measured PV generation or charging demand and shall update schedules or flexibility estimates using the latest validated measurements.</Description>
+      </Requirement>
+      <Requirement uuid="f8228984-f497-5025-895e-bd72a27dffe8" id="R-FOR-08">
+        <Name>Objective configurability</Name>
+        <Description>Optimisation objectives shall be configurable for PV self-consumption maximisation, peak grid import reduction and fleet service reliability, reflecting the hierarchy of OBJ-1 through OBJ-7.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-08">
+      <Name>Real-time control and performance</Name>
+      <Description>Group of requirements enabling near-real-time control to maintain grid compliance and track market or operational commitments</Description>
+      <Requirement uuid="999534fc-2e72-5a2f-bcee-a2a664a9f577" id="R-RTC-01">
+        <Name>Defined control cycle</Name>
+        <Description>The real-time load modulation function (SUC-AL-01.2) shall operate at a 15-minute control cycle; calculation and dispatch of updated power limits (IE-07) shall complete within this interval.</Description>
+      </Requirement>
+      <Requirement uuid="6f87dced-ac5d-546f-82ee-a19808eb2bf6" id="R-RTC-02">
+        <Name>Real-time grid-limit supervision</Name>
+        <Description>For each cluster of SUC-AL with an available connection-point measurement or configured limit, the EMS shall supervise aggregate demand and charging power against the applicable site constraint.</Description>
+      </Requirement>
+      <Requirement uuid="2cba950c-e686-546b-a38c-da9c196c5394" id="R-RTC-04">
+        <Name>Deviation-triggered re-optimisation</Name>
+        <Description>The EMS shall trigger re-optimisation when PV or load forecast error, charging-session change, asset unavailability or schedule deviation exceeds a configurable threshold.</Description>
+      </Requirement>
+      <Requirement uuid="aa8fe3e0-af09-515b-bf5a-89868009db53" id="R-RTC-05">
+        <Name>Activation response timing</Name>
+        <Description>This requirement is conditional and applies only to a defined DSO or flexibility-service simulation or controlled test. Any activation instruction used in such a test shall have a documented response target; no live market-product response obligation applies to normal Albanian pilot operation.</Description>
+      </Requirement>
+      <Requirement uuid="1eb83b81-50dc-5486-a851-c9294b4e3ed0" id="R-RTC-06">
+        <Name>Setpoint execution verification</Name>
+        <Description>After dispatching a charging schedule or power limit, the EMS shall use EVSE/backend feedback and metering data to identify successful, partial, late or failed execution.</Description>
+      </Requirement>
+      <Requirement uuid="f2705355-9877-5085-825a-9b9cd197a38e" id="R-RTC-07">
+        <Name>Control conflict resolution</Name>
+        <Description>Where optimisation objectives conflict, the EMS shall apply a documented precedence order that protects equipment safety, site connection constraints and confirmed mobility requirements before PV utilisation, peak reduction or experimental flexibility objectives.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-09">
+      <Name>Grid constraints, flexibility and resilience</Name>
+      <Description>Group of requirements ensuring safe operation under constrained grid conditions while providing external grid services</Description>
+      <Requirement uuid="fdeafe61-a2a2-55a9-8b33-88f828ea41f7" id="R-GFR-01">
+        <Name>Connection-capacity enforcement</Name>
+        <Description>The EMS shall keep charging operation within the configured connection capacity or operational limit of each participating cluster using the available connection-point and asset measurements.</Description>
+      </Requirement>
+      <Requirement uuid="11aeac82-590b-5e70-b50c-b826758b9a75" id="R-GFR-02">
+        <Name>Upward and downward flexibility calculation</Name>
+        <Description>The EMS shall calculate available upward flexibility (additional charging absorbable from PV surplus) and downward flexibility (sheddable public user load) by 15-minute interval, as the basis for KPI U06 measurement.</Description>
+      </Requirement>
+      <Requirement uuid="83fae0b0-449f-58b6-9805-318fc8a3ddee" id="R-GFR-07">
+        <Name>Controlled restoration</Name>
+        <Description>After a controlled flexibility event or temporary constrained-grid charging action, the EMS shall return affected charging sessions progressively to their standard PV-aware schedules so that rebound peaks and renewed site-limit violations are avoided. This requirement does not define a separate emergency/recovery operating mode.</Description>
+      </Requirement>
+      <Requirement uuid="756c9348-1bd4-5dcb-aebc-ba6f1fcaa9b0" id="R-GFR-08">
+        <Name>Flexibility delivery verification</Name>
+        <Description>The EMS shall compare requested load adjustment against measured EVSE response and calculate delivered power reduction or absorption for each control event, as input to KPI U06 and U12 computation.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-11">
+      <Name>Metering, verification, settlement and KPI reporting</Name>
+      <Description>Group of requirements providing grounds for operational control and project and market outcomes validation</Description>
+      <Requirement uuid="c0e69b81-5407-5dc6-ae48-2fb0e32f6ad7" id="R-MVR-01">
+        <Name>Connection-point metering</Name>
+        <Description>Net import and export at each relevant pilot connection point shall be measured, where the required metering is available, at an accuracy and interval suitable for EMS supervision and KPI assessment.</Description>
+      </Requirement>
+      <Requirement uuid="859108cf-eaf6-51f0-9bea-3116b02e4d87" id="R-MVR-02">
+        <Name>Asset-level sub-metering</Name>
+        <Description>Energy flows from the PV inverters, each EVSE and the DC charging station shall be measurable separately to support self-consumption, curtailment and peak reduction KPI computation.</Description>
+      </Requirement>
+      <Requirement uuid="9ceaba17-5e1e-5bcb-ad5f-68eb093d2cf5" id="R-MVR-03">
+        <Name>Session metering</Name>
+        <Description>Each pilot charging session shall record its identifier, start and end timestamps, start and end meter values and energy transferred, subject to the capabilities of the installed EVSE and charging backend.</Description>
+      </Requirement>
+      <Requirement uuid="5fab1dcd-f4b2-5599-94ab-144b8af1736e" id="R-MVR-06">
+        <Name>KPI computation</Name>
+        <Description>The platform shall calculate the KPIs applicable to the Albanian pilot, including operating-cost reduction, flexibility potential, constraint-violation reduction, collective PV self-consumption, curtailment avoidance, peak-demand reduction and use of distributed energy resources in parking facilities.</Description>
+      </Requirement>
+      <Requirement uuid="34f657aa-6c1a-5e4e-b47c-6ae951af30c0" id="R-MVR-07">
+        <Name>Delivery report</Name>
+        <Description>The system shall generate pilot reports comparing scheduled and measured charging demand, PV generation, self-consumption and the requested and delivered response of any controlled flexibility test.</Description>
+      </Requirement>
+      <Requirement uuid="bf219964-d671-547d-bff7-8c868ad7be2f" id="R-MVR-08">
+        <Name>Exportable evidence package</Name>
+        <Description>Raw measurements, charging-session records, forecasts, EMS decisions, configuration assumptions, algorithm versions and KPI outputs shall be exportable for SOLAR-MOVE pilot validation, reporting and audit.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-12">
+      <Name>Cybersecurity, privacy and access control</Name>
+      <Description>Group of requirements ensuring secure and privacy-preserving access to services and provide resilient operation of infrastructure</Description>
+      <Requirement uuid="42df5cc3-9df9-5d57-931b-fbde01ad06c8" id="R-CYB-01">
+        <Name>Strong authentication</Name>
+        <Description>Human users (, EMS operators fleet managers), devices (EVSEs, inverters) and external systems (EMSP, PV Data Provider) shall authenticate before accessing EMS or CSMS functions.</Description>
+      </Requirement>
+      <Requirement uuid="7830e58f-000c-5849-a60f-e28e27fcca4b" id="R-CYB-03">
+        <Name>Encryption in transit</Name>
+        <Description>Communications crossing device, pilot-site, cloud or organisational boundaries, including links between the three clusters and the centralized EMS, shall use appropriate encryption in transit.</Description>
+      </Requirement>
+      <Requirement uuid="6e51583f-8cc3-5d79-85d4-d692e9e5b003" id="R-CYB-04">
+        <Name>Command integrity and anti-replay</Name>
+        <Description>EMS charging schedules and power-limit commands shall be protected against unauthorised modification, duplication and replay. The same protection shall apply to external activation messages if controlled testing is performed.</Description>
+      </Requirement>
+      <Requirement uuid="dffd0cdf-8d43-5955-a0f7-6e867d181eff" id="R-CYB-06">
+        <Name>Personal-data minimisation</Name>
+        <Description>The platform shall collect and retain only the personal and session data necessary for charging service operation and pilot KPI assessment, with appropriate access and retention controls applied to public user data.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-13">
+      <Name>Safety, fault handling and recovery</Name>
+      <Description>Group of requirements ensuring control platform never overrides asset or mobility safety constraints</Description>
+      <Requirement uuid="3001257e-9838-54b7-a584-a1c5a9bf1a1e" id="R-SAF-01">
+        <Name>Asset safety-envelope enforcement</Name>
+        <Description>No EMS or CSMS command shall exceed the rated power limits of any EVSE or the maximum output of the PV inverters at each cluster.</Description>
+      </Requirement>
+      <Requirement uuid="e6a7feeb-24c6-55e0-9089-e5c9fbc82984" id="R-SAF-02">
+        <Name>Fault-state reporting</Name>
+        <Description>EVSEs and PV inverters shall report faults and communication failures with severity and timestamp; the EMS shall raise operator alerts accordingly.</Description>
+      </Requirement>
+      <Requirement uuid="a2a8bca9-19f7-58db-9051-0eb5c8a1e65a" id="R-SAF-03">
+        <Name>Automatic isolation of failed assets</Name>
+        <Description>A failed or unsafe asset shall be excluded from optimisation and dispatch until it returns to an authorised available state, based on the fault status reported in IE-02.</Description>
+      </Requirement>
+      <Requirement uuid="cb120450-2149-56c4-98cf-e4d0329f6814" id="R-SAF-04">
+        <Name>Safe loss-of-control behaviour</Name>
+        <Description>On loss of EMS or communication connectivity, each controllable EVSE shall follow a predefined safe local fallback behaviour, such as retaining its last valid permitted limit or reverting to a validated local setting. This safety fallback does not constitute an EMS emergency/recovery operating mode.</Description>
+      </Requirement>
+      <Requirement uuid="5d1f288f-89e6-51c0-9056-c0603710d072" id="R-SAF-05">
+        <Name>Manual override</Name>
+        <Description>Authorised operators shall be able to stop, curtail or isolate charging or other controllable assets during abnormal conditions, including during the constrained-supply and restoration phases BUC AL.</Description>
+      </Requirement>
+      <Requirement uuid="734d5e22-6ff8-5c00-8c54-53871ed14a89" id="R-SAF-06">
+        <Name>Recovery validation</Name>
+        <Description>Following a fault or outage, communications, status, limits and metering shall be verified before an asset is returned to automatic control, supporting the controlled restoration sequence of BUC AL.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-14">
+      <Name>User interfaces, pricing and participation management</Name>
+      <Description>Group of requirements to ensure intuitive user interfaces, transparent pricing and participation management</Description>
+      <Requirement uuid="1a607f94-eb7f-5fb1-a988-28dde93cca65" id="R-UI-02">
+        <Name>Charging-user interface</Name>
+        <Description>Managed-fleet operators and, where supported, public and university EV users shall be able to view charging-session status, dynamic tariff and Green Window pricing information and provide or confirm the energy need, expected departure time and participation preference required for smart charging.</Description>
+      </Requirement>
+    </RequirementCategory>
+  </RequirementList>
+</IEC62559UseCaseArtefacts>

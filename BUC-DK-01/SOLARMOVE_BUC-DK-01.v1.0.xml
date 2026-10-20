@@ -1,0 +1,1707 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SOLAR-MOVE | BUC-DK-01 | Coordinated ePIPV Charging Hub Operation
+  IEC 62559-3-STYLE serialization (DRAFT).
+  Structure & field vocabulary aligned to the IEC 62559-2 template as rendered by the
+  Sparx Enterprise Architect / MODSARUS toolchain (reference: the public 'Smart Grid Use
+  Cases' renderings of the BRIDGE EDF/Elering use cases).
+  NOTE: element names are indicative; this file is NOT validated against the normative
+  IEC 62559-3 XSD. UUIDs are deterministic (uuid5) placeholders, not repository-assigned.
+  Source: SOLARMOVE_BUC-DK-01.docx
+-->
+<IEC62559UseCaseArtefacts profile="IEC 62559-3-style, aligned to the IEC 62559-2 template as rendered by the Sparx EA / MODSARUS toolchain" status="DRAFT - not validated against the normative IEC 62559-3 XSD" basedOnTemplate="IEC 62559-2:2015" generatedFrom="SOLARMOVE_BUC-DK-01.docx" namespaceNote="urn:solarmove:iec62559-3-style:v0">
+  <UseCase uuid="f905792d-9af1-54d9-981e-a6a7a34acd32" id="BUC-DK-01" version="1.0">
+    <UseCaseIdentification>
+      <ID>BUC-DK-01</ID>
+      <Name>Coordinated ePIPV Charging Hub Operation</Name>
+      <Area>Energy System</Area>
+      <Domains>Distribution System, DER, Customer Premises</Domains>
+      <Zones>Operation, Enterprise, Market</Zones>
+    </UseCaseIdentification>
+    <VersionControl>
+      <Version number="1.0">
+        <Date>20.10.2026</Date>
+        <Author>Nikos Vourgidis (NTUA), Irisa Sevdari (DTU)</Author>
+        <Changes>First public version</Changes>
+        <ApprovalStatus/>
+      </Version>
+    </VersionControl>
+    <ScopeAndObjectives>
+      <Scope>
+        <Paragraph>This use case focuses on the coordinated operation of an ePIPV charging hub serving heavy-duty and light-duty electric vehicles under limited grid connection capacity. It includes the management of charging demand, on-site PV generation, and battery storage to ensure reliable operation and maximise local energy utilisation. The use case also considers interaction with the distribution grid and the potential participation in flexibility services and electricity markets, while excluding detailed control strategies and component-level behaviour.</Paragraph>
+        <Paragraph>Beyond the technical coordination challenge, the underlying business problem is how to operate a high-demand EV charging hub despite limited grid capacity, avoiding the prohibitive capital cost and lead time of grid reinforcement while preventing fleet operational downtime caused by uncoordinated charging. The business value created by coordinated hub operation includes: maximising PV self-consumption; avoiding or deferring grid reinforcement costs by enabling heavy-duty vehicle (HDV) charging without proportional grid upgrades; ensuring reliable charging of HDVs according to fleet schedules, thereby reducing the risk of logistics disruption; lowering operational energy costs and exposure to grid electricity prices; unlocking potential flexibility revenues from the BESS and controllable charging; and improving resilience of buildings and site loads during constrained-supply events. The coordinated hub model also has strong replication potential for logistics depots, highway charging hubs, and commercial fleet charging sites facing similar grid constraints.</Paragraph>
+        <Paragraph>Five system use cases (SUCs) will be derived by this BUC:</Paragraph>
+        <Paragraph>SUC-DK-01.1:*Coordinated EV Charging - Schedule and prioritise EV charging, particularly for HDVs, to ensure charging requirements are met within grid constraints.</Paragraph>
+        <Paragraph>SUC-DK-01.2:*BESS and PV Optimisation - Control battery charging and discharging in coordination with PV generation to maximise self-consumption and support site operation.</Paragraph>
+        <Paragraph>SUC-DK-01.3:*Real-Time Power Allocation - Distribute available power in real time across EV charging infrastructure and building loads to maintain grid-compliant operation.</Paragraph>
+        <Paragraph>SUC-DK-01.4:*Brownout and Emergency Power Management - Prepare for and respond to constrained power availability in two scenarios: scheduled, through brownouts; and unscheduled emergency events.</Paragraph>
+        <Paragraph>SUC-DK-01.5:*Provision of Flexibility services - Evaluate the site’s ability to provide flexibility and enable interaction with grid operators and potential market mechanisms.</Paragraph>
+        <Paragraph>Each SUC contributes to the high-level business objectives: SUC-DK-01.1 underpins reliable fleet operations and infrastructure utilisation; SUC-DK-01.2 drives PV self-consumption and reduced energy costs; SUC-DK-01.3 enables high charging capacity without grid reinforcement; SUC-DK-01.4 provides operational resilience and protection of critical loads; and SUC-DK-01.5 opens potential new revenue streams from grid services.</Paragraph>
+        <Paragraph>The use case also creates value for its different stakeholders: the site operator benefits from lower energy costs, better asset utilisation, predictable HDV charging, reduced operational disruption and potential new flexibility revenue; the DSO benefits from reduced peak load and better management of grid constraints; the TSO and FSP gain access to flexible distributed assets such as the BESS and controllable EV charging; and passenger EV users benefit from more reliable charging availability and improved service quality.</Paragraph>
+      </Scope>
+      <Objectives>
+        <Objective>Maximise the utilisation of locally available energy resources, increasing PV self-consumption and overall use of DERs within the charging hub. Reduce peak power at the grid connection point through coordinated operation and participation in DR programmes. Minimise curtailment of renewable energy by optimising the interaction between PV, battery storage, and site loads. Increase the flexibility potential of the site by enabling coordinated control of charging demand and DERs. Enhance the economic performance of the hub by increasing revenues generated from DER utilisation and flexibility services.</Objective>
+      </Objectives>
+      <RelatedBusinessCases/>
+    </ScopeAndObjectives>
+    <Narrative>
+      <ShortDescription>
+        <Paragraph>This use case describes the coordinated operation of an ePIPV charging hub serving both heavy- and light-duty EVs under limited grid connection capacity. The system manages charging demand together with on-site PV generation and battery storage to ensure reliable operation while maximising local energy utilisation. The site operator ensures that the hub operates within grid constraints and adapts to external signals. The BUC also considers the potential for providing flexibility services and participating in electricity markets. The implementation of this use case is demonstrated in the Danish pilot.</Paragraph>
+      </ShortDescription>
+      <CompleteDescription>
+        <Paragraph>The BUC considers a grid-connected ePIPV charging hub designed to serve both heavy- and light-duty EVs. The site is connected to the distribution grid with a capacity of 3250 A, connected through a 10kV/400V transformer, which powers also four buildings with office and warehouse functions, contributing additional electricity demand through heating and cooling systems. The energy system is further composed of approximately 2 MWp of PV generation, battery energy storage systems with a total capacity of 4 MWh (connected through a 750 kW converter), 20 high-power charging points for heavy-duty vehicles (16 DC chargers at 400kW and 4 DC chargers at 200kW), 4 DC chargers (at 200kW) and 20 AC chargers (at 11kW) for light-duty vehicles. The fleet includes 7 electric trucks, including a VIPV- vehicle.</Paragraph>
+        <Paragraph>Due to the limited grid connection capacity relative to the combined demand from EV charging, buildings, and other site loads, uncoordinated operation would lead to peak demand violations and insufficient charging of heavy-duty vehicles within required timeframes. Ensuring that trucks are charged according to operational schedules while maximising the use of locally generated PV energy therefore requires coordinated management of all energy resources at the site.</Paragraph>
+        <Paragraph>The Charging Point Operator (CPO) will be responsible for the overall operation of the site through a fully centralised energy management approach. All major energy assets, including EV charging infrastructure, PV generation, battery storage, and building loads, will be coordinated through a central control system to ensure reliable and grid-compliant operation. This includes adapting operation to grid constraints and external signals from the DSO and assessing opportunities for participation in flexibility services and electricity markets and preparing the site to be able to continue normal operation during grid outages.</Paragraph>
+        <Paragraph>To achieve this, the use case encompasses several key operational functions: coordinated scheduling of EV charging, including prioritisation of heavy-duty vehicles; optimisation of battery charging and discharging to support peak load management and PV utilisation; real-time allocation of available power across charging infrastructure and building loads; managed operation during loss of grid supply; and evaluation of the site’s capability to provide flexibility to the grid. These functions are further detailed across five SUCs, each addressing a specific operational layer of the hub.</Paragraph>
+        <Paragraph>SUC-DK-01.1: Coordinated EV Charging. The Charging Station Management System (CSMS) collects EV connection events and charging requirements from individual EVSEs and communicates them to the EMS. The EMS computes an optimised charging schedule based on vehicle departure times, state of charge, grid connection limits, and available PV generation. Charging priorities are assigned dynamically, with heavy-duty vehicles receiving precedence to meet fleet schedules. The resulting set-points are dispatched by the EMS to each EVSE, and the CSMS monitors execution in real time, reporting deviations back to the EMS for re-scheduling as needed.</Paragraph>
+        <Paragraph>SUC-DK-01.2: BESS and PV Optimisation. The EMS continuously receives generation forecasts and real-time output measurements from the PV inverter/controller and state-of-charge data from the BMS. Based on site load forecasts and grid capacity limits, the EMS determines optimal charge and discharge profiles for the BESS and communicates the corresponding set-points to the BMS, which executes them locally. Smart meters provide interval metering data at the grid connection point to inform and validate the optimisation. The EMS updates BESS set-points via the BMS, adapting to deviations in PV output or site demand in real time.</Paragraph>
+        <Paragraph>SUC-DK-01.3: Real-Time Power Allocation. The EMS continuously monitors total site power consumption from smart meter readings and individual EVSE measurements reported via the CSMS. When the aggregate demand approaches the grid connection limit, the EMS applies a dynamic power allocation algorithm to redistribute available capacity across active EVSEs and controllable building loads in real time. Allocation decisions account for EV charging priorities established in SUC-DK-01.1 and current BESS operation as communicated by the BMS. Updated power limits are communicated to each EVSE through the CSMS within a defined control cycle, ensuring continuous grid-compliant operation without manual intervention.</Paragraph>
+        <Paragraph>SUC-DK-01.4: Brownout and Emergency Power. This SUC addresses two distinct scenarios of constrained power availability. In the first, the DSO or TSO provides advance notification of a brownout, giving the BMS and EMS time to prepare: the BESS is pre-charged, non-essential EV charging sessions are rescheduled, and the site transitions to a planned low-consumption mode before the supply reduction takes effect. In the second scenario, power is reduced or lost without prior warning, requiring the EMS to respond immediately. In both cases, the EMS applies the same predefined priority hierarchy: available power is allocated first to warehouse cooling systems, which are critical for preserving temperature-sensitive goods, and second to heavy-duty vehicle charging where state of charge and departure schedules permit. All other loads, including light-duty EV charging and non-essential building systems, are curtailed. The BESS supports priority loads during the constrained period and the system initiates a controlled restoration sequence once normal supply is confirmed, gradually returning non-priority loads to operation.</Paragraph>
+        <Paragraph>SUC-DK-01.5: Provision of Flexibility Services. The EMS periodically calculates the site’s available upward and downward flexibility based on current BESS state of charge, EVSE headroom, and building load controllability. The primary focus of the flexibility assessment is on frequency containment and restoration services, given the fast-response capability of the BESS and the site's controllable load portfolio. Other flexibility products and market mechanisms are not excluded and may be assessed as the pilot progresses. Flexibility estimates are formatted and communicated to the DSO or TSO upon request or in response to market signals. When a flexibility activation signal is received, the EMS adjusts site operation, accordingly, modifying EV charging schedules and issuing updated set-points to the BMS within the bounds established by SUC-DK-01.1 and SUC-DK-01.2. Smart meters record the resulting energy flows for settlement and reporting purposes, enabling verification of the delivered flexibility service.</Paragraph>
+        <Paragraph>Within the Danish pilot, the provision of flexibility services is primarily assessed as a future opportunity rather than fully commercially activated, with the technical capability demonstrated and the revenue potential evaluated as the pilot progresses. The party capturing any resulting flexibility revenue would typically be the FSP or the site operator, depending on the contractual arrangement in place; the definition of ownership and revenue allocation is left to later business-model work.</Paragraph>
+        <Paragraph>The prioritisation of HDVs is one of the strongest business drivers of this use case. By ensuring that HDVs are charged according to their departure schedules, coordinated operation directly reduces the risk of delivery disruption and vehicle downtime, protecting the continuity of the fleet and logistics operations that depend on the site. Fleet charging reliability is therefore treated as a core value driver rather than a purely technical constraint.</Paragraph>
+      </CompleteDescription>
+    </Narrative>
+    <KeyPerformanceIndicators>
+      <KPI uuid="ea8c1c49-f431-545e-8ab6-8cd492f4c9ab" id="U06">
+        <Name>Flexibility Potential</Name>
+        <Description>Measures the increase in upward and downward power adjustment the site can make available, derived from BESS state of charge, EVSE headroom, and controllable building loads. In this pilot it reflects the capacity the EMS can offer for frequency services (FCR/aFRR) relative to a site operating without coordinated control. Target: Increase potential by 25%</Description>
+        <ReferenceToObjectives>OBJ-4</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="8c19b96b-c557-5bee-aac6-7cbb9e1f1d82" id="U10">
+        <Name>Collective Self-Consumption</Name>
+        <Description>Measures the share of energy generated by the on-site PV array that is consumed locally rather than exported. It directly tracks how effectively the EMS aligns EV charging sessions and BESS charging with periods of high solar output. Target: Increase collective self-consumption by 75% at pilot level.</Description>
+        <ReferenceToObjectives>OBJ-1</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="cc03b1d8-f7cb-5253-bd32-b4acda276693" id="U11">
+        <Name>Renewables Curtailment Avoidance</Name>
+        <Description>Measures the reduction in PV energy that would otherwise be curtailed when generation exceeds site demand and grid injection limits. The EMS addresses this by absorbing surplus into the BESS or by raising power limits at active EVSEs. Target: Increase avoidance curtailment of renewables by 25% at pilot level.</Description>
+        <ReferenceToObjectives>OBJ-3</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="996d58f2-19e5-5b1a-860b-e4801e5680f0" id="U12">
+        <Name>Peak Consumption Reduction (DR)</Name>
+        <Description>Measures the reduction in peak power drawn at the grid connection point compared with uncoordinated operation. This is achieved through real-time reallocation of available capacity across chargers and controllable building loads, supported by BESS discharge during peak intervals. Target: Increase peak consumption reduction by 25%.</Description>
+        <ReferenceToObjectives>OBJ-2</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="4d0eab65-c76d-5cd5-9d21-42a983c3eedc" id="U13">
+        <Name>Increase in revenue created from DERs;</Name>
+        <Description>Measures the additional income generated by the site’s DERs, specifically remuneration earned from flexibility and frequency service provision by the BESS and controllable charging capacity, together with any revenue from exported PV generation. Target: Increase revenues by 25%.</Description>
+        <ReferenceToObjectives>OBJ-5</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="a7bf0dac-0749-5a45-919a-702883c4d919" id="U14">
+        <Name>Use of DERs in Parking Lots / ePIPVs</Name>
+        <Description>Measures the increase in utilisation of local energy resources relative to an uncoordinated baseline. It captures how effectively the EMS coordinates charging demand against locally available energy across both heavy- and light-duty sessions. Target: Increase utilization of DERs in the ePIPV site by 30%.</Description>
+        <ReferenceToObjectives>OBJ-1</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="3d37f968-9ba0-5236-b8a9-6685cc27c2e2" id="U07">
+        <Name>Constraints Violation Occurrence</Name>
+        <Description>Measures the reduction in operational constraint violations during site operation, including exceedances of the grid connection limit, charger power boundaries, and HDV departure deadlines. This tracks the EMS's ability to maintain grid-compliant operation while dynamically reallocating power across chargers, building loads, and the BESS. Target: Decrease occurrences of constraints violation by 15%.</Description>
+        <ReferenceToObjectives>OBJ-4</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="bb3a0131-4adb-512c-bdd0-1d1bd65f3b1d" id="U19">
+        <Name>Flexibility Participation Tests</Name>
+        <Description>Measures the number of flexibility service activations executed at the site during the pilot, covering bid submission, activation signal reception, and delivery verification. Target: Run 2 participation tests.</Description>
+        <ReferenceToObjectives>OBJ-4</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="6e39270c-b4c1-5113-89be-1a6d1943c2ae" id="U04">
+        <Name>Operation Cost (ePIPV)</Name>
+        <Description>Measures the reduction in the site’s total operational energy expenditure, covering all cost-side savings: lower grid imports through direct use of on-site PV, reduced exposure to high-price intervals through schedule shifting, and lower capacity and peak-related tariff charges resulting from coordinated power allocation. Target: Reduction of operation cost of the ePIPV site by 25% compared to the non-optimised operation.</Description>
+        <ReferenceToObjectives>OBJ-5</ReferenceToObjectives>
+      </KPI>
+    </KeyPerformanceIndicators>
+    <UseCaseConditions>
+      <Assumptions>
+        <Assumption>The charging hub infrastructure is already installed and operational, including multiple heavy-duty and light-duty chargers, on-site PV generation, BESS, and a connection to the distribution grid.</Assumption>
+        <Assumption>The site operates under a limited grid connection capacity, which constrains the simultaneous operation of charging infrastructure and other local energy resources. An increase in grid capacity may occur in the future but is not considered within the scope of this use case.</Assumption>
+        <Assumption>No EMS or coordinated control strategy is currently implemented to manage the interaction between EV charging, PV generation, and battery storage.</Assumption>
+        <Assumption>A single responsible entity operates the site, acting as the Party Connected to the Grid, including the charging infrastructure, managing electricity exchange at the connection point.</Assumption>
+      </Assumptions>
+      <Prerequisites>
+        <Prerequisite>The charging hub is connected to the distribution grid, with an agreed and defined grid connection capacity established with the Grid Access Provider (DSO).</Prerequisite>
+        <Prerequisite>On-site PV generation and BESS systems are available and operational.</Prerequisite>
+        <Prerequisite>Charging infrastructure is available and operational, and EV users have access to the charging services through an EMSP (including authentication and authorisation).</Prerequisite>
+        <Prerequisite>EVs are connected or expected to connect to the charging hub with defined charging needs.</Prerequisite>
+        <Prerequisite>The CPO is able to monitor and control the charging infrastructure.</Prerequisite>
+      </Prerequisites>
+    </UseCaseConditions>
+    <ClassificationInformation>
+      <RelationToOtherUseCases/>
+      <LevelOfDepth/>
+      <Prioritisation/>
+      <GenericRegionalNationalRelation>
+        <Paragraph>While the use case is demonstrated in a specific Danish pilot, its underlying logic is highly generic and replicable. Elements specific to this pilot include the particular site configuration, the fleet composition including the VIPV vehicle, and the Danish market and regulatory context.</Paragraph>
+        <Paragraph>The core concept, the coordinated operation of EV charging, PV, BESS, and building loads through a centralised EMS to overcome a limited grid connection, is broadly transferable. It can be replicated at logistics depots, highway charging hubs, commercial fleet charging sites, and distribution centres in other countries and regions facing similar grid bottlenecks, provided the enabling conditions are present: on-site PV and/or BESS, controllable charging infrastructure, predictable fleet schedules, EMS/CSMS integration, and market access for flexibility services. The market and regulatory specifics (grid tariffs, flexibility market rules, DSO/TSO roles) would need to be adapted to the local context in each replication case.</Paragraph>
+      </GenericRegionalNationalRelation>
+      <NatureOfUseCase/>
+      <FurtherKeywords/>
+    </ClassificationInformation>
+    <GeneralRemarks/>
+    <Diagrams>
+      <Diagram number="Figure 1" type="Use case diagram">
+        <Caption>BUC-DK-01 — Coordinated ePIPV Charging Hub Operation (use case diagram)</Caption>
+        <ImageReference>images/fig1-buc-dk-01-use-case-diagram.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 2" type="Sequence diagram">
+        <Caption>SUC-DK-01.1 — Coordinated EV Charging (sequence diagram)</Caption>
+        <ImageReference>images/fig2-suc-dk-01.1-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 3" type="Sequence diagram">
+        <Caption>SUC-DK-01.2 — BESS and PV Optimisation (sequence diagram)</Caption>
+        <ImageReference>images/fig3-suc-dk-01.2-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 4" type="Sequence diagram">
+        <Caption>SUC-DK-01.3 — Real-Time Power Allocation (sequence diagram)</Caption>
+        <ImageReference>images/fig4-suc-dk-01.3-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 5" type="Sequence diagram">
+        <Caption>SUC-DK-01.4 — Brownout and Emergency Power (sequence diagram)</Caption>
+        <ImageReference>images/fig5-suc-dk-01.4-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 6" type="Sequence diagram">
+        <Caption>SUC-DK-01.5 — Provision of Flexibility Services (sequence diagram)</Caption>
+        <ImageReference>images/fig6-suc-dk-01.5-sequence.png</ImageReference>
+      </Diagram>
+    </Diagrams>
+    <References>
+      <Reference number="1">
+        <Type/>
+        <Description>EV Charging Glossary</Description>
+        <Status/>
+        <ImpactOnUseCase/>
+        <Originator>saascharge</Originator>
+        <Link>https://saascharge.com/glossary/</Link>
+      </Reference>
+      <Reference number="2">
+        <Type/>
+        <Description>European Union, Directive 2009/72/EC of the European Parliament of the Council of 13 July 2009 concerning common rules for the internal market in electricity and repealing Directive 2003/54/EC , 2009</Description>
+        <Status/>
+        <ImpactOnUseCase/>
+        <Originator>EUR-Lex</Originator>
+        <Link>https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=CELEX:32009L0072&amp;from=EN</Link>
+      </Reference>
+      <Reference number="3">
+        <Type/>
+        <Description>THE HARMONISED ELECTRICITY MARKET ROLE MODEL</Description>
+        <Status/>
+        <ImpactOnUseCase/>
+        <Originator>ENTSO-E</Originator>
+        <Link>https://www.entsoe.eu/data/cim/role-models/</Link>
+      </Reference>
+      <Reference number="4">
+        <Type/>
+        <Description>IEC 62619:2022 Secondary cells and batteries containing alkaline or other non-acid electrolytes - Safety requirements for secondary lithium cells and batteries, for use in industrial applications</Description>
+        <Status/>
+        <ImpactOnUseCase/>
+        <Originator>IEC</Originator>
+        <Link>https://webstore.iec.ch/en/publication/64073</Link>
+      </Reference>
+      <Reference number="5">
+        <Type/>
+        <Description>IEC 63584:2024 Open Charge Point Protocol (OCPP)</Description>
+        <Status/>
+        <ImpactOnUseCase/>
+        <Originator>IEC</Originator>
+        <Link>https://webstore.iec.ch/en/publication/95734</Link>
+      </Reference>
+      <Reference number="6">
+        <Type/>
+        <Description>IEC 61727:2004 Photovoltaic (PV) systems - Characteristics of the utility interface</Description>
+        <Status/>
+        <ImpactOnUseCase/>
+        <Originator>IEC</Originator>
+        <Link>https://webstore.iec.ch/en/publication/5736</Link>
+      </Reference>
+      <Reference number="7">
+        <Type/>
+        <Description>Smart grids and meters</Description>
+        <Status/>
+        <ImpactOnUseCase/>
+        <Originator>European Commission</Originator>
+        <Link>https://energy.ec.europa.eu/topics/markets-and-consumers/smart-grids-and-meters_en</Link>
+      </Reference>
+    </References>
+    <StepByStepAnalysis>
+      <ScenariosOverview>
+        <ScenarioOverview number="1.">
+          <ScenarioName>SUC-DK-01.1: Coordinated EV Charging</ScenarioName>
+          <ScenarioDescription>The EMS computes an optimised charging schedule based on vehicle departure times, state of charge, grid connection limits, and available PV generation.</ScenarioDescription>
+          <PrimaryActor>EVSE</PrimaryActor>
+          <TriggeringEvent>An EV (heavy- or light-duty) connects to an EVSE, and a charging session request is received by the CSMS.</TriggeringEvent>
+          <PreCondition>At least one EVSE is energized and connected to the CSMS. The EMS is operational and has access to the current grid capacity limits, PV generation data, and vehicle departure schedules.</PreCondition>
+          <PostCondition>An optimised charging schedule has been computed and dispatched to all active EVSEs via the CSMS. HDV charging priorities are reflected in the active set-points.</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="2.">
+          <ScenarioName>SUC-DK-01.2: BESS and PV Optimisation</ScenarioName>
+          <ScenarioDescription>The EMS determines optimal charge and discharge profiles for the BESS and communicates the corresponding set-points to the BMS, which executes them locally.</ScenarioDescription>
+          <PrimaryActor>EMS</PrimaryActor>
+          <TriggeringEvent>A new PV generation forecast is received, or a real-time deviation in PV output or site demand is detected by the EMS.</TriggeringEvent>
+          <PreCondition>The BMS and PV inverter are operational and communicating with the EMS. A valid sire load forecast is available and the BESS is withing normal operating parameters.</PreCondition>
+          <PostCondition>Updated BESS charge/discharge set-points have been issued by the BMS. PV self-consumption is maximised and site demand remains withing grid connection constraints.</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="3.">
+          <ScenarioName>SUC-DK-01.3: Real-Time Power Allocation</ScenarioName>
+          <ScenarioDescription>The EMS applies a dynamic power allocation algorithm to redistribute available capacity across active EVSEs and controllable building loads in real time.</ScenarioDescription>
+          <PrimaryActor>EMS</PrimaryActor>
+          <TriggeringEvent>Aggregate site demand approaches or exceeds the grid connection limit, as detected by the EMS via smart meter readings or EVSE measurement reported through the CSMS.</TriggeringEvent>
+          <PreCondition>SUC-DK.01.2 and (if necessary) SUC-DK.01.1 are active and a valid charging schedule and BESS set-points are in place. Smart meters and CSMS are delivering real-time measurement to the EMS. The EMS power allocation algorithm is configured.</PreCondition>
+          <PostCondition>Available power has been distributed across the controllable building loads and if active, across EVSEs. Site operation is within the grid connection limit and no manual intervention has been required.</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="4.">
+          <ScenarioName>SUC-DK-01.4: Brownout and Emergency Power</ScenarioName>
+          <ScenarioDescription>The EMS allocates power to site loads during times of constrained power availability.</ScenarioDescription>
+          <PrimaryActor>DSO/TSO or Smart Meter</PrimaryActor>
+          <TriggeringEvent>Either (a) the DSO or TSO issues and advance notification of a scheduled brownout, or (b) the EMS detects an unscheduled loss or reduction of grid supply via smart meter alarms.</TriggeringEvent>
+          <PreCondition>SUC-DK.01.1, SUC-DK.01.2, and SUC-DK.01.3 are active. A predefined load priority hierarchy is configured in the EMS. The BESS is within normal operating parameters.</PreCondition>
+          <PostCondition>The site is operating under constrained power mode with priority loads sustained. A controlled restoration sequence has been initiated once normal grid supply is confirmed and non-priority loads are being gradually energized.</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="5.">
+          <ScenarioName>SUC-DK-01.5: Provision of Flexibility Services</ScenarioName>
+          <ScenarioDescription>The FSP periodically calculates the site’s available upward and downward flexibility and when a flexibility activation signal is received, it adjusts site operation accordingly.</ScenarioDescription>
+          <PrimaryActor>FSP</PrimaryActor>
+          <TriggeringEvent>The FSP submits a bid into a flexibility or frequency market and an activation signal is subsequently received from the DSO or TSO.</TriggeringEvent>
+          <PreCondition>SUC-DK.01.1 and SUC-DK.01.2 are active. The BMS is reporting the current SoC to the EMS. A communication channel to the DSO or TSO is established and the site flexibility parameters are configured in the EMS.</PreCondition>
+          <PostCondition>Available flexibility has been calculated and communicated to the system operator. If an activation signal was received, the EMS has adjusted EV charging schedules and BESS set-points accordingly. Smart meters have recorded the resulting energy flows for settlement and verification.</PostCondition>
+        </ScenarioOverview>
+      </ScenariosOverview>
+      <Scenarios>
+        <Scenario name="4.2.1 Coordinated EV Charging (SUC-DK-01.1)">
+          <Step number="St.1">
+            <Event>EV connects to EVSE</Event>
+            <NameOfProcessActivity>Detect EV connection</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EVSE detects plug-in event and notifies CSMS of new session request.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EVSE</InformationProducer>
+            <InformationReceiver>CSMS</InformationReceiver>
+            <InformationExchanged>Inf.1: EV Connection Event; Inf.2: Authorisation Request / Response</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-CYB-01</RID>
+              <RID>R-CYB-03</RID>
+              <RID>R-CYB-06</RID>
+              <RID>R-CYB-09</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-02</RID>
+              <RID>R-INT-02</RID>
+              <RID>R-INT-03</RID>
+              <RID>R-SC-01</RID>
+              <RID>R-SC-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.2">
+            <Event>Session request received</Event>
+            <NameOfProcessActivity>Authorise charging session</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>CSMS authenticates EV user via EMSP platform and authorises the session</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>CSMS</InformationProducer>
+            <InformationReceiver>EMSP platform</InformationReceiver>
+            <InformationExchanged>Inf.2: Authorisation Request / Response</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-CYB-01</RID>
+              <RID>R-CYB-03</RID>
+              <RID>R-CYB-06</RID>
+              <RID>R-CYB-09</RID>
+              <RID>R-SC-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.3">
+            <Event>Session authorised</Event>
+            <NameOfProcessActivity>Communicate session data to EMS</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>CSMS forwards session parameters to EMS.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>CSMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.3: Session Parameters</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-02</RID>
+              <RID>R-AIC-06</RID>
+              <RID>R-CYB-06</RID>
+              <RID>R-FOR-03</RID>
+              <RID>R-SC-02</RID>
+              <RID>R-UI-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.4">
+            <Event>Session data received</Event>
+            <NameOfProcessActivity>Compute charging schedule</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS computes optimised charging schedule based on departure times, SoC, grid limits, and PV forecast, assigning priority to HDVs</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.4: Charging Schedule</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-03</RID>
+              <RID>R-FOR-03</RID>
+              <RID>R-FOR-05</RID>
+              <RID>R-GFR-03</RID>
+              <RID>R-SAF-08</RID>
+              <RID>R-SC-04</RID>
+              <RID>R-SC-05</RID>
+              <RID>R-UI-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.5">
+            <Event>Schedule computed</Event>
+            <NameOfProcessActivity>Dispatch charging set-points</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS sends power set-points and charging schedule to each active EVSE via CSMS</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>CSMS</InformationReceiver>
+            <InformationExchanged>Inf.5: Charging Set-Points</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-CYB-04</RID>
+              <RID>R-EMS-03</RID>
+              <RID>R-EMS-04</RID>
+              <RID>R-INT-02</RID>
+              <RID>R-RTC-03</RID>
+              <RID>R-SAF-01</RID>
+              <RID>R-SC-03</RID>
+              <RID>R-SC-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.6">
+            <Event>Charging in progress</Event>
+            <NameOfProcessActivity>Monitor execution</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>CSMS collects real-time metering data from EVSEs and reports deviations from scheduled set-points back to EMS</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>CSMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.7: Execution Status Report</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-03</RID>
+              <RID>R-EMS-05</RID>
+              <RID>R-MVR-02</RID>
+              <RID>R-RTC-04</RID>
+              <RID>R-RTC-06</RID>
+              <RID>R-SAF-02</RID>
+              <RID>R-UI-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.7">
+            <Event>Deviation detected</Event>
+            <NameOfProcessActivity>Re-schedule charging</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS recomputes and reissues updated set-points in response to deviations</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>CSMS</InformationReceiver>
+            <InformationExchanged>Inf.5: Charging Set-Points</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-CYB-04</RID>
+              <RID>R-EMS-03</RID>
+              <RID>R-EMS-04</RID>
+              <RID>R-INT-02</RID>
+              <RID>R-RTC-03</RID>
+              <RID>R-SAF-01</RID>
+              <RID>R-SC-03</RID>
+              <RID>R-SC-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.8">
+            <Event>EV disconnects</Event>
+            <NameOfProcessActivity>Close charging session</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EVSE reports session end to CSMS.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EVSE</InformationProducer>
+            <InformationReceiver>CSMS</InformationReceiver>
+            <InformationExchanged>x</InformationExchanged>
+            <RequirementReferences>
+              <RID>-</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.9">
+            <Event>Session end received</Event>
+            <NameOfProcessActivity>Notify EMS of session closure</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>CSMS notifies EMS that the session has ended and provides final energy consumption data</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>CSMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.8: Session Termination Event</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-05</RID>
+              <RID>R-MVR-03</RID>
+              <RID>R-SC-01</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.2 BESS and PV Optimisation (SUC-DK-01.2)">
+          <Step number="St.1">
+            <Event>PV deviation detected</Event>
+            <NameOfProcessActivity>Request site measurements</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS collects real-time PV generation output from the PV inverter.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>PV Inverter</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.9: PV Generation Data</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-03</RID>
+              <RID>R-DAT-04</RID>
+              <RID>R-FOR-01</RID>
+              <RID>R-FOR-05</RID>
+              <RID>R-INT-04</RID>
+              <RID>R-MVR-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.2">
+            <Event>Scheduled demand deviation detected</Event>
+            <NameOfProcessActivity>Request site measurements</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS collects real-time interval metering data from smart meters.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>Smart Meter</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.6: Metering Data</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-02</RID>
+              <RID>R-DAT-03</RID>
+              <RID>R-DAT-06</RID>
+              <RID>R-GFR-01</RID>
+              <RID>R-GFR-08</RID>
+              <RID>R-MVR-01</RID>
+              <RID>R-MVR-02</RID>
+              <RID>R-MVR-04</RID>
+              <RID>R-RTC-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.3">
+            <Event>Measurements received</Event>
+            <NameOfProcessActivity>Request BESS status</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>BMS reports current state of charge, available power, operational mode, and fault status to EMS.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>BMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.10: BESS Status Report</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-03</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-INT-04</RID>
+              <RID>R-INT-05</RID>
+              <RID>R-SAF-02</RID>
+              <RID>R-SAF-03</RID>
+              <RID>R-SAF-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.4">
+            <Event>BESS status received</Event>
+            <NameOfProcessActivity>Compute optimal profiles</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS computes optimal BESS charge and discharge profile based on PV forecast, site load forecast, grid capacity limits, and current SoC.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.9: PV Generation Data; Inf.11: BESS Set-Points</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-CYB-04</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-03</RID>
+              <RID>R-DAT-04</RID>
+              <RID>R-EMS-03</RID>
+              <RID>R-FOR-01</RID>
+              <RID>R-FOR-05</RID>
+              <RID>R-GFR-03</RID>
+              <RID>R-INT-04</RID>
+              <RID>R-INT-05</RID>
+              <RID>R-MVR-02</RID>
+              <RID>R-RTC-03</RID>
+              <RID>R-SAF-01</RID>
+              <RID>R-SAF-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.5">
+            <Event>Profile computed</Event>
+            <NameOfProcessActivity>Dispatch BESS set-points to BMS</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS sends charge or discharge power set-points to BMS.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>BMS</InformationReceiver>
+            <InformationExchanged>Inf.11: BESS Set-Points</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-CYB-04</RID>
+              <RID>R-EMS-03</RID>
+              <RID>R-GFR-03</RID>
+              <RID>R-INT-05</RID>
+              <RID>R-RTC-03</RID>
+              <RID>R-SAF-01</RID>
+              <RID>R-SAF-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.6">
+            <Event>Set-points received</Event>
+            <NameOfProcessActivity>Execute BESS set-points</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>BMS executes the received set-points and confirms operational status to EMS.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>BMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.10: BESS Status Report</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-03</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-INT-04</RID>
+              <RID>R-INT-05</RID>
+              <RID>R-SAF-02</RID>
+              <RID>R-SAF-03</RID>
+              <RID>R-SAF-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.7">
+            <Event>Profile computed</Event>
+            <NameOfProcessActivity>Dispatch PV set-points to PV inverter</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS sends power set-points to PV inverter in case of curtailment need.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>PV inverter</InformationReceiver>
+            <InformationExchanged>Inf.9: PV Generation Data</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-03</RID>
+              <RID>R-DAT-04</RID>
+              <RID>R-FOR-01</RID>
+              <RID>R-FOR-05</RID>
+              <RID>R-INT-04</RID>
+              <RID>R-MVR-02</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.3 Real-Time Power Allocation (SUC-DK-01.3)">
+          <Step number="St.1">
+            <Event>Continuous monitoring cycle</Event>
+            <NameOfProcessActivity>Invoke SUC-DK-01.2 steps 1-3</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS collects PV generation data, site metering data, and BESS status as part of the ongoing optimisation cycle — refer to SUC-DK-01.2 steps 1-3 for the full data collection flow.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.6: Metering Data; Inf.9: PV Generation Data; Inf.10: BESS Status Report</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-03</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-02</RID>
+              <RID>R-DAT-03</RID>
+              <RID>R-DAT-04</RID>
+              <RID>R-DAT-06</RID>
+              <RID>R-FOR-01</RID>
+              <RID>R-FOR-05</RID>
+              <RID>R-GFR-01</RID>
+              <RID>R-GFR-08</RID>
+              <RID>R-INT-04</RID>
+              <RID>R-INT-05</RID>
+              <RID>R-MVR-01</RID>
+              <RID>R-MVR-02</RID>
+              <RID>R-MVR-04</RID>
+              <RID>R-RTC-02</RID>
+              <RID>R-SAF-02</RID>
+              <RID>R-SAF-03</RID>
+              <RID>R-SAF-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.2">
+            <Event>Aggregate site demand approaches grid connection limit</Event>
+            <NameOfProcessActivity>Compute power allocation</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS detects that aggregate site demand is approaching the grid connection limit and applies the dynamic power allocation algorithm to redistribute available capacity across active EVSEs, controllable building loads, and the BESS. In cases of excess PV generation leading to grid over-injection, the EMS may also issue a curtailment command to the PV inverter.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.5: Charging Set-Points; Inf.11: BESS Set-Points; Inf.12: Building Load Set-Points</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-02</RID>
+              <RID>R-CYB-04</RID>
+              <RID>R-EMS-02</RID>
+              <RID>R-EMS-03</RID>
+              <RID>R-EMS-04</RID>
+              <RID>R-GFR-03</RID>
+              <RID>R-GFR-05</RID>
+              <RID>R-GFR-06</RID>
+              <RID>R-INT-02</RID>
+              <RID>R-INT-04</RID>
+              <RID>R-INT-05</RID>
+              <RID>R-RTC-03</RID>
+              <RID>R-SAF-01</RID>
+              <RID>R-SAF-07</RID>
+              <RID>R-SC-03</RID>
+              <RID>R-SC-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.3">
+            <Event>Allocation computed</Event>
+            <NameOfProcessActivity>Invoke BESS set-point update</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>As part of the allocation, EMS triggers an update of BESS charge/discharge set-points to account for the revised site power balance — refer to SUC-DK-01.2 steps 4-6 for the full BESS dispatch flow.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>BMS</InformationReceiver>
+            <InformationExchanged>Inf.11: BESS Set-Points</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-CYB-04</RID>
+              <RID>R-EMS-03</RID>
+              <RID>R-GFR-03</RID>
+              <RID>R-INT-05</RID>
+              <RID>R-RTC-03</RID>
+              <RID>R-SAF-01</RID>
+              <RID>R-SAF-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.4">
+            <Event>Allocation computed</Event>
+            <NameOfProcessActivity>Dispatch building load set-points</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS sends updated set-points directly to controllable building loads, such as HVAC and warehouse cooling systems, adjusting their consumption in line with the computed allocation.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.12: Building Load Set-Points</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-02</RID>
+              <RID>R-CYB-04</RID>
+              <RID>R-EMS-02</RID>
+              <RID>R-GFR-05</RID>
+              <RID>R-GFR-06</RID>
+              <RID>R-INT-04</RID>
+              <RID>R-RTC-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.5">
+            <Event>Allocation computed</Event>
+            <NameOfProcessActivity>Dispatch updated charging set-points</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS sends revised power limits for active EVSEs to CSMS — refer to SUC-DK-01.1 steps 6-9 for the full dispatch flow.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>CSMS</InformationReceiver>
+            <InformationExchanged>Inf.5: Charging Set-Points</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-CYB-04</RID>
+              <RID>R-EMS-03</RID>
+              <RID>R-EMS-04</RID>
+              <RID>R-INT-02</RID>
+              <RID>R-RTC-03</RID>
+              <RID>R-SAF-01</RID>
+              <RID>R-SC-03</RID>
+              <RID>R-SC-05</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.4 Brownout and Emergency Power (SUC-DK-01.4)">
+          <Step number="St.1">
+            <Event>[Branch A: Scheduled brownout] DSO or TSO issues advance brownout notification.</Event>
+            <NameOfProcessActivity>Receive constrained supply signal</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Branch A: DSO or TSO sends an advance notification of a scheduled brownout to the EMS, providing expected start time and duration.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>DSO/TSO</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.13: Brownout Notification</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-02</RID>
+              <RID>R-COM-02</RID>
+              <RID>R-GFR-05</RID>
+              <RID>R-GFR-06</RID>
+              <RID>R-INT-05</RID>
+              <RID>R-UI-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.2">
+            <Event>[Branch A only] Brownout notification received</Event>
+            <NameOfProcessActivity>Pre-charge BESS</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS instructs BMS to bring the BESS to its target state of charge before the brownout takes effect, maximising available stored energy for the constrained period.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>BMS</InformationReceiver>
+            <InformationExchanged>Inf.11: BESS Set-Points</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-CYB-04</RID>
+              <RID>R-EMS-03</RID>
+              <RID>R-GFR-03</RID>
+              <RID>R-INT-05</RID>
+              <RID>R-RTC-03</RID>
+              <RID>R-SAF-01</RID>
+              <RID>R-SAF-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.3">
+            <Event>[Branch A only] BESS pre-charging initiated</Event>
+            <NameOfProcessActivity>Reschedule non-essential EV charging</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS recomputes the charging schedule, deferring non-essential light-duty vehicle sessions to after the brownout window and retaining only HDV charging where energy reserves allow.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>CSMS</InformationReceiver>
+            <InformationExchanged>Inf.5: Charging Set-Points</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-CYB-04</RID>
+              <RID>R-EMS-03</RID>
+              <RID>R-EMS-04</RID>
+              <RID>R-INT-02</RID>
+              <RID>R-RTC-03</RID>
+              <RID>R-SAF-01</RID>
+              <RID>R-SC-03</RID>
+              <RID>R-SC-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.4">
+            <Event>[Branch A only] Rescheduling complete</Event>
+            <NameOfProcessActivity>Transition site to low-consumption mode</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS dispatches reduced set-points to controllable building loads, shifting the site to a planned low-consumption mode before the supply reduction takes effect.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.12: Building Load Set-Points</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-02</RID>
+              <RID>R-CYB-04</RID>
+              <RID>R-EMS-02</RID>
+              <RID>R-GFR-05</RID>
+              <RID>R-GFR-06</RID>
+              <RID>R-INT-04</RID>
+              <RID>R-RTC-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.5">
+            <Event>[Both Branches)] Constrained supply is active</Event>
+            <NameOfProcessActivity>Invoke SUC-DK-01.3</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS activates the predefined priority hierarchy — warehouse cooling first, then HDV charging — and triggers real-time power reallocation across all controllable assets — refer to SUC-DK-01.3 for the full power allocation flow.</DescriptionOfProcessActivity>
+            <Service>-</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>x</InformationExchanged>
+            <RequirementReferences>
+              <RID>-</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.6">
+            <Event>Priority loads sustained</Event>
+            <NameOfProcessActivity>Monitor supply and priority load status</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Smart meter continuously reports grid supply measurements to EMS.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>Smart Meter</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.6: Metering Data</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-02</RID>
+              <RID>R-DAT-03</RID>
+              <RID>R-DAT-06</RID>
+              <RID>R-GFR-01</RID>
+              <RID>R-GFR-08</RID>
+              <RID>R-MVR-01</RID>
+              <RID>R-MVR-02</RID>
+              <RID>R-MVR-04</RID>
+              <RID>R-RTC-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.7">
+            <Event>Priority loads sustained</Event>
+            <NameOfProcessActivity>Monitor supply and priority load status</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>BMS reports BESS state of charge and discharge status.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>BMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.10: BESS Status Report</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-03</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-INT-04</RID>
+              <RID>R-INT-05</RID>
+              <RID>R-SAF-02</RID>
+              <RID>R-SAF-03</RID>
+              <RID>R-SAF-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.8">
+            <Event>Normal grid supply restored</Event>
+            <NameOfProcessActivity>Detect supply restoration</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Smart meter reports return to normal supply voltage and frequency at the grid connection point.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>Smart Meter</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.6: Metering Data</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-02</RID>
+              <RID>R-DAT-03</RID>
+              <RID>R-DAT-06</RID>
+              <RID>R-GFR-01</RID>
+              <RID>R-GFR-08</RID>
+              <RID>R-MVR-01</RID>
+              <RID>R-MVR-02</RID>
+              <RID>R-MVR-04</RID>
+              <RID>R-RTC-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.9">
+            <Event>Restoration confirmed</Event>
+            <NameOfProcessActivity>Invoke SUC-DK-01.3</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS initiates a controlled restoration sequence, progressively returning non-priority building loads and light-duty EV charging to operation, and signalling BMS to resume standard BESS operation.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>x</InformationExchanged>
+            <RequirementReferences>
+              <RID>-</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.5 Provision of Flexibility Services (SUC-DK-01.5)">
+          <Step number="St.1">
+            <Event>FSP decides to participate in flexibility market</Event>
+            <NameOfProcessActivity>Submit flexibility bid to market</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>FSP submits a commercial flexibility bid to the MO specifying the offered volume, direction, product type (primarily FCR or aFRR), delivery window, and price.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>FSP</InformationProducer>
+            <InformationReceiver>Market Platform</InformationReceiver>
+            <InformationExchanged>Inf.14: Flexibility Bid</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-07</RID>
+              <RID>R-COM-07</RID>
+              <RID>R-EMS-06</RID>
+              <RID>R-FOR-04</RID>
+              <RID>R-GFR-02</RID>
+              <RID>R-GFR-03</RID>
+              <RID>R-INT-07</RID>
+              <RID>R-MKT-03</RID>
+              <RID>R-MKT-04</RID>
+              <RID>R-MKT-05</RID>
+              <RID>R-MKT-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.2">
+            <Event>Bid accepted — activation signal received</Event>
+            <NameOfProcessActivity>Receive flexibility activation signal</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>MO sends a flexibility activation signal to the EMS specifying the requested power adjustment in kW, direction, activation start time, duration, and a unique activation reference ID for settlement.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>Market Platform</InformationProducer>
+            <InformationReceiver>FSP</InformationReceiver>
+            <InformationExchanged>Inf.14: Flexibility Bid</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-07</RID>
+              <RID>R-COM-07</RID>
+              <RID>R-EMS-06</RID>
+              <RID>R-FOR-04</RID>
+              <RID>R-GFR-02</RID>
+              <RID>R-GFR-03</RID>
+              <RID>R-INT-07</RID>
+              <RID>R-MKT-03</RID>
+              <RID>R-MKT-04</RID>
+              <RID>R-MKT-05</RID>
+              <RID>R-MKT-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.3">
+            <Event>Activation signal received</Event>
+            <NameOfProcessActivity>Forward activation signal to EMS</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>FSP forwards the activation instruction to the EMS, triggering the site-level response.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>FSP</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.14: Flexibility Bid</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-07</RID>
+              <RID>R-COM-07</RID>
+              <RID>R-EMS-06</RID>
+              <RID>R-FOR-04</RID>
+              <RID>R-GFR-02</RID>
+              <RID>R-GFR-03</RID>
+              <RID>R-INT-07</RID>
+              <RID>R-MKT-03</RID>
+              <RID>R-MKT-04</RID>
+              <RID>R-MKT-05</RID>
+              <RID>R-MKT-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.4">
+            <Event>Activation signal received by EMS</Event>
+            <NameOfProcessActivity>Invoke SUC-DK-01.3</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS triggers real-time power reallocation in response to the flexibility activation — refer to SUC-DK-01.3 for the full power allocation flow across EVSEs, BESS, and building loads.</DescriptionOfProcessActivity>
+            <Service>-</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>x</InformationExchanged>
+            <RequirementReferences>
+              <RID>-</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.5">
+            <Event>Activation executed</Event>
+            <NameOfProcessActivity>Request activation confirmation</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Smart meters record and report resulting energy flows at the grid connection point to the EMS for internal monitoring and verification of the delivered flexibility.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>Smart Meter</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.6: Metering Data</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-02</RID>
+              <RID>R-DAT-03</RID>
+              <RID>R-DAT-06</RID>
+              <RID>R-GFR-01</RID>
+              <RID>R-GFR-08</RID>
+              <RID>R-MVR-01</RID>
+              <RID>R-MVR-02</RID>
+              <RID>R-MVR-04</RID>
+              <RID>R-RTC-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.6">
+            <Event>Energy flows verified</Event>
+            <NameOfProcessActivity>Request activation confirmation</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS forwards the verified energy flow data to the FSP.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>FSP</InformationReceiver>
+            <InformationExchanged>Inf.6: Metering Data; Inf.14: Flexibility Bid</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-07</RID>
+              <RID>R-COM-07</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-02</RID>
+              <RID>R-DAT-03</RID>
+              <RID>R-DAT-06</RID>
+              <RID>R-EMS-06</RID>
+              <RID>R-FOR-04</RID>
+              <RID>R-GFR-01</RID>
+              <RID>R-GFR-02</RID>
+              <RID>R-GFR-03</RID>
+              <RID>R-GFR-08</RID>
+              <RID>R-INT-07</RID>
+              <RID>R-MKT-03</RID>
+              <RID>R-MKT-04</RID>
+              <RID>R-MKT-05</RID>
+              <RID>R-MKT-08</RID>
+              <RID>R-MVR-01</RID>
+              <RID>R-MVR-02</RID>
+              <RID>R-MVR-04</RID>
+              <RID>R-RTC-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.7">
+            <Event>Settlement data received</Event>
+            <NameOfProcessActivity>Forward settlement data to MO</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>FSP forwards the settlement data to the MO for confirmation of the delivered flexibility service.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>FSP</InformationProducer>
+            <InformationReceiver>Market Platform</InformationReceiver>
+            <InformationExchanged>Inf.6: Metering Data; Inf.14: Flexibility Bid</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-07</RID>
+              <RID>R-COM-07</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-02</RID>
+              <RID>R-DAT-03</RID>
+              <RID>R-DAT-06</RID>
+              <RID>R-EMS-06</RID>
+              <RID>R-FOR-04</RID>
+              <RID>R-GFR-01</RID>
+              <RID>R-GFR-02</RID>
+              <RID>R-GFR-03</RID>
+              <RID>R-GFR-08</RID>
+              <RID>R-INT-07</RID>
+              <RID>R-MKT-03</RID>
+              <RID>R-MKT-04</RID>
+              <RID>R-MKT-05</RID>
+              <RID>R-MKT-08</RID>
+              <RID>R-MVR-01</RID>
+              <RID>R-MVR-02</RID>
+              <RID>R-MVR-04</RID>
+              <RID>R-RTC-02</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+      </Scenarios>
+    </StepByStepAnalysis>
+    <InformationExchanged>
+      <Information uuid="1a49f6ae-e0c7-57fe-bee4-2886e890cca6" id="Inf.1">
+        <Name>EV Connection Event</Name>
+        <Description>Notification generated when an EV plugs into an EVSE, containing identification data and initial state of charge, used to trigger the charging session workflow</Description>
+        <RequirementReferences>
+          <RID>R-SC-01</RID>
+          <RID>R-SC-02</RID>
+          <RID>R-INT-02</RID>
+          <RID>R-INT-03</RID>
+          <RID>R-DAT-01</RID>
+          <RID>R-DAT-02</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="a762f62e-d53a-53a7-ad3d-685d357b278c" id="Inf.2">
+        <Name>Authorisation Request/Response</Name>
+        <Description>Exchange between CSMS and EMSP to verify the identity of the EV user or vehicle and confirm or deny access to charging services</Description>
+        <RequirementReferences>
+          <RID>R-SC-01</RID>
+          <RID>R-CYB-01</RID>
+          <RID>R-CYB-03</RID>
+          <RID>R-CYB-06</RID>
+          <RID>R-CYB-09</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="32920817-8e1c-5622-a50e-b34b0dce7075" id="Inf.3">
+        <Name>Session Parameters</Name>
+        <Description>Data package communicated from CSMS to EMS at session start, including vehicle identity, EVSE ID, initial SoC, requested energy, and expected departure time</Description>
+        <RequirementReferences>
+          <RID>R-SC-02</RID>
+          <RID>R-AIC-02</RID>
+          <RID>R-AIC-06</RID>
+          <RID>R-FOR-03</RID>
+          <RID>R-UI-02</RID>
+          <RID>R-CYB-06</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="7abd508e-c489-5a12-8cf4-7201b66ae9c9" id="Inf.4">
+        <Name>Charging Schedule</Name>
+        <Description>Time-phased plan produced by the EMS specifying, for each active EVSE, the assigned power level per time slot, target SoC, departure deadline, and priority ranking, used to coordinate charging across the site within grid and operational constraints</Description>
+        <RequirementReferences>
+          <RID>R-EMS-03</RID>
+          <RID>R-SC-04</RID>
+          <RID>R-SC-05</RID>
+          <RID>R-FOR-03</RID>
+          <RID>R-FOR-05</RID>
+          <RID>R-GFR-03</RID>
+          <RID>R-SAF-08</RID>
+          <RID>R-UI-06</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="baa4fa03-ed42-506a-b0ac-ad15b386144c" id="Inf.5">
+        <Name>Charging Set-Points</Name>
+        <Description>Power limit instructions dispatched to EVSEs, either as initial values from a computed schedule or as updated values following re-optimisation or real-time reallocation</Description>
+        <RequirementReferences>
+          <RID>R-EMS-03</RID>
+          <RID>R-EMS-04</RID>
+          <RID>R-SC-03</RID>
+          <RID>R-SC-05</RID>
+          <RID>R-RTC-03</RID>
+          <RID>R-INT-02</RID>
+          <RID>R-SAF-01</RID>
+          <RID>R-CYB-04</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="2549c171-7a58-5434-a543-ac13c518b22f" id="Inf.6">
+        <Name>Metering Data</Name>
+        <Description>Measurements collected every 1 min from smart meters, including active power draw, cumulative energy delivered, current, voltage, and net import/export at the grid connection point, timestamped and used by the EMS for real-time monitoring, optimisation, and grid compliance verification</Description>
+        <RequirementReferences>
+          <RID>R-DAT-01</RID>
+          <RID>R-DAT-02</RID>
+          <RID>R-DAT-03</RID>
+          <RID>R-DAT-06</RID>
+          <RID>R-RTC-02</RID>
+          <RID>R-GFR-01</RID>
+          <RID>R-GFR-08</RID>
+          <RID>R-MVR-01</RID>
+          <RID>R-MVR-02</RID>
+          <RID>R-MVR-04</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="9cf6dfc1-6aba-5d71-968c-cd2d4e18f98b" id="Inf.7">
+        <Name>Execution Status Report</Name>
+        <Description>Feedback from CSMS to EMS summarising actual charging performance against scheduled set-points, including any deviations or faults detected during execution</Description>
+        <RequirementReferences>
+          <RID>R-EMS-05</RID>
+          <RID>R-RTC-04</RID>
+          <RID>R-RTC-06</RID>
+          <RID>R-COM-03</RID>
+          <RID>R-MVR-02</RID>
+          <RID>R-SAF-02</RID>
+          <RID>R-UI-05</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="43dbbabc-f6f6-5666-8296-94716bba18b1" id="Inf.8">
+        <Name>Session Termination Event</Name>
+        <Description>Notification generated when an EV disconnects, containing final SoC and total energy delivered, used to update the active schedule and close the session record</Description>
+        <RequirementReferences>
+          <RID>R-SC-01</RID>
+          <RID>R-MVR-03</RID>
+          <RID>R-DAT-05</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="fd19a6d7-e1d4-5224-b9fa-769e786697fe" id="Inf.9">
+        <Name>PV Generation Data</Name>
+        <Description>Real-time output measurements and forecasts provided by the PV inverter to the EMS, used for optimisation and schedule computation</Description>
+        <RequirementReferences>
+          <RID>R-DAT-01</RID>
+          <RID>R-DAT-03</RID>
+          <RID>R-DAT-04</RID>
+          <RID>R-FOR-01</RID>
+          <RID>R-FOR-05</RID>
+          <RID>R-INT-04</RID>
+          <RID>R-MVR-02</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="568971c6-dee3-554a-ba1c-d5c4b15a5753" id="Inf.10">
+        <Name>BESS Status Report</Name>
+        <Description>Real-time data reported by the BMS to the EMS, including state of charge, available power, operational mode, and fault status</Description>
+        <RequirementReferences>
+          <RID>R-AIC-03</RID>
+          <RID>R-DAT-01</RID>
+          <RID>R-INT-04</RID>
+          <RID>R-INT-05</RID>
+          <RID>R-SAF-02</RID>
+          <RID>R-SAF-03</RID>
+          <RID>R-SAF-07</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="43bddbe4-ad59-5d67-bd58-166875ddee2f" id="Inf.11">
+        <Name>BESS Set-Points</Name>
+        <Description>Charge or discharge power instructions issued by the EMS to the BMS, defining the operational mode and power level of the battery system.</Description>
+        <RequirementReferences>
+          <RID>R-EMS-03</RID>
+          <RID>R-INT-05</RID>
+          <RID>R-RTC-03</RID>
+          <RID>R-GFR-03</RID>
+          <RID>R-SAF-01</RID>
+          <RID>R-SAF-07</RID>
+          <RID>R-CYB-04</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="2d874471-ce99-56ef-a62d-fccc0e4bfe2b" id="Inf.12">
+        <Name>Building Load Set-Points</Name>
+        <Description>Instructions dispatched by the EMS to controllable building loads containing the target system identifier (e.g. HVAC zone, warehouse cooling unit), the allowed power consumption level in kW, the operational mode (normal, reduced, or off), and the validity period for the set-point.</Description>
+        <RequirementReferences>
+          <RID>R-AIC-02</RID>
+          <RID>R-EMS-02</RID>
+          <RID>R-RTC-03</RID>
+          <RID>R-INT-04</RID>
+          <RID>R-GFR-05</RID>
+          <RID>R-GFR-06</RID>
+          <RID>R-CYB-04</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="48c2e79a-f61c-51a3-a245-e4455bbe1784" id="Inf.13">
+        <Name>Brownout Notification</Name>
+        <Description>Notification issued by the DSO or TSO to the EMS containing the type of event, expected start time and duration (where known), the anticipated supply reduction level expressed as a percentage of normal capacity or an absolute power limit, and the affected grid connection point identifier.</Description>
+        <RequirementReferences>
+          <RID>R-AIC-02</RID>
+          <RID>R-GFR-05</RID>
+          <RID>R-GFR-06</RID>
+          <RID>R-INT-05</RID>
+          <RID>R-COM-02</RID>
+          <RID>R-UI-05</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="1cd96ac8-0609-5e63-b67f-ecaf11e45434" id="Inf.14">
+        <Name>Flexibility Bid</Name>
+        <Description>Commercial offer submitted by the FSP to the DSO or TSO containing the offered flexibility volume in MW, direction (upward or downward), flexibility product type (e.g. FCR or aFRR), delivery window, and price. This item is also used by the MOs to communicate accepted bids to be activated.</Description>
+        <RequirementReferences>
+          <RID>R-AIC-07</RID>
+          <RID>R-EMS-06</RID>
+          <RID>R-GFR-02</RID>
+          <RID>R-GFR-03</RID>
+          <RID>R-MKT-03</RID>
+          <RID>R-MKT-04</RID>
+          <RID>R-INT-07</RID>
+          <RID>R-COM-07</RID>
+          <RID>R-FOR-04</RID>
+        </RequirementReferences>
+      </Information>
+    </InformationExchanged>
+    <CommonTermsAndDefinitions/>
+  </UseCase>
+  <ActorList>
+    <Actor uuid="4757ad91-6170-5efc-91bd-42dd85cbef64">
+      <Name>CPO</Name>
+      <Type>Business</Type>
+      <Description>Charging Point Operator: Mobility partner who operates the charging infrastructure. They are sometimes called CSOs (Charging Station Operators) [1].</Description>
+      <FurtherInformation>In the context of this pilot, the CPO is responsible for the overall operation and management of the ePIPV energy management system.</FurtherInformation>
+    </Actor>
+    <Actor uuid="e9db3543-df4d-5975-bc5f-45be20657105">
+      <Name>DSO</Name>
+      <Type>Business</Type>
+      <Description>Distribution System Operator (DSO) means a natural or legal entity responsible for operating, ensuring the maintenance of and, if necessary, developing the distribution system in a given area and, where applicable, its interconnections with other systems and for ensuring the long-term ability of the system to meet reasonable demands for the distribution of electricity [2].</Description>
+      <FurtherInformation>The local DSO is responsible for the distribution grid to which the ePIPV hub is connected and sets the site's maximum grid connection capacity. In the context of this pilot, this role is fulfilled by Energi Fyn.</FurtherInformation>
+    </Actor>
+    <Actor uuid="0e0bc679-7a0e-5098-93ef-044e1c66407f">
+      <Name>EMSP</Name>
+      <Type>Business</Type>
+      <Description>Electric Mobility (eMobility) Service Provider or Mobility Service provider: Mobility partner who provides eMobility services to customers [1].</Description>
+      <FurtherInformation>Handles authentication and authorisation of EV users or vehicles accessing the charging infrastructure.</FurtherInformation>
+    </Actor>
+    <Actor uuid="6cb50a3d-faf0-5bf6-b3db-32f36e8fb8a3">
+      <Name>FSP</Name>
+      <Type>Business</Type>
+      <Description>Flexibility Service Provider (FSP) means a party that offers flexibility services based on acquired (aggregated) Resources [3].</Description>
+      <FurtherInformation>Acts as the intermediary between the site and the flexibility or frequency markets, submitting bids on behalf of the CPO. In the Danish pilot, the CPO may act as their own FSP or contract a third party for this role.</FurtherInformation>
+    </Actor>
+    <Actor uuid="32abae75-8739-5880-b79d-a29b27f59c10">
+      <Name>MO</Name>
+      <Type>Business</Type>
+      <Description>Market Operator (MO) means a party that provides a service whereby the offers to sell energy are matched with bids to buy energy [3].</Description>
+      <FurtherInformation>This role can be fulfilled by the Transmission System Operator, Distribution System Operator or another entity based on the country.</FurtherInformation>
+    </Actor>
+    <Actor uuid="43e286b0-c4ee-53b6-b2fb-aee5c701133b">
+      <Name>TSO</Name>
+      <Type>Business</Type>
+      <Description>Transmission System Operator (TSO) means a natural or legal person responsible for operating, ensuring the maintenance of and, if necessary, developing the transmission system in a given area and, where applicable, its interconnections with other systems, and for ensuring the long–term ability of the system to meet reasonable demands for the transmission of electricity [2].</Description>
+      <FurtherInformation>In Denmark, this role is fulfilled by Energinet, which is responsible for the transmission grid and operates the frequency regulation markets (FCR and aFRR) relevant to this pilot.</FurtherInformation>
+    </Actor>
+    <Actor uuid="5bbaeaa7-db46-51a1-bc99-2e184d0a31bc">
+      <Name>BMS</Name>
+      <Type>System</Type>
+      <Description>Battery Management System (BMS) means an electronic system associated with a battery which has functions to control current in case of overcharge, overcurrent, overdischarge, and overheating and which monitors and/or manages the battery's state, calculates secondary data, reports that data and/or controls its environment to influence the battery's safety, performance and/or service life [4].</Description>
+      <FurtherInformation>Manages the BESS. Communicates with the EMS via CAN bus, receiving charge/discharge set-points and reporting state of charge, available power, and fault status in real time.</FurtherInformation>
+    </Actor>
+    <Actor uuid="2ef8362d-a279-5e90-82fd-288ae7506c6f">
+      <Name>CSMS</Name>
+      <Type>System</Type>
+      <Description>Charging Station Management System (CSMS) manages Charging Stations and has the information for authorizing Users for using its Charging Stations [5].</Description>
+      <FurtherInformation>Manages communication between the EMS and the site's chargers using the OCPP protocol.</FurtherInformation>
+    </Actor>
+    <Actor uuid="a1c19f8c-4ac7-54f7-b3b9-5e0b7b6bf179">
+      <Name>EMS</Name>
+      <Type>System</Type>
+      <Description>Energy Management System (EMS) means a device that manages the local loads (consumption and production) based on local and/or contractual constraints and/or contractual incentives. It has additional inputs, such as sensors and controls from e.g. PV, battery storage [5].</Description>
+      <FurtherInformation>Central control system of the ePIPV hub, coordinating all on-site energy assets. PV inverter and EVSEs connect directly to the EMS; the BESS is managed via the BMS.</FurtherInformation>
+    </Actor>
+    <Actor uuid="ffc018a5-1a76-53a5-a660-d5f3bc50f2e4">
+      <Name>EVSE</Name>
+      <Type>System</Type>
+      <Description>Electric Vehicle Supply Equipment (EVSE) means an independently operated and managed part of the Charging Station that can deliver energy to one EV at a time [5].</Description>
+      <FurtherInformation>The site includes 24 high-power DC chargers (up to 400 kW) for heavy-duty vehicles and 20 AC chargers for light-duty vehicles. Executes power set-points received via the CSMS.</FurtherInformation>
+    </Actor>
+    <Actor uuid="1298aa5d-0898-565b-b92c-6381d16fa4c7">
+      <Name>Market Platform</Name>
+      <Type>System</Type>
+      <Description>Digital platform maintained by the MO through which flexibility bids are submitted, matched, and settled between market participants and the system operator</Description>
+      <FurtherInformation>In the Danish context, this includes platforms operated by Energinet as well as shared European balancing platforms (FCR Cooperation, PICASSO) in which Energinet participates as a TSO.</FurtherInformation>
+    </Actor>
+    <Actor uuid="1a259f7d-8a66-598c-aed8-7d04b7c7e218">
+      <Name>PV inverter</Name>
+      <Type>System</Type>
+      <Description>Power electronics device converting the DC electricity into AC electricity [6].</Description>
+      <FurtherInformation>Reports real-time generation measurements directly to the EMS and can receive curtailment commands in cases of excess grid injection.</FurtherInformation>
+    </Actor>
+    <Actor uuid="9a4c3b6d-2d44-56bf-8216-05d580fd9e4f">
+      <Name>Smart Meter</Name>
+      <Type>System</Type>
+      <Description>A device that measures the energy fed into and consumed from the grid, they can provide real-time information on energy-usage to consumers and suppliers [7].</Description>
+      <FurtherInformation>Installed at the grid connection point and at sub-metering locations across the site.</FurtherInformation>
+    </Actor>
+  </ActorList>
+  <RequirementList>
+    <RequirementCategory id="CAT-01">
+      <Name>Asset integration and commissioning</Name>
+      <Description>All physical assets must be installed, commissioned, operational and addressable before pilot operation</Description>
+      <Requirement uuid="bdcbcfbe-26d4-508b-b85b-9c1288f5b0e5" id="R-AIC-01">
+        <Name>Asset commissioning status</Name>
+        <Description>Each of the 24 high-power DC chargers, the 20 AC chargers, the PV inverter, the BESS and its BMS, the smart meters and the controllable building loads shall have a recorded commissioning status before operational testing begins.</Description>
+      </Requirement>
+      <Requirement uuid="83bab6db-79d4-5dd9-9bf2-043e5aaf823e" id="R-AIC-02">
+        <Name>Unique asset identification</Name>
+        <Description>Every integrated asset shall have a persistent unique identifier used consistently by the EMS, the CSMS, the BMS and reporting functions. The identifier appears in the EVSE ID of Inf.3, the target system identifier of Inf.12 and the connection point identifier of Inf.13.</Description>
+      </Requirement>
+      <Requirement uuid="dc7f0175-cf2e-51cb-8209-f33bd2a08f3c" id="R-AIC-03">
+        <Name>Asset capability registration</Name>
+        <Description>The EMS shall maintain the technical capabilities and operating limits of each asset, including EVSE rated power (up to 400 kW for HDV chargers), the 4 MWh BESS energy capacity and 750 kW converter rating, SoC limits, ramp limits and availability, as used when computing schedules in SUC-DK-01.1 and BESS profiles in SUC-DK-01.2.</Description>
+      </Requirement>
+      <Requirement uuid="ed9e2e7d-f288-5a81-8ae1-8171886e7b41" id="R-AIC-04">
+        <Name>Connectivity verification</Name>
+        <Description>Commissioning shall verify that each EVSE can exchange session and metering data with the CSMS over OCPP, that the BMS can exchange set-points and status with the EMS over the CAN bus, and that the PV inverter and smart meters can deliver data to the EMS, before pilot operation commences.</Description>
+      </Requirement>
+      <Requirement uuid="2601c723-8805-5ef1-b3dc-1045c76e591a" id="R-AIC-05">
+        <Name>Time and configuration setup</Name>
+        <Description>All integrated devices shall be configured with a common time source, agreed engineering units and the 1-minute sampling interval used for Inf.6 before pilot operation, so that the timestamps carried by Inf.1, Inf.6 and Inf.8 are mutually consistent.</Description>
+      </Requirement>
+      <Requirement uuid="8875048f-0fcd-541a-802d-3122d09e6126" id="R-AIC-06">
+        <Name>Pilot-specific mobility configuration</Name>
+        <Description>Fleet departure schedules, energy requirements, charging windows and vehicle priority classes for the electric trucks, including the VIPV vehicle, shall be configured in the EMS before coordinated charging (SUC-DK-01.1) is enabled.</Description>
+      </Requirement>
+      <Requirement uuid="0dfb9baa-0816-531b-8e27-50e7c83a5e43" id="R-AIC-07">
+        <Name>Market asset registration</Name>
+        <Description>The BESS and the controllable charging capacity intended for flexibility participation shall be registered and prequalified with Energinet, including the required technical, metering and connection-point attributes, before any bid is submitted in SUC-DK-01.5.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-02">
+      <Name>Energy Management System capabilities</Name>
+      <Description>Contains requirements related to EMS functionalities and capabilities</Description>
+      <Requirement uuid="e826e41d-7496-531c-bff4-093cd8d3bb13" id="R-EMS-01">
+        <Name>Unified site and cluster model</Name>
+        <Description>The EMS shall maintain a unified operational model of the ePIPV hub, covering the EV charging infrastructure, the PV array, the BESS via the BMS, the building loads and the grid connection point, including current status, constraints and relationships.</Description>
+      </Requirement>
+      <Requirement uuid="582da934-5a4b-5985-be66-9b02b79a9462" id="R-EMS-02">
+        <Name>Multi-asset orchestration</Name>
+        <Description>The EMS shall coordinate EV charging, PV generation, BESS operation, controllable building loads and grid exchange within the 630 kW connection limit, as exercised in SUC-DK-01.2 and SUC-DK-01.3.</Description>
+      </Requirement>
+      <Requirement uuid="87aed693-2593-5366-9224-f7b4b4fcc5e2" id="R-EMS-03">
+        <Name>Schedule and setpoint generation</Name>
+        <Description>The EMS shall translate optimisation results into asset-level instructions: the charging schedule (Inf.4) and charging set-points (Inf.5) in SUC-DK-01.1, the BESS set-points (Inf.11) in SUC-DK-01.2, and the building load set-points (Inf.12) in SUC-DK-01.3.</Description>
+      </Requirement>
+      <Requirement uuid="51e71989-a4cc-5a4b-a691-3a29f0dfa2e4" id="R-EMS-04">
+        <Name>Constraint enforcement</Name>
+        <Description>The EMS shall prevent dispatch that violates the 630 kW grid connection limit, individual asset limits, HDV departure requirements or committed flexibility obligations. Performance against this requirement is measured by KPI U07.</Description>
+      </Requirement>
+      <Requirement uuid="5dd5dceb-7c71-5a1f-9ab8-e6b92022421a" id="R-EMS-05">
+        <Name>Execution monitoring and rescheduling</Name>
+        <Description>The EMS shall compare actual charging performance reported in Inf.7 against the active schedule and trigger rescheduling when deviations exceed configurable thresholds, as described in SUC-DK-01.1 steps 6 and 7.</Description>
+      </Requirement>
+      <Requirement uuid="be391427-ad0a-5ccb-a15f-e8750227360a" id="R-EMS-06">
+        <Name>Flexibility estimation</Name>
+        <Description>The EMS shall calculate available upward and downward flexibility from BESS state of charge, EVSE headroom and controllable building load capacity, providing the technical basis for the FSP bid in SUC-DK-01.5. Measured by KPI U06.</Description>
+      </Requirement>
+      <Requirement uuid="a0cde480-e659-501f-b103-502ca3a5b118" id="R-EMS-08">
+        <Name>Operating-mode management</Name>
+        <Description>The EMS shall support normal operation, constrained-grid operation, market activation, emergency operation and controlled restoration, with explicit transition rules. The mode transitions are exercised in SUC-DK-01.4 and SUC-DK-01.5.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-03">
+      <Name>Smart charging, V2G and mobility-service constraints</Name>
+      <Description>The charging infrastructure functionalities and capabilities</Description>
+      <Requirement uuid="5a1853d7-2a8e-51a5-a2ec-0a28c1e03199" id="R-SC-01">
+        <Name>Charging-session detection</Name>
+        <Description>The CSMS shall detect and report EV connection, authorisation, session start, active charging, suspension, completion and disconnection for all 44 charge points on site, as captured by Inf.1, Inf.2 and Inf.8 in SUC-DK-01.1.</Description>
+      </Requirement>
+      <Requirement uuid="892072ac-ded9-5e2c-9006-faa71b0b1abf" id="R-SC-02">
+        <Name>Charging requirement capture</Name>
+        <Description>The system shall capture initial SoC, requested energy, expected departure time and vehicle priority class for each managed session, communicated to the EMS as Inf.3.</Description>
+      </Requirement>
+      <Requirement uuid="7ebae75e-ae0d-50b7-9693-afba0ea1ebf2" id="R-SC-03">
+        <Name>Dynamic charging control</Name>
+        <Description>Each EVSE shall accept remote time-based charging profiles or dynamic power limits issued as Inf.5, whether as an initial schedule (SUC-DK-01.1), a real-time reallocation (SUC-DK-01.3) or a brownout curtailment (SUC-DK-01.4).</Description>
+      </Requirement>
+      <Requirement uuid="53ad179c-06d1-5a0e-9053-f387f686e0f4" id="R-SC-04">
+        <Name>Mobility requirement guarantee</Name>
+        <Description>Coordinated charging shall preserve the declared energy requirement of each heavy-duty vehicle by its declared departure time, except where the emergency priority hierarchy of SUC-DK-01.4 applies as the authorised exception.</Description>
+      </Requirement>
+      <Requirement uuid="dadeb4c4-5716-51c6-8849-3608444c9ad8" id="R-SC-05">
+        <Name>Priority-based allocation</Name>
+        <Description>The EMS shall allocate charging power according to configurable priorities. In this pilot heavy-duty vehicles take precedence over light-duty vehicles during normal operation, and under constrained supply the order is warehouse cooling first, then HDV charging, then all other loads.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-04">
+      <Name>Communications and connectivity</Name>
+      <Description>Collection of requirements to enable reliable communication</Description>
+      <Requirement uuid="864e7cfc-7415-567c-b777-68da298cf6d4" id="R-COM-01">
+        <Name>Bidirectional communications</Name>
+        <Description>Bidirectional communication shall be available on the EMS-CSMS, CSMS-EVSE (OCPP), EMS-BMS (CAN bus), EMS-PV inverter and FSP-Market Platform interfaces, since all of them carry both telemetry and control.</Description>
+      </Requirement>
+      <Requirement uuid="63d2952d-08d8-550d-b607-80f359a52883" id="R-COM-02">
+        <Name>Communication health monitoring</Name>
+        <Description>Each critical interface shall expose connection status, last-message time and communication-failure alarms. This is the mechanism by which the smart meter alarm of SUC-DK-01.4 branch B reaches the EMS.</Description>
+      </Requirement>
+      <Requirement uuid="3d0eee31-bcf4-5048-bac7-a88ed4361475" id="R-COM-03">
+        <Name>Message acknowledgement</Name>
+        <Description>Control commands and market activations shall be acknowledged with acceptance, rejection or failure status, as in the BMS confirmation of SUC-DK-01.2 step 6 and the activation acknowledgement of SUC-DK-01.5 step 2.</Description>
+      </Requirement>
+      <Requirement uuid="3cfe536a-0cd2-525d-87f3-707c9485e2b8" id="R-COM-04">
+        <Name>Store-and-forward capability</Name>
+        <Description>Where connectivity may be temporarily lost, systems shall buffer non-real-time telemetry and forward it after reconnection without duplication. This applies in particular to Inf.6 during the constrained-supply period of SUC-DK-01.4.</Description>
+      </Requirement>
+      <Requirement uuid="c312d0c8-2ca8-5f3a-b042-9d18191fddca" id="R-COM-05">
+        <Name>Communication recovery</Name>
+        <Description>Systems shall automatically attempt reconnection and restore synchronised operation after an outage, supporting the controlled restoration sequence of SUC-DK-01.4 steps 8 and 9.</Description>
+      </Requirement>
+      <Requirement uuid="da14a0e3-45b2-54e9-bd9f-d88f0003af20" id="R-COM-06">
+        <Name>Defined service levels</Name>
+        <Description>Critical interfaces shall have documented availability, latency, update frequency and maximum tolerated data age. The EMS-CSMS interface shall meet the control cycle of SUC-DK-01.3 and the EMS-BMS interface shall meet the FCR and aFRR response times required in SUC-DK-01.5.</Description>
+      </Requirement>
+      <Requirement uuid="77272120-534b-55f0-a5ad-bff4a9bcb028" id="R-COM-07">
+        <Name>External platform connectivity</Name>
+        <Description>The FSP shall provide reliable interfaces to the flexibility platforms used in the Danish market, covering bid submission, activation reception and settlement exchange as described in SUC-DK-01.5 steps 1, 2 and 7.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-05">
+      <Name>Data acquisition, quality and storage</Name>
+      <Description>Requirements for common data management mechanisms</Description>
+      <Requirement uuid="02f66cf3-3504-5ad4-b411-c71529ef6de8" id="R-DAT-01">
+        <Name>Operational telemetry acquisition</Name>
+        <Description>The EMS shall acquire EVSE, PV, BESS, smart meter and building-load data required by the use case, corresponding to Inf.6, Inf.9 and Inf.10 collected in SUC-DK-01.2 steps 1 to 3.</Description>
+      </Requirement>
+      <Requirement uuid="38a62b39-d836-57ff-a673-e42870f3a38c" id="R-DAT-02">
+        <Name>Common timestamping</Name>
+        <Description>All operational records shall carry timestamps referenced to a common time base with timezone or UTC information, including the 1-minute metering records of Inf.6 and the session events of Inf.1 and Inf.8.</Description>
+      </Requirement>
+      <Requirement uuid="8d9a719b-f94d-5c15-8418-b514a9baea3c" id="R-DAT-03">
+        <Name>Data validation</Name>
+        <Description>Incoming PV, metering and BESS data shall be checked for missing values, staleness, invalid ranges and implausible changes before being used for optimisation in SUC-DK-01.2 or for real-time allocation in SUC-DK-01.3.</Description>
+      </Requirement>
+      <Requirement uuid="408cd77d-8512-5d44-9990-1e5fb71aa98b" id="R-DAT-04">
+        <Name>Data-quality status</Name>
+        <Description>The EMS shall attach a quality or validity status to the measurements and forecasts used in optimisation, baseline calculation and KPI reporting, so that degraded inputs do not silently propagate into dispatch decisions.</Description>
+      </Requirement>
+      <Requirement uuid="d4771b5d-23de-5b5a-aa60-364b9ab9978d" id="R-DAT-05">
+        <Name>Historical data retention</Name>
+        <Description>Measurements, schedules, commands, forecasts and market messages shall be retained for the period required for KPI assessment, audit and flexibility settlement, covering all KPIs in Section 1.5 and the settlement chain of SUC-DK-01.5.</Description>
+      </Requirement>
+      <Requirement uuid="9ce2c251-867b-55ff-8a12-b9d9f535e08c" id="R-DAT-06">
+        <Name>Interval aggregation</Name>
+        <Description>The platform shall aggregate and resample the 1-minute metering data of Inf.6 to the intervals required for optimisation and for flexibility settlement in the Danish market.</Description>
+      </Requirement>
+      <Requirement uuid="8a7df938-babe-5a0b-8154-71daa4657210" id="R-DAT-07">
+        <Name>Data lineage</Name>
+        <Description>Flexibility estimates, baselines, KPI values and settlement results shall be traceable to the source measurements, algorithms, parameters and versions used to produce them, supporting the verification chain in SUC-DK-01.5.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-06">
+      <Name>Semantic and protocol interoperability</Name>
+      <Description>Requirements for enabling interoperable communications</Description>
+      <Requirement uuid="cd13222b-d1ac-5873-8ed5-12b88e4d4f8c" id="R-INT-01">
+        <Name>Documented interface specification</Name>
+        <Description>Every interface listed in Section 3.1 shall have a documented protocol, endpoint, data model, units, timing and error-handling specification.</Description>
+      </Requirement>
+      <Requirement uuid="42f88862-79f0-52c3-beb6-afe057e5d31e" id="R-INT-02">
+        <Name>EV charging protocol support</Name>
+        <Description>The CSMS-EVSE integration shall use OCPP (reference [5]) with the functions required for metering, status reporting and smart charging, as exercised throughout SUC-DK-01.1 and in SUC-DK-01.3 step 5.</Description>
+      </Requirement>
+      <Requirement uuid="6e1244e6-666c-5907-ab2c-25c4107b1e7d" id="R-INT-03">
+        <Name>EV-to-EVSE interoperability</Name>
+        <Description>The EV-EVSE interface shall support the applicable IEC 61851 or ISO 15118 capability needed to obtain vehicle state of charge for Inf.1 and Inf.3. Bidirectional charging is outside the scope of this use case.</Description>
+      </Requirement>
+      <Requirement uuid="7c0284f2-efc1-5188-b537-f5dc62c0ce0d" id="R-INT-04">
+        <Name>DER interface abstraction</Name>
+        <Description>The vendor-specific PV inverter, BMS, smart meter and building-system interfaces shall be isolated behind adapters exposing a common EMS-facing information model, so that Inf.9, Inf.10, Inf.11 and Inf.12 remain independent of supplier implementation.</Description>
+      </Requirement>
+      <Requirement uuid="939b5830-f498-5b6a-a8df-df32df7a847f" id="R-INT-05">
+        <Name>Common semantic definitions</Name>
+        <Description>All parties shall use agreed definitions for power direction, flexibility direction, state of charge, availability, activation state, connection point and settlement interval, as carried in Inf.10, Inf.11, Inf.13 and Inf.14.</Description>
+      </Requirement>
+      <Requirement uuid="8213a737-6a03-5f6e-9d85-a8632d497dfd" id="R-INT-06">
+        <Name>API versioning</Name>
+        <Description>Interfaces shall be versioned and incompatible changes managed without uncontrolled interruption of pilot operation.</Description>
+      </Requirement>
+      <Requirement uuid="eddc2fff-c851-5c84-befd-2f70a7ed3203" id="R-INT-07">
+        <Name>Market message interoperability</Name>
+        <Description>Bid, activation and settlement exchanges between the FSP and the Market Platform shall map to the formats and role definitions required by Energinet and the relevant European balancing platforms.</Description>
+      </Requirement>
+      <Requirement uuid="8f753a4c-a29e-5e3d-b88d-d81a716208b6" id="R-INT-08">
+        <Name>Interoperability conformance test</Name>
+        <Description>Interface conformance testing covering normal exchange, invalid messages, timeout, reconnect and command rejection shall be completed before live operation, as noted in the prerequisites of Section 1.6.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-07">
+      <Name>Forecasting and optimisation</Name>
+      <Description>Contains requirements enabling reliable predictive capabilities</Description>
+      <Requirement uuid="24e03a7d-753a-55db-8c0b-2501d2954bb8" id="R-FOR-01">
+        <Name>PV forecasting</Name>
+        <Description>The EMS shall produce PV generation forecasts for the approximately 2 MWp array at the resolution and horizon required for charging and BESS optimisation. The PV inverter supplies real-time measurements only (Inf.9); the forecast is generated by the EMS.</Description>
+      </Requirement>
+      <Requirement uuid="0a11c714-6012-5176-9ee9-ed287b303cb4" id="R-FOR-02">
+        <Name>Load forecasting</Name>
+        <Description>The EMS shall forecast non-flexible and controllable demand from the four office and warehouse buildings, including heating and cooling loads, for the relevant planning horizon.</Description>
+      </Requirement>
+      <Requirement uuid="d504f370-b49c-5415-9de9-9017d0066ec4" id="R-FOR-03">
+        <Name>EV demand forecasting</Name>
+        <Description>The EMS shall forecast EV arrival, departure, energy need and availability from declared fleet schedules and historical session data, feeding the schedule computation in SUC-DK-01.1 step 4.</Description>
+      </Requirement>
+      <Requirement uuid="554753d7-997c-5483-962f-1103f22b7189" id="R-FOR-04">
+        <Name>Price forecasting</Name>
+        <Description>Where economic dispatch or market bidding is required, price information shall be acquired or forecast to support the bid price in Inf.14 and the cost reduction targeted by KPI U04 (Operation Cost).</Description>
+      </Requirement>
+      <Requirement uuid="63911b07-9ea2-5672-b14a-2d1c93cec9e6" id="R-FOR-05">
+        <Name>Constraint-aware optimisation</Name>
+        <Description>Optimisation shall include asset power and energy limits, the 630 kW grid limit, HDV charging deadlines, reserve commitments, building load constraints and permissible PV curtailment, as applied in SUC-DK-01.1, SUC-DK-01.2 and SUC-DK-01.3.</Description>
+      </Requirement>
+      <Requirement uuid="fadc16a1-d711-51d7-8332-e4ff76970864" id="R-FOR-06">
+        <Name>Multi-horizon optimisation</Name>
+        <Description>The platform shall support rolling-horizon planning for BESS and charging schedules together with real-time adjustment when demand approaches the connection limit.</Description>
+      </Requirement>
+      <Requirement uuid="79543e36-6ac4-53d6-be7a-a6df796555c3" id="R-FOR-07">
+        <Name>Forecast-error handling</Name>
+        <Description>The EMS shall detect deviations in PV output or site demand and update schedules using the latest validated measurements, as triggered in SUC-DK-01.2 steps 1 and 2 and SUC-DK-01.1 steps 6 and 7.</Description>
+      </Requirement>
+      <Requirement uuid="a8648ae3-412a-5ec1-b372-365cb2919e4b" id="R-FOR-08">
+        <Name>Objective configurability</Name>
+        <Description>Optimisation objectives and weights shall be configurable for PV self-consumption, cost, peak reduction, service reliability, curtailment and flexibility revenue, supporting objectives OBJ-1 to OBJ-5 in Section 1.3.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-08">
+      <Name>Real-time control and performance</Name>
+      <Description>Group of requirements enabling near-real-time control to maintain grid compliance and track market or operational commitments</Description>
+      <Requirement uuid="8e89d72b-e0e7-5dd4-a1a2-b481f3c94062" id="R-RTC-01">
+        <Name>Defined control cycle</Name>
+        <Description>The real-time power allocation function of SUC-DK-01.3 shall operate at a documented cycle time and complete calculation and dispatch within that cycle.</Description>
+      </Requirement>
+      <Requirement uuid="6a5c27ef-a698-5b41-9d5d-d2bd1e084845" id="R-RTC-02">
+        <Name>Real-time grid-limit supervision</Name>
+        <Description>The EMS shall continuously supervise aggregate import and export at the connection point against the 630 kW limit using the smart meter data of Inf.6.</Description>
+      </Requirement>
+      <Requirement uuid="ecd7d071-418b-55fd-8987-9a1f4ab8bf0a" id="R-RTC-03">
+        <Name>Dynamic power redistribution</Name>
+        <Description>When available power changes, the EMS shall redistribute capacity among active EVSEs, the BESS and controllable building loads according to current constraints and priorities, as performed in SUC-DK-01.3 and invoked by SUC-DK-01.4 and SUC-DK-01.5.</Description>
+      </Requirement>
+      <Requirement uuid="a031e539-2f0b-5ef3-adcc-98c75d260322" id="R-RTC-04">
+        <Name>Deviation-triggered re-optimisation</Name>
+        <Description>Re-optimisation shall be triggered when schedule deviation, asset unavailability or forecast error exceeds a configurable threshold, based on the execution status reported in Inf.7.</Description>
+      </Requirement>
+      <Requirement uuid="94fde7bb-3683-52aa-9247-a294f8df2ef5" id="R-RTC-05">
+        <Name>Activation response timing</Name>
+        <Description>Flexibility activation instructions shall be executed within the response time of the contracted product. For this pilot the binding cases are the FCR and aFRR response times applicable in the Danish market.</Description>
+      </Requirement>
+      <Requirement uuid="cc844452-7a99-5747-9846-7da1a4f55c8f" id="R-RTC-06">
+        <Name>Setpoint execution verification</Name>
+        <Description>The platform shall verify actual response after dispatch and identify partial, late or failed execution, using Inf.7 for charging, Inf.10 for the BESS and Inf.6 for the site as a whole.</Description>
+      </Requirement>
+      <Requirement uuid="846c628d-464b-5da6-8bfa-76ab72e12833" id="R-RTC-07">
+        <Name>Control conflict resolution</Name>
+        <Description>Where objectives conflict, a documented precedence order shall apply. The principal conflicts in this pilot are the emergency priority hierarchy of SUC-DK-01.4 and a flexibility activation in SUC-DK-01.5 competing with HDV departure deadlines set in SUC-DK-01.1.</Description>
+      </Requirement>
+      <Requirement uuid="90f41838-5c68-5e02-af39-3b3e16dcd08c" id="R-RTC-08">
+        <Name>Performance logging</Name>
+        <Description>Control-cycle start, decision, dispatch, acknowledgement and measured response shall be logged for performance assessment, providing the evidence base for KPI U20.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-09">
+      <Name>Grid constraints, flexibility and resilience</Name>
+      <Description>Group of requirements ensuring safe operation under constrained grid conditions while providing external grid services</Description>
+      <Requirement uuid="0fa663bf-ffa3-539a-b052-ebf69d70cf63" id="R-GFR-01">
+        <Name>Connection-capacity enforcement</Name>
+        <Description>The EMS shall maintain net import and export within the 630 kW connection capacity except where an emergency protection action supersedes normal control. Compliance is measured by KPI U07.</Description>
+      </Requirement>
+      <Requirement uuid="f9924a04-731b-5a6c-a733-d2e2b6e6b278" id="R-GFR-02">
+        <Name>Upward and downward flexibility calculation</Name>
+        <Description>The EMS shall calculate feasible upward and downward power and energy flexibility with duration, availability window and recovery requirement, as the technical input to the FSP bid in SUC-DK-01.5. Measured by KPI U06.</Description>
+      </Requirement>
+      <Requirement uuid="28751bb8-aa28-5959-b75d-758414c8bd3a" id="R-GFR-03">
+        <Name>Flexibility reservation</Name>
+        <Description>Once a bid is accepted, the corresponding BESS and charging headroom shall be reserved in the active schedules so that it remains activatable throughout the committed service window.</Description>
+      </Requirement>
+      <Requirement uuid="773744f0-dc43-53f9-a54f-cd21edbf295e" id="R-GFR-04">
+        <Name>No double commitment</Name>
+        <Description>The same BESS or EVSE headroom shall not be committed simultaneously to a flexibility service and to a conflicting charging or self-consumption schedule.</Description>
+      </Requirement>
+      <Requirement uuid="d7c7c955-1446-5bb3-91ad-62590c81dc99" id="R-GFR-05">
+        <Name>Brownout preparation</Name>
+        <Description>On advance notification of a scheduled brownout from the DSO or TSO (Inf.13), the EMS shall pre-charge the BESS, reschedule non-essential light-duty charging and reduce non-essential building demand before the supply reduction takes effect, as described in SUC-DK-01.4 steps 2 to 4.</Description>
+      </Requirement>
+      <Requirement uuid="c3831be3-bb72-55b1-907a-762b2ae18a82" id="R-GFR-06">
+        <Name>Emergency priority operation</Name>
+        <Description>During unplanned supply loss or reduction, available energy shall be allocated according to the preconfigured hierarchy: warehouse cooling first, then heavy-duty vehicle charging where state of charge and departure schedules permit, with all other loads curtailed.</Description>
+      </Requirement>
+      <Requirement uuid="5ab8e280-0868-513c-9bf1-9a2a99d286da" id="R-GFR-07">
+        <Name>Controlled restoration</Name>
+        <Description>After a constrained or emergency state, loads and charging shall be restored progressively to avoid rebound peaks and renewed limit violations, as described in SUC-DK-01.4 steps 8 and 9.</Description>
+      </Requirement>
+      <Requirement uuid="7a2b1d01-1cef-5ea7-ace2-cc476d9a6a65" id="R-GFR-08">
+        <Name>Flexibility delivery verification</Name>
+        <Description>Requested and measured response shall be compared and the delivered power, energy, duration and accuracy calculated, using the metering evidence collected in SUC-DK-01.5 steps 5 to 7.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-10">
+      <Name>Market, aggregator and external platform integration</Name>
+      <Description>Group of requirements ensuring integration into electricity and flexibility markets</Description>
+      <Requirement uuid="ab4dde51-0d85-5653-a239-4d2acee48bd4" id="R-MKT-03">
+        <Name>Awarded schedule reception</Name>
+        <Description>The FSP interface shall receive and validate accepted bids, prices and delivery periods from the Market Platform and make them available to the EMS, as in SUC-DK-01.5 steps 2 and 3.</Description>
+      </Requirement>
+      <Requirement uuid="e64997d7-d44e-53ab-a49f-a69eff478b41" id="R-MKT-04">
+        <Name>Reserve capacity bidding</Name>
+        <Description>The platform shall provide upward and downward availability profiles and capacity bids for the applicable settlement intervals. In this pilot the requirement applies to FCR and aFRR bids rather than to the mFRR product named in the catalogue.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-11">
+      <Name>Metering, verification, settlement and KPI reporting</Name>
+      <Description>Group of requirements providing grounds for operational control and project and market outcomes validation</Description>
+      <Requirement uuid="baea650b-1cbc-5d65-b6b9-79934bcbb86e" id="R-MVR-01">
+        <Name>Connection-point metering</Name>
+        <Description>Net import and export at the grid connection point shall be measured at 1-minute resolution with accuracy suitable for control and, where applicable, for flexibility settlement (Inf.6).</Description>
+      </Requirement>
+      <Requirement uuid="d2135177-a265-5b74-923c-8005ec3e9b15" id="R-MVR-02">
+        <Name>Asset-level sub-metering</Name>
+        <Description>Energy flows of the EVSEs, the PV array, the BESS and the key controllable building loads shall be measurable separately, as required for optimisation, verification and for KPIs U10, U11 and U14.</Description>
+      </Requirement>
+      <Requirement uuid="06f53b82-b65a-518c-9483-eafcef51da9c" id="R-MVR-03">
+        <Name>Session metering</Name>
+        <Description>Each charging session shall record start and end meter values, energy transferred, timestamps and a session identifier, reported as Inf.8 at session closure.</Description>
+      </Requirement>
+      <Requirement uuid="8836031f-458b-526a-9834-d50adb430a75" id="R-MVR-04">
+        <Name>Baseline calculation</Name>
+        <Description>The platform shall calculate and retain the adjusted reference values used to assess delivered flexibility and to evaluate the KPIs in Section 1.5 against an uncoordinated operation baseline.</Description>
+      </Requirement>
+      <Requirement uuid="f46b98bd-d138-59a9-8e6f-64935afe71ab" id="R-MVR-05">
+        <Name>Settlement-grade audit trail</Name>
+        <Description>Measurements used for flexibility settlement shall be immutable or tamper-evident, timestamped and traceable through all processing steps, supporting the evidence passed from the EMS to the FSP and on to the Market Platform.</Description>
+      </Requirement>
+      <Requirement uuid="f8f9e06c-8b72-5e57-b86e-62259e1a19b3" id="R-MVR-06">
+        <Name>KPI computation</Name>
+        <Description>The platform shall calculate the project KPIs defined in Section 1.5, namely U04, U06, U07, U10, U11, U12, U13, U14 and U20.</Description>
+      </Requirement>
+      <Requirement uuid="89806412-22ee-5a09-96c3-4741c8d15647" id="R-MVR-07">
+        <Name>Delivery report</Name>
+        <Description>The system shall generate reports comparing requested, scheduled and actual power and energy for each flexibility activation, as exchanged in SUC-DK-01.5.</Description>
+      </Requirement>
+      <Requirement uuid="41c764be-6393-5ffb-ae42-04e90161ef4b" id="R-MVR-08">
+        <Name>Exportable evidence package</Name>
+        <Description>Raw data, derived results, assumptions, algorithm versions and report outputs shall be exportable for pilot validation and audit.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-12">
+      <Name>Cybersecurity, privacy and access control</Name>
+      <Description>Group of requirements ensuring secure and privacy-preserving access to services and provide resilient operation of infrastructure</Description>
+      <Requirement uuid="78723d72-1e8f-5ab4-b700-f125d03d2394" id="R-CYB-01">
+        <Name>Strong authentication</Name>
+        <Description>Users, devices and external systems shall authenticate before accessing telemetry, configuration, commands or bids. This covers the EMSP authorisation exchange in SUC-DK-01.1 and the FSP access to the Market Platform in SUC-DK-01.5.</Description>
+      </Requirement>
+      <Requirement uuid="7732f046-638e-5ce7-a99f-942a37e477c6" id="R-CYB-02">
+        <Name>Role-based authorisation</Name>
+        <Description>Access rights shall be restricted by role, organisation, site, asset and permitted action across the EMS, CSMS, BMS and FSP interfaces.</Description>
+      </Requirement>
+      <Requirement uuid="f7f0177b-50a8-50b9-bd3d-cbd4c018b283" id="R-CYB-03">
+        <Name>Encryption in transit</Name>
+        <Description>Communications crossing device, site, cloud or organisational trust boundaries shall be encrypted, including the EMS-CSMS link and all FSP exchanges with the Market Platform.</Description>
+      </Requirement>
+      <Requirement uuid="eb8fd81e-1bcb-5e82-9c4d-025fce762baf" id="R-CYB-04">
+        <Name>Command integrity and anti-replay</Name>
+        <Description>Set-point commands (Inf.5, Inf.11, Inf.12) and market activations (Inf.14) shall be protected against unauthorised modification, duplication and replay.</Description>
+      </Requirement>
+      <Requirement uuid="6493e581-e240-51e6-8a50-2b5061515806" id="R-CYB-05">
+        <Name>Security logging and monitoring</Name>
+        <Description>Authentication events, commands, configuration changes, software updates and security-relevant failures shall be logged and monitored across all system actors.</Description>
+      </Requirement>
+      <Requirement uuid="07958fb5-d92e-5782-a14f-f0feeaad5bb6" id="R-CYB-06">
+        <Name>Personal-data minimisation</Name>
+        <Description>Only the personal and mobility data necessary for the declared service shall be collected and retained. The scope is limited in this pilot because the fleet vehicles are company-owned and charging is not individually billed.</Description>
+      </Requirement>
+      <Requirement uuid="39d426e5-1f1f-5556-b0b1-10f59826895f" id="R-CYB-07">
+        <Name>Secure software update</Name>
+        <Description>The EMS, CSMS, BMS, EVSEs, PV inverter and smart meters shall support authenticated, integrity-checked software or firmware updates with rollback or recovery procedures.</Description>
+      </Requirement>
+      <Requirement uuid="3a595354-ea79-59d3-8359-0239fdb8e0ae" id="R-CYB-08">
+        <Name>Cyber-safe fallback</Name>
+        <Description>Loss of authentication service, detected compromise or a security-policy violation shall trigger a defined safe operating mode without uncontrolled charging or BESS discharging, consistent with the emergency behaviour of SUC-DK-01.4.</Description>
+      </Requirement>
+      <Requirement uuid="dbbffd5e-ca3c-5479-9e10-3fa419da644b" id="R-CYB-09">
+        <Name>Credential and certificate management</Name>
+        <Description>Credentials, API tokens and certificates used on the OCPP, EMSP and market interfaces shall have controlled issuance, storage, renewal, revocation and expiry handling.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-13">
+      <Name>Safety, fault handling and recovery</Name>
+      <Description>Group of requirements ensuring control platform never overrides asset or mobility safety constraints</Description>
+      <Requirement uuid="9f2df08a-499a-59d5-9c22-2d97847191d3" id="R-SAF-01">
+        <Name>Asset safety-envelope enforcement</Name>
+        <Description>No EMS, CSMS or market command shall exceed the validated electrical, thermal, SoC or ramp-rate limits of an EVSE, the PV inverter or the BESS, including during real-time reallocation in SUC-DK-01.3.</Description>
+      </Requirement>
+      <Requirement uuid="70bdb7a7-4a3f-5b57-88a2-27732802fbf7" id="R-SAF-02">
+        <Name>Fault-state reporting</Name>
+        <Description>EVSEs, the PV inverter, the BMS, the smart meters and the building controllers shall report faults and alarms with severity and timestamp, carried in Inf.7, Inf.10 and the smart meter alarm of SUC-DK-01.4 branch B.</Description>
+      </Requirement>
+      <Requirement uuid="97207d2c-7108-5f6e-9e23-bf18c7f2d1e4" id="R-SAF-03">
+        <Name>Automatic isolation of failed assets</Name>
+        <Description>A failed or unsafe asset shall be excluded from optimisation and dispatch until it returns to an authorised available state, based on the fault status reported in Inf.10 and Inf.7.</Description>
+      </Requirement>
+      <Requirement uuid="f8e27477-cfc6-522f-b775-43c895e268c6" id="R-SAF-04">
+        <Name>Safe loss-of-control behaviour</Name>
+        <Description>On loss of EMS communication, each asset shall transition to a predefined local fallback state that preserves safety and essential service. This is the behaviour relied upon in the unscheduled branch of SUC-DK-01.4.</Description>
+      </Requirement>
+      <Requirement uuid="f3fc155a-01c2-5881-977f-512c962df5aa" id="R-SAF-05">
+        <Name>Manual override</Name>
+        <Description>Authorised operators shall be able to stop, curtail or isolate charging, the BESS or other controllable assets during abnormal conditions, including during the constrained-supply and restoration phases of SUC-DK-01.4.</Description>
+      </Requirement>
+      <Requirement uuid="3d8b077a-a4a2-57cf-ba7d-4235d096b9a9" id="R-SAF-06">
+        <Name>Recovery validation</Name>
+        <Description>Following a fault or outage, communications, status, limits and metering shall be verified before an asset is returned to automatic control, supporting the controlled restoration sequence of SUC-DK-01.4.</Description>
+      </Requirement>
+      <Requirement uuid="23daca62-996e-5c64-9529-f9cbe3a73fee" id="R-SAF-07">
+        <Name>Battery protection</Name>
+        <Description>BESS charging and discharging shall respect the SoC, state of health, temperature and fault limits reported by the BMS at all times, including during the pre-charge action of SUC-DK-01.4.</Description>
+      </Requirement>
+      <Requirement uuid="91c9fb50-2606-56da-b7de-73bc8446bfd7" id="R-SAF-08">
+        <Name>Mobility-service fail-safe</Name>
+        <Description>Fallback operation shall preserve minimum heavy-duty vehicle readiness or trigger an operator alert before a scheduled departure is put at risk, protecting the fleet reliability identified as a core value driver in Section 1.4.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-14">
+      <Name>User interfaces, pricing and participation management</Name>
+      <Description>Group of requirements to ensure intuitive user interfaces, transparent pricing and participation management</Description>
+      <Requirement uuid="3280764f-8044-5e4c-8a4c-dd55ff7e9af4" id="R-UI-01">
+        <Name>Operator dashboard</Name>
+        <Description>Authorised operators shall be able to view current asset status, site power against the 630 kW limit, alarms, active schedules, available flexibility and active constraints.</Description>
+      </Requirement>
+      <Requirement uuid="6ef37cca-755a-5980-b756-361c26caef23" id="R-UI-02">
+        <Name>Charging-user interface</Name>
+        <Description>Session status shall be viewable, and the energy need and departure time shall be enterable or confirmable for each managed session. In this pilot these values are declared by the fleet operator rather than by an individual EV user, and are communicated to the EMS as Inf.3.</Description>
+      </Requirement>
+      <Requirement uuid="5e8c4011-f086-5d3d-b1df-2207cf69e194" id="R-UI-05">
+        <Name>Operator alarm notification</Name>
+        <Description>Operators shall receive timely notification of failed charging, missed schedules, communication loss, market activation failure and safety alarms, including the brownout notification of Inf.13.</Description>
+      </Requirement>
+      <Requirement uuid="d8bf9fb9-25cf-5796-9d69-c00397fc8627" id="R-UI-06">
+        <Name>Manual schedule adjustment</Name>
+        <Description>Authorised operators shall be able to change vehicle priorities, departure deadlines and operating constraints, with validation and audit logging.</Description>
+      </Requirement>
+    </RequirementCategory>
+  </RequirementList>
+</IEC62559UseCaseArtefacts>

@@ -1,0 +1,1177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SOLAR-MOVE | BUC-TR-01 | PV-Integrated Opportunity Charging for a Campus Passenger e-Bus
+  IEC 62559-3-STYLE serialization (DRAFT).
+  Structure & field vocabulary aligned to the IEC 62559-2 template as rendered by the
+  Sparx Enterprise Architect / MODSARUS toolchain (reference: the public 'Smart Grid Use
+  Cases' renderings of the BRIDGE EDF/Elering use cases).
+  NOTE: element names are indicative; this file is NOT validated against the normative
+  IEC 62559-3 XSD. UUIDs are deterministic (uuid5) placeholders, not repository-assigned.
+  Source: SOLARMOVE_BUC-TR-01.docx
+-->
+<IEC62559UseCaseArtefacts profile="IEC 62559-3-style, aligned to the IEC 62559-2 template as rendered by the Sparx EA / MODSARUS toolchain" status="DRAFT - not validated against the normative IEC 62559-3 XSD" basedOnTemplate="IEC 62559-2:2015" generatedFrom="SOLARMOVE_BUC-TR-01.docx" namespaceNote="urn:solarmove:iec62559-3-style:v0">
+  <UseCase uuid="24a7c36c-55a9-5361-b782-ab245f1a7cb3" id="BUC-TR-01" version="1.0">
+    <UseCaseIdentification>
+      <ID>BUC-TR-01</ID>
+      <Name>PV-Integrated Opportunity Charging for a Campus Passenger e-Bus</Name>
+      <Area>Energy System</Area>
+      <Domains>Distribution System, DER, Customer Premises</Domains>
+      <Zones>Field, Station, Operation, Enterprise</Zones>
+    </UseCaseIdentification>
+    <VersionControl>
+      <Version number="1.0">
+        <Date>20.10.2026</Date>
+        <Author>METU</Author>
+        <Changes>First public version</Changes>
+        <ApprovalStatus/>
+      </Version>
+    </VersionControl>
+    <ScopeAndObjectives>
+      <Scope>
+        <Paragraph>This use case covers the business-level coordination and commercial viability of operating a passenger e-bus on the METU campus using opportunity charging supported by local photovoltaic generation and campus energy management. It includes shuttle operation, charging during short layovers, coordination with campus electrical demand and grid limits, evaluation of VIPV/ePIPV operational value, and assessment of the business case for scaling opportunity charging to further e-buses and to other campus or municipal shuttle fleets. It excludes detailed control algorithms, communication protocols, hardware design details, step-by-step system interactions, and detailed financial/contractual modelling. Concrete pilot parameters: the METU campus ring shuttle service (eight shuttle routes, operating 08:00-20:30), a 180 kW DC fast charger, and local campus PV assets rated at 50 kW, 200 kW, 220 kW and 230 kW located near the served routes.</Paragraph>
+      </Scope>
+      <Objectives>
+        <Objective>Maintain reliable campus shuttle service while enabling opportunity charging during layovers.
+- Increase the use of local PV and reduce grid dependency for bus charging.
+- Limit the impact of charging on campus electrical infrastructure by respecting site constraints.
+- Generate pilot evidence for scalable VIPV/ePIPV deployment in passenger-bus applications.
+- Improve the cost-efficiency of e-bus operation (energy cost per trip/km, reduced dependence on large onboard batteries) and provide evidence to support the scalability and replicability of the opportunity-charging model to additional e-buses, campus routes, and municipal shuttle fleets.</Objective>
+      </Objectives>
+      <RelatedBusinessCases>
+        <Paragraph>The underlying commercial rationale is the Business Plan "Passenger VIPV Bus" led by Bozankaya: investing in PV-integrated opportunity charging is expected to reduce onboard-battery size and grid-charging costs while extending range and reducing service disruption, supporting municipalities and public transport operators in the business case for procuring VIPV/opportunity-charging solutions instead of overnight-only depot charging. The BUC therefore also serves as the evidence base to answer, at pilot level, whether this investment mitigates operational/financial risk (grid demand charges, battery degradation, oversized batteries) and creates a replicable, capital-saving alternative for campus and municipal shuttle fleets. For a list of related System/Business Use Cases, see Section 1.7 ("Relation to other use cases").</Paragraph>
+      </RelatedBusinessCases>
+      <FurtherScopeInformation label="System Use Cases (SUCs) in scope">
+        <Paragraph>Three System Use Cases (SUCs) detail this BUC and are within scope (see the BUC-TR-01 use case diagram and the SUC sequence diagrams):</Paragraph>
+        <Paragraph>SUC-TR-01.1 – VIPV monitoring and route-based PV potential assessment</Paragraph>
+        <Paragraph>SUC-TR-01.2 – PV-aware opportunity charging scheduling for the campus e-bus</Paragraph>
+        <Paragraph>SUC-TR-01.3 – Real-time grid-friendly charging session execution</Paragraph>
+      </FurtherScopeInformation>
+    </ScopeAndObjectives>
+    <Narrative>
+      <ShortDescription>
+        <Paragraph>This use case addresses the coordinated opportunity charging of a passenger e-bus operating on the METU campus within the SOLAR-MOVE Turkish pilot. The bus charges during short layovers instead of depending only on overnight charging. Charging is coordinated with local PV availability, campus electrical demand, battery readiness, and timetable needs so that mobility service is maintained while grid dependency is reduced.</Paragraph>
+      </ShortDescription>
+      <CompleteDescription>
+        <Paragraph>METU operates a campus shuttle service with recurrent short stops between trips. In this use case, a passenger e-bus is charged during those idle windows using a PV-linked charging concept rather than relying only on depot charging. The purpose is to keep the shuttle service reliable and available for students and visitors while making better use of local renewable energy and containing the cost and infrastructure burden of electrifying the fleet.
+
+Problem: relying on overnight-only depot charging requires large, heavy onboard batteries that reduce passenger capacity, increase vehicle wear, and force high peak grid draw at night when local solar is zero. Conversely, uncoordinated daytime opportunity charging can drive high capacity-related grid charges (the EPDK power charge, billed monthly on the contracted connection power at the campus PCC) that exceed campus site limits and accelerate battery degradation through unmanaged, frequent micro-charging. Local PV generation, on its own, cannot guarantee charging availability without intelligent buffer management and predictive scheduling. Solution: this use case coordinates opportunity charging during layovers with PV availability, campus load, and battery readiness. Value: it aims to maintain shuttle reliability, increase renewable electricity use, reduce grid energy consumption and demand charges, extend battery life, and create pilot evidence that is replicable by other closed-loop institutional microgrids (e.g., airports, hospitals, and corporate campuses) operating on predictable timetables..
+
+At business level, the Campus Shuttle Operator, Charge Point Operator, Campus Energy Manager, and EMS coordinate when charging should take place, how local PV should be used, and when grid energy is needed. The use case supports the comparison of charging approaches such as fixed-interval opportunity charging, PV-aligned charging, and overnight charging baselines, each assessed against: service reliability, PV share in charging energy, grid energy imported, peak demand impact, battery readiness, operational cost, and suitability for replication.
+
+Service value: because the primary asset of the Campus Shuttle Operator is passenger mobility, the opportunity-charging strategy is also assessed against timetable adherence, trip completion, waiting time/service disruption, and passenger demand, so that the use case remains service-oriented and not purely energy-oriented.
+
+Link between BUC objectives and the SUCs: 
+- SUC-TR-01.1 (VIPV monitoring and route-based PV potential assessment) supports the objective of generating pilot evidence for scalable VIPV/ePIPV deployment. 
+- SUC-TR-01.2 (PV-aware opportunity charging scheduling) supports the objectives of increasing local-PV use / reducing grid dependency and improving cost-efficiency. 
+- SUC-TR-01.3 (real-time grid-friendly charging session execution) supports the objectives of maintaining reliable shuttle service and limiting the impact of charging on campus electrical infrastructure.
+
+The pilot also supports collection of route-related solar irradiance and passenger-demand information so that routes can be assessed for future VIPV deployment. The expected result is a service-oriented and grid-friendly charging approach that improves renewable self-consumption, reduces charging from the grid, and creates evidence for replication in other campus or municipal shuttle systems.</Paragraph>
+      </CompleteDescription>
+    </Narrative>
+    <KeyPerformanceIndicators>
+      <KPI uuid="c032ca76-c21b-589c-8db5-94e8b3150b2e" id="KPI-01">
+        <Name>Service continuity / trip completion rate</Name>
+        <Description>Share of scheduled shuttle trips completed without energy-related interruption. No direct GA-level KPI equivalent; retained as a pilot-specific KPI (same treatment as KPI-05). Baseline: diesel-shuttle / pre-pilot service-reliability record on the same route and timetable.</Description>
+        <ReferenceToObjectives>Maintain reliable campus shuttle service while enabling opportunity charging during layovers.</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="5a2128c6-7f3d-57a9-9364-787a48dbabc1" id="KPI-02">
+        <Name>Local PV utilization for bus charging</Name>
+        <Description>Energy supplied to the bus from local PV, or the share of charging demand covered by PV. GA KPI mapping: U14 - Use of DERs in Parking Lots (target ≥30%, ER ref.) / . Baseline: non-PV-aware fixed-interval opportunity charging and overnight depot charging.</Description>
+        <ReferenceToObjectives>Increase the use of local PV and reduce grid dependency for bus charging.</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="8fc88c01-c4f9-5373-9256-0d7b44581aa5" id="KPI-03">
+        <Name>Grid energy imported for charging</Name>
+        <Description>Total grid energy used for bus charging over the operating period. GA KPI mapping: U17 - Self-Consumption (increase ≥25%, inverse framing of grid import). Baseline: overnight depot charging (100% grid-sourced) and non-PV-aware fixed-interval opportunity charging.</Description>
+        <ReferenceToObjectives>Increase the use of local PV and reduce grid dependency for bus charging.</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="e196d99e-6fe1-5267-a183-1d74b0c755fb" id="KPI-04">
+        <Name>Infrastructure constraint compliance</Name>
+        <Description>Number or share of time periods in which charger and site electrical limits are respected. GA KPI mapping: U07 - Constraints Violation Occurrence (decrease ≥15%). Baseline: uncoordinated / fixed-interval charging without site-limit awareness.</Description>
+        <ReferenceToObjectives>Limit the impact of charging on campus electrical infrastructure by respecting site constraints.</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="0627a924-4025-5f0b-8926-51072b967a16" id="KPI-05">
+        <Name>Battery readiness for next service window</Name>
+        <Description>Ability to meet the required terminal or next-shift battery readiness target. No direct GA-level KPI equivalent; retained as a pilot-specific KPI. Baseline: manufacturer-nominal end-of-day SoC under overnight-only charging.</Description>
+        <ReferenceToObjectives>Maintain reliable campus shuttle service while enabling opportunity charging during layovers; limit the impact on campus electrical infrastructure.</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="ca9e0f81-1970-5621-b5a3-14fe806386d7" id="KPI-06">
+        <Name>Flexibility potential</Name>
+        <Description>Estimated flexibility that the VIPV + opportunity-charging setup can offer to campus/grid energy management (shiftable charging power/energy). GA KPI mapping: U06 - Flexibility Potential (increase ≥25%). Baseline: fixed, non-flexible overnight depot-charging schedule.</Description>
+        <ReferenceToObjectives>Increase the use of local PV and reduce grid dependency for bus charging; support cost-efficiency and scalability.</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="1579922d-ecec-5a32-8ac2-e4e3f51f0c30" id="KPI-07">
+        <Name>Peak consumption reduction (demand response)</Name>
+        <Description>Reduction of campus peak electrical demand attributable to bus charging, compared to unmanaged charging. GA KPI mapping: U12 - Peak Consumption Reduction (DR) (≥25% vs. without management). Baseline: fixed-interval / uncoordinated opportunity charging without PV or site-limit awareness.</Description>
+        <ReferenceToObjectives>Limit the impact of charging on campus electrical infrastructure by respecting site constraints.</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="14db25ba-4d5f-5b87-9d6e-c520c7b55220" id="KPI-08">
+        <Name>Operation cost (ePIPV / bus charging)</Name>
+        <Description>Energy cost of charging the e-bus (per trip / per km / per operating period), reflecting PV-aware scheduling versus non-optimal charging. GA KPI mapping: U04 - Operation Cost (ePIPV) (reduce ≥25% vs. non-optimal). Baseline: non-optimal / fixed-interval charging without PV-aware scheduling.</Description>
+        <ReferenceToObjectives>Improve the cost-efficiency of e-bus operation and provide evidence to support the scalability and replicability of the opportunity-charging model.</ReferenceToObjectives>
+      </KPI>
+      <Notes>
+        <Paragraph>Note on GA KPI harmonisation: KPI-02, KPI-03 and KPI-04 are remapped to GA-level KPIs U14, U17 and U07 respectively. KPI-06, KPI-07 and KPI-08 are new pilot KPIs added to align with the GA-level KPIs U06 (Flexibility Potential), U12 (Peak Consumption Reduction) and U04 (Operation Cost), consistent with the SOLAR-MOVE Homogenized KPI matrix. KPI-01 (trip completion rate) was reviewed against a possible remapping to U16 (Number of Services for ePIPV Participation); METU confirmed these measure different things - KPI-01 tracks completion of scheduled bus trips, while U16 tracks the number of grid/market services an ePIPV offers - so KPI-01 is retained as a pilot-specific KPI with no GA equivalent, the same treatment applied to KPI-05 (Battery Readiness).</Paragraph>
+      </Notes>
+    </KeyPerformanceIndicators>
+    <UseCaseConditions>
+      <Assumptions>
+        <Assumption>The shuttle service follows a predefined timetable with identifiable layovers suitable for opportunity charging.
+- The e-bus, charger, and campus energy-management systems remain available and reliably operational throughout the operating day (continuous uptime of commissioned assets, not their initial availability).
+- The data streams from PV, load, and metering systems perform with sufficient accuracy, latency, and completeness to support charging decisions (technical performance of the data stream, not its existence, which is established as a prerequisite).
+- Solar irradiance and weather-forecast errors remain within thresholds manageable by the EMS.
+- The external grid connection maintains standard voltage and frequency.
+- Campus traffic and passenger-load variations do not introduce extreme deviations from the assumed timetable and layover durations.</Assumption>
+      </Assumptions>
+      <Prerequisites>
+        <Prerequisite>Passenger e-bus and opportunity charging point are commissioned for pilot operation.
+- Route, timetable, charging windows, and battery operating limits are defined by the operator.
+- Access to campus PV and site electrical measurements is established.
+- Roles and responsibilities are agreed among the shuttle operator, CPO, campus energy manager, and pilot partners.</Prerequisite>
+      </Prerequisites>
+    </UseCaseConditions>
+    <ClassificationInformation>
+      <RelationToOtherUseCases>Linked to the SOLAR-MOVE Turkish pilot VIPV passenger-bus demonstration, PV potential estimation for routes (SOL11/SOL12), optimal operation of ePIPV systems (SOL15/SOL16), and to the "Passenger VIPV Bus" business plan led by Bozankaya.</RelationToOtherUseCases>
+      <LevelOfDepth>BUC (Business Use Case)</LevelOfDepth>
+      <Prioritisation>High</Prioritisation>
+      <GenericRegionalNationalRelation>Pilot-specific / regional (Turkey - METU campus), with replication potential for Closed-Loop Institutional Microgrids sharing METU's operating profile. Two core replication archetypes are identified: (i) airport terminal-shuttle systems with large hangar/terminal PV, and (ii) corporate or hospital campus shuttle systems with high daytime predictability. Replicability depends on predictable timetables and sufficient layover durations; sites without regular scheduled breaks are not expected to support the opportunity-charging business model.</GenericRegionalNationalRelation>
+      <NatureOfUseCase>Business use case for PV-integrated electric mobility and smart charging.</NatureOfUseCase>
+      <FurtherKeywords>
+        <Paragraph>e-bus, opportunity charging, VIPV, ePIPV, campus microgrid, photovoltaic integration, smart charging, EMS</Paragraph>
+        <Paragraph>Scalability blueprint</Paragraph>
+        <Paragraph>Scalability is defined as extending the opportunity-charging model beyond the single pilot e-bus. Scalability assumptions: additional e-buses on the METU campus; other campus shuttle routes; municipal shuttle systems; sites with PV and layover patterns similar to METU; sites with comparable charger and grid constraints. Scalability conditions: predictable timetables; sufficient layover duration; suitable charger power; adequate PV availability; access to route and passenger-demand data; and campus/site energy-management capability.</Paragraph>
+      </FurtherKeywords>
+    </ClassificationInformation>
+    <GeneralRemarks>
+      <Paragraph>This first iteration intentionally keeps the use case at business level. Detailed scenarios, information exchanges, and requirements should be completed during the SUC phase.</Paragraph>
+    </GeneralRemarks>
+    <Diagrams>
+      <Diagram number="Figure 1" type="Use case diagram">
+        <Caption>BUC-TR-01 — PV-Integrated Opportunity Charging for a Campus Passenger e-Bus (use case diagram)</Caption>
+        <ImageReference>images/fig1-buc-tr-01-use-case-diagram.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 2" type="Sequence diagram">
+        <Caption>SUC-TR-01.1 — VIPV monitoring and route-based PV potential assessment (sequence diagram)</Caption>
+        <ImageReference>images/fig2-suc-tr-01.1-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 3" type="Sequence diagram">
+        <Caption>SUC-TR-01.2 — PV-aware opportunity charging scheduling for the campus e-bus (sequence diagram)</Caption>
+        <ImageReference>images/fig3-suc-tr-01.2-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 4" type="Sequence diagram">
+        <Caption>SUC-TR-01.3 — Real-time grid-friendly charging session execution (sequence diagram)</Caption>
+        <ImageReference>images/fig4-suc-tr-01.3-sequence.png</ImageReference>
+      </Diagram>
+    </Diagrams>
+    <References>
+      <Reference number="1">
+        <Type>Project document</Type>
+        <Description>SOLAR-MOVE Part B: Technical Description, V0.7, 04 Feb 2025.</Description>
+        <Status>Draft / proposal</Status>
+        <ImpactOnUseCase>Defines overall project goals, Turkish pilot scope, and VIPV/ePIPV context.</ImpactOnUseCase>
+        <Originator>SOLAR-MOVE Consortium</Originator>
+        <Link>Internal doc</Link>
+      </Reference>
+      <Reference number="2">
+        <Type>Pilot description</Type>
+        <Description>Turkish Pilot (VIPV: Passenger Bus; ePIPV: Management of ePIPV Opportunity Charging) in SOLAR-MOVE proposal.</Description>
+        <Status>Draft / proposal</Status>
+        <ImpactOnUseCase>Provides pilot narrative, METU campus context, and PV-linked charging concept.</ImpactOnUseCase>
+        <Originator>SOLAR-MOVE Consortium / METU</Originator>
+        <Link>Internal doc</Link>
+      </Reference>
+    </References>
+    <StepByStepAnalysis>
+      <ScenariosOverview>
+        <ScenarioOverview number="1">
+          <ScenarioName>VIPV monitoring and route-based PV potential assessment</ScenarioName>
+          <ScenarioDescription>While the e-bus runs its scheduled route, the pyranometer and VIPV controller report irradiance and on-bus PV output; the campus data logger aggregates the route time-series and the EMS classifies the route PV potential and produces a route PV-potential map.</ScenarioDescription>
+          <PrimaryActor>Campus Shuttle Operator</PrimaryActor>
+          <TriggeringEvent>Bus departs on its scheduled route.</TriggeringEvent>
+          <PreCondition>Route, timetable and measurement devices (pyranometer, VIPV controller/MPPT, data logger) are commissioned and reporting.</PreCondition>
+          <PostCondition>Route PV-potential map is available to the Campus Shuttle Operator for VIPV deployment assessment.</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="2">
+          <ScenarioName>PV-aware opportunity charging scheduling for the campus e-bus</ScenarioName>
+          <ScenarioDescription>The EMS collects the timetable/layover windows, day-ahead irradiance forecast, PV generation forecast and campus load profile, compares three charging strategies, and issues a charging plan (setpoints per layover) to the CSMS.</ScenarioDescription>
+          <PrimaryActor>Campus Shuttle Operator (timetable) / EMS (scheduling)</PrimaryActor>
+          <TriggeringEvent>A new service day or updated timetable requires a charging plan.</TriggeringEvent>
+          <PreCondition>Timetable and layover windows are defined; weather, PV-inverter and PCC-meter services are reachable.</PreCondition>
+          <PostCondition>A PV-aware charging plan with per-layover setpoints is acknowledged by the CSMS and ready for execution.</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="3">
+          <ScenarioName>Real-time grid-friendly charging session execution</ScenarioName>
+          <ScenarioDescription>When the e-bus connects during a layover, the CSMS opens the session on the EVSE with the planned setpoints; during charging the EMS adjusts power in real time based on PV surplus and PCC grid-import limits; at the end, session and KPI data are reported.</ScenarioDescription>
+          <PrimaryActor>Charge Point Operator (CPO) / CSMS</PrimaryActor>
+          <TriggeringEvent>The e-bus connects to the charger during a scheduled layover.</TriggeringEvent>
+          <PreCondition>A valid charging plan exists (from SUC-TR-01.2); EVSE, BMS/OBC, PCC meter and EMS are operational.</PreCondition>
+          <PostCondition>Charging session completes within site limits; session summary and KPI data (PV share, grid import) are recorded.</PostCondition>
+        </ScenarioOverview>
+      </ScenariosOverview>
+      <Scenarios>
+        <Scenario name="4.2.1 SUC-TR-01.1 - VIPV monitoring and route-based PV potential assessment">
+          <Step number="1">
+            <Event>Bus departs on scheduled route</Event>
+            <NameOfProcessActivity>Start route monitoring</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Trigger: the e-bus begins its scheduled campus route and route monitoring starts.</DescriptionOfProcessActivity>
+            <Service>TRIGGER</Service>
+            <InformationProducer>Campus Shuttle Operator</InformationProducer>
+            <InformationReceiver>—</InformationReceiver>
+            <InformationExchanged>—</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2">
+            <Event>Measurement interval elapses</Event>
+            <NameOfProcessActivity>Report GHI</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Pyranometer reports periodic global horizontal irradiance along the route to the data logger.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>Pyranometer / Irradiance Sensor</InformationProducer>
+            <InformationReceiver>Campus Data Logger</InformationReceiver>
+            <InformationExchanged>Inf.1</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-02</RID>
+              <RID>R-COM-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3">
+            <Event>Measurement interval elapses</Event>
+            <NameOfProcessActivity>Report VIPV output</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>VIPV controller / MPPT reports periodic on-bus PV array power output to the data logger.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>VIPV Controller / MPPT</InformationProducer>
+            <InformationReceiver>Campus Data Logger</InformationReceiver>
+            <InformationExchanged>Inf.2</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-02</RID>
+              <RID>R-INT-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4">
+            <Event>During route</Event>
+            <NameOfProcessActivity>Repeat measurements</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>REPEAT(2-3) for each measurement interval until the bus completes the route.</DescriptionOfProcessActivity>
+            <Service>REPEAT</Service>
+            <InformationProducer>—</InformationProducer>
+            <InformationReceiver>—</InformationReceiver>
+            <InformationExchanged>Inf.1, Inf.2</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="5">
+            <Event>Bus completes route</Event>
+            <NameOfProcessActivity>Aggregate route data</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Data logger sends the aggregated route data time-series to the EMS.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>Campus Data Logger</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.3</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-03</RID>
+              <RID>R-DAT-06</RID>
+              <RID>R-DAT-07</RID>
+              <RID>R-EMS-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="6">
+            <Event>Route data received</Event>
+            <NameOfProcessActivity>Classify PV potential</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS classifies the route PV potential from the aggregated time-series (internal processing).</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>—</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-01</RID>
+              <RID>R-DAT-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="7">
+            <Event>Classification complete</Event>
+            <NameOfProcessActivity>Provide PV-potential map</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS reports the route PV-potential map to the Campus Shuttle Operator.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>Campus Shuttle Operator</InformationReceiver>
+            <InformationExchanged>Inf.4</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-UI-01</RID>
+              <RID>R-COM-03</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.2 SUC-TR-01.2 - PV-aware opportunity charging scheduling for the campus e-bus">
+          <Step number="1">
+            <Event>Charging plan required</Event>
+            <NameOfProcessActivity>Provide timetable</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Campus Shuttle Operator reports the timetable and layover windows to the EMS.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>Campus Shuttle Operator</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.5</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-06</RID>
+              <RID>R-SC-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2">
+            <Event>Timetable received</Event>
+            <NameOfProcessActivity>Request irradiance forecast</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS requests the day-ahead irradiance forecast; the Weather Forecast Service returns it.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>Weather Forecast Service</InformationReceiver>
+            <InformationExchanged>Inf.6</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-01</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-INT-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3">
+            <Event>Forecast needed</Event>
+            <NameOfProcessActivity>Request PV generation forecast</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS requests the PV generation forecast; the campus PV inverters return availability and status.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>Campus PV Inverter(s)</InformationReceiver>
+            <InformationExchanged>Inf.7</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-01</RID>
+              <RID>R-INT-04</RID>
+              <RID>R-COM-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4">
+            <Event>Load context needed</Event>
+            <NameOfProcessActivity>Request campus load profile</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS requests the campus load profile; the smart meter at the PCC returns it.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>Smart Meter at PCC</InformationReceiver>
+            <InformationExchanged>Inf.8</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-02</RID>
+              <RID>R-MVR-01</RID>
+              <RID>R-COM-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="5">
+            <Event>Inputs collected</Event>
+            <NameOfProcessActivity>Compute charging strategies</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS computes and compares three charging strategies (fixed-interval, PV-aligned, overnight baseline) - internal processing.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>—</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-05</RID>
+              <RID>R-FOR-06</RID>
+              <RID>R-FOR-08</RID>
+              <RID>R-EMS-03</RID>
+              <RID>R-SC-04</RID>
+              <RID>R-SAF-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="6">
+            <Event>Strategy selected</Event>
+            <NameOfProcessActivity>Issue charging plan</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS sends the charging plan (setpoints per layover) to the CSMS, which acknowledges it.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>CSMS</InformationReceiver>
+            <InformationExchanged>Inf.9</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-03</RID>
+              <RID>R-SC-03</RID>
+              <RID>R-COM-03</RID>
+              <RID>R-INT-02</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.3 SUC-TR-01.3 - Real-time grid-friendly charging session execution">
+          <Step number="1">
+            <Event>e-bus connects at layover</Event>
+            <NameOfProcessActivity>Detect connection</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Trigger: the e-bus connects to the charger during a scheduled layover.</DescriptionOfProcessActivity>
+            <Service>TRIGGER</Service>
+            <InformationProducer>—</InformationProducer>
+            <InformationReceiver>—</InformationReceiver>
+            <InformationExchanged>—</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2">
+            <Event>Connection detected</Event>
+            <NameOfProcessActivity>Notify connection</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EVSE notifies the CSMS that the bus has connected.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EVSE</InformationProducer>
+            <InformationReceiver>CSMS</InformationReceiver>
+            <InformationExchanged>Inf.10</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-01</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-INT-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3">
+            <Event>Plan lookup</Event>
+            <NameOfProcessActivity>Request setpoints</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>CSMS requests the charging setpoints for this layover; EMS returns the setpoints from SUC-TR-01.2.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>CSMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.11</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-03</RID>
+              <RID>R-COM-03</RID>
+              <RID>R-INT-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4">
+            <Event>Setpoints received</Event>
+            <NameOfProcessActivity>Open session</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>CSMS opens the charging session on the EVSE with the planned setpoints.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>CSMS</InformationProducer>
+            <InformationReceiver>EVSE</InformationReceiver>
+            <InformationExchanged>Inf.12</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-03</RID>
+              <RID>R-INT-02</RID>
+              <RID>R-COM-03</RID>
+              <RID>R-SAF-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="5">
+            <Event>Session opening</Event>
+            <NameOfProcessActivity>Report SoC &amp; limits</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>BMS / OBC reports state of charge and charge-acceptance limits to the EVSE.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>BMS / OBC</InformationProducer>
+            <InformationReceiver>EVSE</InformationReceiver>
+            <InformationExchanged>Inf.13</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-02</RID>
+              <RID>R-SAF-07</RID>
+              <RID>R-INT-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="6">
+            <Event>Session started</Event>
+            <NameOfProcessActivity>Report session start</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EVSE reports session start and the initial meter value to the CSMS.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EVSE</InformationProducer>
+            <InformationReceiver>CSMS</InformationReceiver>
+            <InformationExchanged>Inf.14</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MVR-03</RID>
+              <RID>R-DAT-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="7">
+            <Event>During session (real-time)</Event>
+            <NameOfProcessActivity>Adjust power (grid-friendly)</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>ALT on PCC real-time grid import / PV surplus: EMS sends an adjusted power setpoint to the CSMS [if PV surplus -&gt; increase; else site limit approached -&gt; reduce]; CSMS relays the updated setpoint to the EVSE.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>CSMS / EVSE</InformationReceiver>
+            <InformationExchanged>Inf.15</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-RTC-02</RID>
+              <RID>R-RTC-03</RID>
+              <RID>R-RTC-04</RID>
+              <RID>R-RTC-07</RID>
+              <RID>R-GFR-01</RID>
+              <RID>R-SC-04</RID>
+              <RID>R-SAF-08</RID>
+              <RID>R-EMS-04</RID>
+              <RID>R-EMS-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="8">
+            <Event>Layover ends / target reached</Event>
+            <NameOfProcessActivity>Close session</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EVSE reports session end and final energy to the CSMS.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EVSE</InformationProducer>
+            <InformationReceiver>CSMS</InformationReceiver>
+            <InformationExchanged>Inf.16</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MVR-03</RID>
+              <RID>R-RTC-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="9">
+            <Event>Session closed</Event>
+            <NameOfProcessActivity>Summarise session</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>CSMS reports the session summary to the EMS.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>CSMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.16</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MVR-07</RID>
+              <RID>R-DAT-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="10">
+            <Event>Post-session</Event>
+            <NameOfProcessActivity>Report KPI data</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS reports KPI data (PV share, grid import) to the Campus Energy Manager.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>Campus Energy Manager</InformationReceiver>
+            <InformationExchanged>Inf.17</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MVR-06</RID>
+              <RID>R-UI-01</RID>
+              <RID>R-DAT-05</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+      </Scenarios>
+    </StepByStepAnalysis>
+    <InformationExchanged>
+      <Information uuid="a2b618c7-d256-5052-9313-14d4f5ed407e" id="Inf.1">
+        <Name>GHI measurement</Name>
+        <Description>Periodic global horizontal irradiance (W/m2) measured along the route / on campus by the pyranometer.</Description>
+        <RequirementReferences>
+          <RID>R-DAT-01</RID>
+          <RID>R-DAT-02</RID>
+          <RID>R-DAT-03</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="2d1536bc-01eb-5c2b-84b3-03b0d72c600f" id="Inf.2">
+        <Name>VIPV array power output</Name>
+        <Description>Periodic electrical power output (W) of the vehicle-integrated PV array, reported by the VIPV controller / MPPT.</Description>
+        <RequirementReferences>
+          <RID>R-DAT-01</RID>
+          <RID>R-DAT-02</RID>
+          <RID>R-INT-04</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="42d5873a-2fcc-595b-a0f1-77ec0f7e52ee" id="Inf.3">
+        <Name>Aggregated route data time-series</Name>
+        <Description>Combined time-series of route irradiance and VIPV output for one completed route, compiled by the campus data logger.</Description>
+        <RequirementReferences>
+          <RID>R-DAT-06</RID>
+          <RID>R-DAT-07</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="60008f5b-00b9-5bc6-b2bd-29bdbfc59e04" id="Inf.4">
+        <Name>Route PV-potential map</Name>
+        <Description>Classification / estimate of solar PV potential per route segment, derived by the EMS for VIPV deployment assessment.</Description>
+        <RequirementReferences>
+          <RID>R-FOR-01</RID>
+          <RID>R-UI-01</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="8d718ead-39fc-5b42-aa1d-dd0ce2fb631a" id="Inf.5">
+        <Name>Timetable &amp; layover windows</Name>
+        <Description>Service timetable and the identified layover windows suitable for opportunity charging.</Description>
+        <RequirementReferences>
+          <RID>R-AIC-06</RID>
+          <RID>R-SC-07</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="d7187a56-9e6f-51d3-baeb-95244255d5c0" id="Inf.6">
+        <Name>Day-ahead irradiance forecast</Name>
+        <Description>Forecast solar irradiance for the next day (e.g. hourly) provided by the weather forecast service.</Description>
+        <RequirementReferences>
+          <RID>R-FOR-01</RID>
+          <RID>R-INT-01</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="8546f55a-470b-537d-ac0d-bb09ff530745" id="Inf.7">
+        <Name>PV generation forecast / availability &amp; status</Name>
+        <Description>Expected campus PV generation together with inverter availability and status.</Description>
+        <RequirementReferences>
+          <RID>R-FOR-01</RID>
+          <RID>R-INT-04</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="5dd79133-310c-539b-884c-17827c9ab148" id="Inf.8">
+        <Name>Campus load profile</Name>
+        <Description>Measured / expected campus electrical load at the PCC, used to respect site constraints.</Description>
+        <RequirementReferences>
+          <RID>R-FOR-02</RID>
+          <RID>R-MVR-01</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="2aa191cb-2052-519a-9cb7-a70c0612a480" id="Inf.9">
+        <Name>Charging plan (setpoints per layover)</Name>
+        <Description>Planned charging-power setpoints for each layover window, with plan acknowledgment from the CSMS.</Description>
+        <RequirementReferences>
+          <RID>R-EMS-03</RID>
+          <RID>R-SC-03</RID>
+          <RID>R-COM-03</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="947a359e-0dfd-5552-87fb-fbecbbf3b8e9" id="Inf.10">
+        <Name>Bus connection notification</Name>
+        <Description>Notification that the e-bus has physically connected to the EVSE for a session.</Description>
+        <RequirementReferences>
+          <RID>R-SC-01</RID>
+          <RID>R-INT-02</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="79ba94ac-2db4-5433-bda2-fbc42f545b97" id="Inf.11">
+        <Name>Charging setpoints (request / response)</Name>
+        <Description>Request for, and delivery of, the planned charging setpoints for the current layover (from SUC-TR-01.2).</Description>
+        <RequirementReferences>
+          <RID>R-EMS-03</RID>
+          <RID>R-COM-03</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="5fc1b5a4-3fd5-5d0a-af87-5a1d6fa417fd" id="Inf.12">
+        <Name>Open charging session command</Name>
+        <Description>Command to start a charging session on the EVSE using the planned setpoints.</Description>
+        <RequirementReferences>
+          <RID>R-SC-03</RID>
+          <RID>R-SAF-01</RID>
+          <RID>R-INT-02</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="9079ccc6-4c14-5261-a815-f4b7319b9ef6" id="Inf.13">
+        <Name>SoC &amp; acceptance limits</Name>
+        <Description>Battery state of charge and charge-acceptance limits reported by the bus BMS / OBC.</Description>
+        <RequirementReferences>
+          <RID>R-SC-02</RID>
+          <RID>R-SAF-07</RID>
+          <RID>R-INT-03</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="9f59c602-411d-5608-997c-407d979e9a0f" id="Inf.14">
+        <Name>Session start / meter value</Name>
+        <Description>Charging-session start confirmation and the initial energy-meter reading.</Description>
+        <RequirementReferences>
+          <RID>R-MVR-03</RID>
+          <RID>R-DAT-02</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="f38e9ee5-4fdc-55be-b19f-3c510f53ba45" id="Inf.15">
+        <Name>Adjusted power setpoint</Name>
+        <Description>Real-time updated charging-power setpoint for grid-friendly / PV-aware operation (increase on PV surplus, reduce near site limits).</Description>
+        <RequirementReferences>
+          <RID>R-RTC-02</RID>
+          <RID>R-RTC-03</RID>
+          <RID>R-GFR-01</RID>
+          <RID>R-SC-04</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="918ac4d8-472f-5c3e-a12d-2aefb5b385e3" id="Inf.16">
+        <Name>Session end / final energy &amp; summary</Name>
+        <Description>Session-end notification with final delivered energy, and the resulting session summary.</Description>
+        <RequirementReferences>
+          <RID>R-MVR-03</RID>
+          <RID>R-MVR-07</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="ccbf57bf-14cd-5d3a-8b89-eaa8a4537189" id="Inf.17">
+        <Name>KPI data (PV share, grid import)</Name>
+        <Description>Post-session KPI data including PV self-consumption share and grid energy imported, for evaluation.</Description>
+        <RequirementReferences>
+          <RID>R-MVR-06</RID>
+          <RID>R-DAT-05</RID>
+        </RequirementReferences>
+      </Information>
+    </InformationExchanged>
+    <CommonTermsAndDefinitions>
+      <Term>
+        <Name>Business Use Case (BUC)</Name>
+        <Definition>Use case describing the business goals, actors and value of a service, independent of its technical implementation.</Definition>
+      </Term>
+      <Term>
+        <Name>System Use Case (SUC)</Name>
+        <Definition>Use case describing how system components interact (scenarios, information exchanged, requirements) to realise part of a BUC.</Definition>
+      </Term>
+      <Term>
+        <Name>Opportunity charging</Name>
+        <Definition>Charging an electric bus during short scheduled stops (layovers) during the service day, instead of relying only on overnight depot charging.</Definition>
+      </Term>
+      <Term>
+        <Name>Layover</Name>
+        <Definition>Scheduled pause of the bus between two trips at a terminal stop; the time window available for opportunity charging.</Definition>
+      </Term>
+      <Term>
+        <Name>Overnight (depot) charging</Name>
+        <Definition>Charging of the bus at the depot outside service hours; used as a baseline in this use case.</Definition>
+      </Term>
+      <Term>
+        <Name>Fixed-interval opportunity charging</Name>
+        <Definition>Non-PV-aware opportunity charging at full power during every layover; used as a baseline in this use case.</Definition>
+      </Term>
+      <Term>
+        <Name>PV-aware (PV-aligned) charging</Name>
+        <Definition>Opportunity charging scheduled and adjusted by the EMS according to forecast and measured PV generation, campus load and site limits.</Definition>
+      </Term>
+      <Term>
+        <Name>ePIPV</Name>
+        <Definition>Charging infrastructure integrated with local photovoltaic generation, as defined in SOLAR-MOVE; here the campus DC charging point together with the campus PV plants.</Definition>
+      </Term>
+      <Term>
+        <Name>VIPV</Name>
+        <Definition>Vehicle-Integrated Photovoltaics: PV modules integrated into the bus body that supply on-board energy.</Definition>
+      </Term>
+      <Term>
+        <Name>EMS</Name>
+        <Definition>Energy Management System: forecasts PV generation and campus load and plans and controls charging within the site limits.</Definition>
+      </Term>
+      <Term>
+        <Name>CSMS</Name>
+        <Definition>Charging Station Management System: back-end that manages charging sessions and power setpoints of the EVSE.</Definition>
+      </Term>
+      <Term>
+        <Name>EVSE</Name>
+        <Definition>Electric Vehicle Supply Equipment: the charging point (here a 180 kW DC charger).</Definition>
+      </Term>
+      <Term>
+        <Name>CPO</Name>
+        <Definition>Charge Point Operator: the market role that operates and maintains the charging point.</Definition>
+      </Term>
+      <Term>
+        <Name>PCC</Name>
+        <Definition>Point of Common Coupling: the campus connection point to the distribution grid, where campus import is metered and limited.</Definition>
+      </Term>
+      <Term>
+        <Name>SoC</Name>
+        <Definition>State of Charge: energy content of the bus battery as a percentage of its capacity.</Definition>
+      </Term>
+      <Term>
+        <Name>PV share of charging</Name>
+        <Definition>Share of the energy delivered to the bus that is covered by local PV generation (KPI-02).</Definition>
+      </Term>
+      <Term>
+        <Name>Peak shaving</Name>
+        <Definition>Limiting the increase of campus peak import caused by bus charging (KPI-07).</Definition>
+      </Term>
+      <Term>
+        <Name>GHI</Name>
+        <Definition>Global Horizontal Irradiance: solar irradiance on a horizontal surface, in W/m², measured by the pyranometer.</Definition>
+      </Term>
+      <Term>
+        <Name>MPPT</Name>
+        <Definition>Maximum Power Point Tracking: controller that maximises the power output of the VIPV array.</Definition>
+      </Term>
+      <Term>
+        <Name>BMS / OBC</Name>
+        <Definition>Battery Management System / On-Board Charger of the e-bus; reports SoC and charge-acceptance limits.</Definition>
+      </Term>
+    </CommonTermsAndDefinitions>
+  </UseCase>
+  <ActorList>
+    <Actor uuid="31807408-08b9-507d-93d5-7d4e1b382440">
+      <Name>Campus Shuttle Operator</Name>
+      <Type>Business</Type>
+      <Description>Entity responsible for planning and operating the campus passenger-bus service.</Description>
+      <FurtherInformation>Defines timetable, service continuity needs, and vehicle availability.</FurtherInformation>
+    </Actor>
+    <Actor uuid="c373f966-9ff1-539a-8554-ee3fcde9589d">
+      <Name>Charge Point Operator (CPO)</Name>
+      <Type>Business</Type>
+      <Description>Entity responsible for operation and availability of the opportunity charging point.</Description>
+      <FurtherInformation>Ensures charger access, status, maintenance, and charging-service provision.</FurtherInformation>
+    </Actor>
+    <Actor uuid="73c32ca9-38b1-5fc5-a0d2-37b55da8c49b">
+      <Name>Energy Management System (EMS)</Name>
+      <Type>System</Type>
+      <Description>System that coordinates charging decisions using service schedule, PV availability, campus demand, and battery constraints.</Description>
+      <FurtherInformation>Supports PV-aware and grid-friendly charging strategies.</FurtherInformation>
+    </Actor>
+    <Actor uuid="0bae1763-93e6-532b-b547-3bf641640178">
+      <Name>Campus Energy Manager / Facility Operator</Name>
+      <Type>Business</Type>
+      <Description>Entity responsible for campus electrical infrastructure, local PV assets, and site-level operational constraints.</Description>
+      <FurtherInformation>Provides site limits, campus-load context, and operational priorities.</FurtherInformation>
+    </Actor>
+    <Actor uuid="accc9028-f533-549a-b5d5-079d6e90fc24">
+      <Name>PV System Operator / Owner</Name>
+      <Type>Business</Type>
+      <Description>Entity responsible for operation and performance of local PV assets used in the pilot.</Description>
+      <FurtherInformation>Provides generation availability, maintenance status, and performance information.</FurtherInformation>
+    </Actor>
+    <Actor uuid="6761026a-aebd-5a8c-93fb-8c123755550c">
+      <Name>Bus Users / Passengers</Name>
+      <Type>Business</Type>
+      <Description>End users of the campus shuttle service whose mobility needs must be met.</Description>
+      <FurtherInformation>Service continuity and timetable adherence are critical from their point of view.</FurtherInformation>
+    </Actor>
+    <Actor uuid="9fadfcec-8e22-5407-b2fa-0e17c5032c5a">
+      <Name>Distribution System Operator (DSO)</Name>
+      <Type>Business</Type>
+      <Description>External grid operator supplying the campus distribution connection.</Description>
+      <FurtherInformation>Relevant for grid-impact assessment and future flexibility-service extensions.</FurtherInformation>
+    </Actor>
+    <Actor uuid="507275e6-6350-5dd7-a0e8-4436a6670d16">
+      <Name>Charging Station Management System (CSMS)</Name>
+      <Type>System</Type>
+      <Description>Back-end system managing the charging station; mediates between the EMS charging plan and the EVSE and records session data.</Description>
+      <FurtherInformation>Appears in the SUC-TR-01.2 and SUC-TR-01.3 sequence diagrams; receives the charging plan and relays setpoints and session events.</FurtherInformation>
+    </Actor>
+    <Actor uuid="a5178133-084b-5d1f-b3c2-21ab561c452e">
+      <Name>Electric Vehicle Supply Equipment (EVSE)</Name>
+      <Type>System</Type>
+      <Description>The 180 kW DC charging station that delivers power to the e-bus and applies power setpoints during a session.</Description>
+      <FurtherInformation>Appears in the SUC-TR-01.3 sequence diagram; opens/closes the charging session and applies adjusted power setpoints.</FurtherInformation>
+    </Actor>
+    <Actor uuid="c7ed69f0-1314-5f40-a3cb-385b7f6bb79f">
+      <Name>Weather Forecast Service</Name>
+      <Type>System</Type>
+      <Description>External service providing day-ahead irradiance and weather forecasts used for charging scheduling.</Description>
+      <FurtherInformation>Appears in the SUC-TR-01.2 sequence diagram; supplies the irradiance forecast on request from the EMS.</FurtherInformation>
+    </Actor>
+    <Actor uuid="a9c90f3d-a400-51ed-9316-a64d9434a06f">
+      <Name>Campus PV Inverter(s)</Name>
+      <Type>System</Type>
+      <Description>Inverter(s) of the local campus PV plant reporting generation availability and status.</Description>
+      <FurtherInformation>Appears in the SUC-TR-01.2 sequence diagram; provides PV generation forecast and availability to the EMS.</FurtherInformation>
+    </Actor>
+    <Actor uuid="80d653f8-1ccc-5345-aa48-1f9a9a9447f2">
+      <Name>Smart Meter at PCC</Name>
+      <Type>System</Type>
+      <Description>Metering device at the Point of Common Coupling (PCC) measuring campus import/export and load at the grid connection.</Description>
+      <FurtherInformation>Appears in the SUC-TR-01.2 and SUC-TR-01.3 sequence diagrams; provides the campus load profile and real-time grid-import measurements.</FurtherInformation>
+    </Actor>
+    <Actor uuid="537e1b4a-f722-5879-ae7f-554a1e687383">
+      <Name>BMS / OBC (on-board bus)</Name>
+      <Type>System</Type>
+      <Description>Battery Management System / On-Board Charger of the e-bus, reporting state of charge and charge-acceptance limits.</Description>
+      <FurtherInformation>Appears in the SUC-TR-01.3 sequence diagram; reports SoC and acceptance limits during the charging session.</FurtherInformation>
+    </Actor>
+    <Actor uuid="e8249118-72fd-578a-a5cd-2d29b1c1a419">
+      <Name>Pyranometer / Irradiance Sensor</Name>
+      <Type>System</Type>
+      <Description>Sensor measuring global horizontal irradiance (GHI) along the route and on campus.</Description>
+      <FurtherInformation>Appears in the SUC-TR-01.1 sequence diagram; reports periodic GHI measurements.</FurtherInformation>
+    </Actor>
+    <Actor uuid="15b61e33-101c-51e6-9b5a-177200e4c0ef">
+      <Name>VIPV Controller / MPPT</Name>
+      <Type>System</Type>
+      <Description>Vehicle-integrated PV controller / maximum-power-point tracker managing the on-bus PV array.</Description>
+      <FurtherInformation>Appears in the SUC-TR-01.1 sequence diagram; reports VIPV array power output.</FurtherInformation>
+    </Actor>
+    <Actor uuid="f2a997b6-47db-541e-9c5f-43e41309bdf8">
+      <Name>Campus Data Logger</Name>
+      <Type>System</Type>
+      <Description>Logging system that aggregates route and measurement time-series for analysis.</Description>
+      <FurtherInformation>Appears in the SUC-TR-01.1 sequence diagram; aggregates route data and forwards it to the EMS.</FurtherInformation>
+    </Actor>
+  </ActorList>
+  <RequirementList>
+    <RequirementCategory id="CAT-01">
+      <Name>Asset integration and commissioning</Name>
+      <Description>All physical assets must be installed, commissioned, operational and addressable before pilot operation</Description>
+      <Requirement uuid="5b437482-7a6e-5532-902d-5ef9b8cad13e" id="R-AIC-01">
+        <Name>Asset commissioning status</Name>
+        <Description>The 180 kW DC opportunity-charging point, the campus PV inverters (50 kW, 200 kW, 220 kW and 230 kW plants), the smart meter at the PCC, the pyranometer / irradiance sensor, the VIPV controller / MPPT on the e-bus, the bus BMS / OBC and the campus data logger shall each have a recorded commissioning status before operational testing on the METU campus begins.</Description>
+      </Requirement>
+      <Requirement uuid="b487809b-e818-59c3-b344-0026df5936cd" id="R-AIC-02">
+        <Name>Unique asset identification</Name>
+        <Description>Every integrated asset — the DC charging point, each campus PV inverter used in the pilot, the PCC smart meter, the route pyranometer, the VIPV controller / MPPT and the pilot e-bus — shall have a persistent unique identifier used consistently by the EMS, the CSMS, the campus data logger and all KPI reporting functions.</Description>
+      </Requirement>
+      <Requirement uuid="832a4b3e-60c4-5220-8ba5-2f64da46aa42" id="R-AIC-03">
+        <Name>Asset capability registration</Name>
+        <Description>The EMS shall maintain the technical capabilities and operating limits of each pilot asset, including the 180 kW rated power of the DC charging point, the rated capacity of each campus PV plant, the e-bus battery capacity and permitted SoC window, the charge-acceptance limits reported by the BMS / OBC, and the campus grid-connection capacity at the PCC.</Description>
+      </Requirement>
+      <Requirement uuid="a355cf7f-6262-5ab6-baf1-1a422bc7a175" id="R-AIC-04">
+        <Name>Connectivity verification</Name>
+        <Description>Commissioning shall verify that the EVSE can exchange session data and accept power setpoints from the CSMS, that the campus PV inverters and the PCC smart meter can deliver generation and load data to the EMS (Inf.7, Inf.8), and that the pyranometer and VIPV controller / MPPT report to the campus data logger (Inf.1, Inf.2), before pilot operation begins.</Description>
+      </Requirement>
+      <Requirement uuid="efb2232c-2252-5ed9-bd43-da5228750c23" id="R-AIC-05">
+        <Name>Time and configuration setup</Name>
+        <Description>All integrated devices shall be configured with a common campus time source, agreed engineering units (W/m² for irradiance, W and kWh for power and energy), the agreed measurement interval for route monitoring in SUC-TR-01.1, and the correct route or campus-site association before pilot operation.</Description>
+      </Requirement>
+      <Requirement uuid="02c8434a-ee49-59e8-beef-3c15e6cbd42b" id="R-AIC-06">
+        <Name>Pilot-specific mobility configuration</Name>
+        <Description>The eight METU campus ring shuttle routes, the 08:00–20:30 service timetable, the identified layover windows suitable for opportunity charging (Inf.5), the required next-service battery readiness target and the e-bus battery operating limits shall be configured in the EMS before PV-aware opportunity charging (SUC-TR-01.2) is enabled.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-02">
+      <Name>Energy Management System capabilities</Name>
+      <Description>Contains requirements related to EMS functionalities and capabilities</Description>
+      <Requirement uuid="09873453-df4f-515e-914e-c0f051d025ad" id="R-EMS-01">
+        <Name>Unified site and cluster model</Name>
+        <Description>The EMS shall maintain a unified operational model of the METU campus pilot boundary, covering the DC opportunity-charging point, the campus PV plants used in the pilot, the PCC connection, the pilot e-bus and the shuttle timetable, including current status, constraints and relationships, and shall ingest the aggregated route data time-series from the campus data logger (Inf.3).</Description>
+      </Requirement>
+      <Requirement uuid="7aded4a3-8ac9-5a4c-ac69-0e86df2afb39" id="R-EMS-02">
+        <Name>Multi-asset orchestration</Name>
+        <Description>The EMS shall coordinate e-bus opportunity charging against campus PV generation and the prevailing campus electrical load, keeping the combined demand within the METU site grid-connection limits at the PCC. The METU pilot includes no stationary BESS; the e-bus battery, constrained by timetable and readiness requirements, is the only storage available to the scheduling function.</Description>
+      </Requirement>
+      <Requirement uuid="b811a68b-b009-5f0a-85d9-e372cd7a825f" id="R-EMS-03">
+        <Name>Schedule and setpoint generation</Name>
+        <Description>The EMS shall translate the outcome of the charging-strategy comparison in SUC-TR-01.2 into a charging plan expressed as charging-power setpoints per layover window (Inf.9), issued to the CSMS, and shall return the applicable setpoints on request at the start of each session (Inf.11, SUC-TR-01.3 St.3).</Description>
+      </Requirement>
+      <Requirement uuid="ec16467c-a6b7-5195-9b20-e960ad253307" id="R-EMS-04">
+        <Name>Constraint enforcement</Name>
+        <Description>The EMS shall prevent dispatch that would exceed the campus grid-connection limit at the PCC, the rated power of the DC charging point, the charge-acceptance limits reported by the bus BMS / OBC, or the layover duration and next-departure requirement of the shuttle timetable.</Description>
+      </Requirement>
+      <Requirement uuid="28607136-69a2-5cce-8404-aca4690a42ac" id="R-EMS-05">
+        <Name>Execution monitoring and rescheduling</Name>
+        <Description>The EMS shall compare actual PV generation, campus load at the PCC and delivered charging energy against the active charging plan, and trigger re-optimisation when deviations — such as irradiance-forecast error, a shortened layover or a delayed bus arrival — exceed configurable thresholds (SUC-TR-01.3 St.7).</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-03">
+      <Name>Smart charging, V2G and mobility-service constraints</Name>
+      <Description>The charging infrastructure functionalities and capabilities</Description>
+      <Requirement uuid="1bffadb6-95af-59ca-8200-a7e252a31d82" id="R-SC-01">
+        <Name>Charging-session detection</Name>
+        <Description>The EVSE and CSMS shall detect and report e-bus connection at a layover (Inf.10), session start with the initial meter value (Inf.14), active charging, suspension, session end with final delivered energy (Inf.16) and disconnection, as set out in SUC-TR-01.3.</Description>
+      </Requirement>
+      <Requirement uuid="5aec626a-c9dd-59ea-b778-7624aad0557f" id="R-SC-02">
+        <Name>Charging requirement capture</Name>
+        <Description>For each layover session the system shall capture the e-bus state of charge and charge-acceptance limits reported by the BMS / OBC (Inf.13), the energy need arising from the next scheduled trips, and the scheduled end of the layover, so that the target SoC for the next service window can be verified (KPI-05).</Description>
+      </Requirement>
+      <Requirement uuid="289c7819-523a-5ea3-ba61-97d92ec8f0b1" id="R-SC-03">
+        <Name>Dynamic charging control</Name>
+        <Description>The DC charging point shall accept the planned per-layover setpoints relayed by the CSMS at session start (Inf.12) and dynamic power setpoint updates issued in real time by the EMS during an active session (Inf.15, SUC-TR-01.3 St.7).</Description>
+      </Requirement>
+      <Requirement uuid="40a32499-1236-5329-a849-b5aa3bc3124c" id="R-SC-04">
+        <Name>Mobility requirement guarantee</Name>
+        <Description>PV-aware scheduling and real-time power adjustment shall preserve the battery readiness required for the next scheduled trips by the end of the layover window; service continuity of the campus shuttle takes precedence over PV self-consumption and peak-reduction objectives (KPI-01, KPI-05).</Description>
+      </Requirement>
+      <Requirement uuid="a1005204-b2c4-5ee5-8e94-87cd6bc5b582" id="R-SC-07">
+        <Name>Opportunity-charging window control</Name>
+        <Description>Opportunity charging shall be scheduled and executed only within the layover windows declared by the Campus Shuttle Operator (Inf.5) within the 08:00–20:30 operating day, and shall not delay a scheduled departure or cause a trip on any of the eight campus ring routes to be cancelled.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-04">
+      <Name>Communications and connectivity</Name>
+      <Description>Collection of requirements to enable reliable communication</Description>
+      <Requirement uuid="d5215cb8-d64f-5b4f-83b1-7776967546d5" id="R-COM-01">
+        <Name>Bidirectional communications</Name>
+        <Description>Bidirectional communication shall be available on the EMS–CSMS interface (plan issue and setpoint request/response), the CSMS–EVSE interface (session control and session reporting) and the EMS interfaces to the campus PV inverters and the PCC smart meter. The pyranometer, VIPV controller / MPPT and campus data logger interfaces are report-only and require no remote control.</Description>
+      </Requirement>
+      <Requirement uuid="7f72768d-2cb0-586e-a070-042edd641b35" id="R-COM-02">
+        <Name>Communication health monitoring</Name>
+        <Description>The EMS–CSMS, EMS–PV inverter, EMS–PCC meter and EMS–Weather Forecast Service interfaces shall each expose connection status, last-message time and a communication-failure alarm, so that a stale campus load or PV reading is not used as the basis for a real-time power setpoint.</Description>
+      </Requirement>
+      <Requirement uuid="71d3339d-e160-596a-aa03-22128a0c8d2c" id="R-COM-03">
+        <Name>Message acknowledgement</Name>
+        <Description>The charging plan issued by the EMS shall be acknowledged by the CSMS (Inf.9, SUC-TR-01.2 St.6), and adjusted power setpoints relayed to the EVSE during a session shall be acknowledged with acceptance, rejection or failure status (Inf.15).</Description>
+      </Requirement>
+      <Requirement uuid="54ffae4b-9c47-5350-8b17-974ba08c30fb" id="R-COM-05">
+        <Name>Communication recovery</Name>
+        <Description>The EMS, CSMS and campus data logger shall automatically attempt reconnection after a communications outage and restore synchronised operation without operator intervention; buffered route measurements shall be forwarded once the campus data logger regains connectivity.</Description>
+      </Requirement>
+      <Requirement uuid="a7cf75d3-b0ec-5e26-ba10-8e49c0161a0b" id="R-COM-06">
+        <Name>Defined service levels</Name>
+        <Description>The EMS–CSMS and EMS–PCC meter interfaces shall have documented requirements for availability, latency, update frequency and maximum tolerated data age consistent with the real-time power-adjustment loop of SUC-TR-01.3; the Weather Forecast Service and PV-inverter forecast interfaces shall meet the timing needs of the day-ahead planning cycle of SUC-TR-01.2.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-05">
+      <Name>Data acquisition, quality and storage</Name>
+      <Description>Requirements for common data management mechanisms</Description>
+      <Requirement uuid="558a85a7-886c-5edb-80eb-7c38dca8a42e" id="R-DAT-01">
+        <Name>Operational telemetry acquisition</Name>
+        <Description>The platform shall acquire route irradiance (Inf.1), VIPV array output (Inf.2), campus PV generation and inverter status (Inf.7), campus load at the PCC (Inf.8), day-ahead irradiance forecasts (Inf.6), charging-session data (Inf.14, Inf.16) and the shuttle timetable and layover windows (Inf.5).</Description>
+      </Requirement>
+      <Requirement uuid="ed3fb1ec-2bb5-5207-86d9-1e098defbb02" id="R-DAT-02">
+        <Name>Common timestamping</Name>
+        <Description>All operational records — route measurements, PV and PCC readings, EMS decisions, setpoints and session meter values — shall carry timestamps referenced to a common time base with timezone or UTC information, so that route data can be aligned with the timetable and with campus load.</Description>
+      </Requirement>
+      <Requirement uuid="46796706-fd1f-588a-8ed5-eb19098717c7" id="R-DAT-03">
+        <Name>Data validation</Name>
+        <Description>Route irradiance and VIPV output, PV-inverter readings and PCC measurements shall be checked for missing values, staleness, invalid ranges, inconsistent units and implausible changes before being used for route PV-potential classification, charging scheduling or KPI computation.</Description>
+      </Requirement>
+      <Requirement uuid="e07b2a0b-19d7-5d4f-936e-c318c23eb162" id="R-DAT-04">
+        <Name>Data-quality status</Name>
+        <Description>The EMS shall attach a quality or staleness status to irradiance forecasts, PV generation forecasts and PCC load measurements, distinguishing live values from cached or interpolated ones, wherever they feed the charging plan or KPI results.</Description>
+      </Requirement>
+      <Requirement uuid="e998e463-23f6-59cf-b416-d4f682d9a5ea" id="R-DAT-05">
+        <Name>Historical data retention</Name>
+        <Description>Route time-series, PV and PCC measurements, timetables, charging plans, dispatched setpoints, forecasts and session summaries shall be retained for the full pilot operating period, as required for the KPI-01 to KPI-08 assessment and for the WP6/T6.3 business-case analysis.</Description>
+      </Requirement>
+      <Requirement uuid="e7e76982-2513-516e-9fb2-13505bb449e3" id="R-DAT-06">
+        <Name>Interval aggregation</Name>
+        <Description>The data platform shall support aggregation and resampling of route and campus measurements to the intervals required by the METU pilot: a short interval suitable for route PV-potential assessment during a trip, and the interval used for campus load and charging-plan evaluation.</Description>
+      </Requirement>
+      <Requirement uuid="c8b39be4-bfb9-5d98-8faa-a3d5cad0b404" id="R-DAT-07">
+        <Name>Data lineage</Name>
+        <Description>Derived values — the aggregated route time-series (Inf.3), the route PV-potential map (Inf.4), the charging plan (Inf.9) and the KPI data reported post-session (Inf.17) — shall be traceable to their source measurements, the classification and optimisation algorithms used, and their parameters and versions.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-06">
+      <Name>Semantic and protocol interoperability</Name>
+      <Description>Requirements for enabling interoperable communications</Description>
+      <Requirement uuid="fa08a9e7-4d85-5a82-8cf2-25a2c0de0c0d" id="R-INT-01">
+        <Name>Documented interface specification</Name>
+        <Description>The EMS–CSMS, CSMS–EVSE, EMS–PV inverter, EMS–PCC meter, EMS–Weather Forecast Service and data-logger–EMS interfaces shall each have a documented protocol, endpoint, data model, units, timing and error-handling specification.</Description>
+      </Requirement>
+      <Requirement uuid="277723a9-24e9-5ffc-83b2-ecc10137ee1c" id="R-INT-02">
+        <Name>EV charging protocol support</Name>
+        <Description>Integration between the campus DC charging point and the CSMS shall use OCPP with the functions required for session metering, status reporting and smart-charging setpoint dispatch, as relied upon in SUC-TR-01.3 steps St.2, St.4 and St.7.</Description>
+      </Requirement>
+      <Requirement uuid="28688026-fb29-5318-beb2-2ae0225201a1" id="R-INT-03">
+        <Name>EV-to-EVSE interoperability</Name>
+        <Description>The e-bus-to-EVSE interface shall support DC fast charging with the reporting of state of charge and charge-acceptance limits by the BMS / OBC (Inf.13), in accordance with IEC 61851-23/-24, DIN SPEC 70121 or ISO 15118 as applicable to the pilot vehicle and charger. Bidirectional (V2G) operation is not in scope for the METU pilot.</Description>
+      </Requirement>
+      <Requirement uuid="09f6c398-6457-54dc-8f94-510f380875bc" id="R-INT-04">
+        <Name>DER interface abstraction</Name>
+        <Description>Vendor-specific interfaces to the campus PV inverters, the PCC smart meter and the VIPV controller / MPPT shall be isolated behind adapters exposing a common EMS-facing information model for generation, load and irradiance values.</Description>
+      </Requirement>
+      <Requirement uuid="2afe0549-ff09-5855-8f16-db55ce0c5a5b" id="R-INT-05">
+        <Name>Common semantic definitions</Name>
+        <Description>The Campus Shuttle Operator, CPO, Campus Energy Manager and PV System Operator shall use agreed definitions for power direction at the PCC, PV surplus, shiftable charging power, state of charge, layover window, battery readiness and site limit, so that KPI results are computed consistently.</Description>
+      </Requirement>
+      <Requirement uuid="1ac8bf62-86d9-58d9-b6e3-80f8aaabaa30" id="R-INT-08">
+        <Name>Interoperability conformance test</Name>
+        <Description>The METU pilot shall complete conformance testing of the EMS–CSMS, CSMS–EVSE and EMS–measurement interfaces, covering normal exchange, invalid messages, timeout, reconnection and setpoint rejection, before live shuttle operation with opportunity charging begins.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-07">
+      <Name>Forecasting and optimisation</Name>
+      <Description>Contains requirements enabling reliable predictive capabilities</Description>
+      <Requirement uuid="8dd45046-26b0-5e47-978e-26529f22916c" id="R-FOR-01">
+        <Name>PV forecasting</Name>
+        <Description>The EMS shall combine the day-ahead irradiance forecast from the Weather Forecast Service (Inf.6) with campus PV inverter availability and status (Inf.7) to produce a generation forecast covering the 08:00–20:30 operating day, at the resolution required by the layover-level charging plan of SUC-TR-01.2.</Description>
+      </Requirement>
+      <Requirement uuid="59e3fe43-5161-55ec-ba80-cd79a017f44f" id="R-FOR-02">
+        <Name>Load forecasting</Name>
+        <Description>The EMS shall forecast campus electrical demand for the planning horizon using the campus load profile measured at the PCC (Inf.8), so that available headroom for opportunity charging within the site limit can be estimated per layover window.</Description>
+      </Requirement>
+      <Requirement uuid="415ee425-a15c-5e0e-bf99-9fa4f4c1c0c9" id="R-FOR-05">
+        <Name>Constraint-aware optimisation</Name>
+        <Description>Optimisation shall respect the 180 kW rated power of the DC charging point, the e-bus battery and charge-acceptance limits, the campus grid-connection limit at the PCC, the campus load forecast, and the layover start and end times set by the shuttle timetable.</Description>
+      </Requirement>
+      <Requirement uuid="a18f522c-5569-532b-872e-8475078a33a2" id="R-FOR-06">
+        <Name>Multi-horizon optimisation</Name>
+        <Description>The platform shall support day-ahead charging planning for the next service day (SUC-TR-01.2), intraday correction on timetable changes, and real-time power adjustment during an active layover session (SUC-TR-01.3 St.7).</Description>
+      </Requirement>
+      <Requirement uuid="51c4c7d0-9d7d-5bdf-8dbb-a832873c7bbc" id="R-FOR-08">
+        <Name>Objective configurability</Name>
+        <Description>Optimisation objectives and weights shall be configurable across PV self-consumption, charging cost per trip or per km, campus peak reduction, shuttle service reliability and battery preservation, and shall allow the three comparison strategies of SUC-TR-01.2 — fixed-interval opportunity charging, PV-aligned charging and the overnight depot-charging baseline — to be evaluated on a common basis (KPI-02, KPI-03, KPI-07, KPI-08).</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-08">
+      <Name>Real-time control and performance</Name>
+      <Description>Group of requirements enabling near-real-time control to maintain grid compliance and track market or operational commitments</Description>
+      <Requirement uuid="3a50caeb-bad6-5a02-aff3-146df20f60b5" id="R-RTC-01">
+        <Name>Defined control cycle</Name>
+        <Description>The real-time power-adjustment function of SUC-TR-01.3 shall operate at a documented cycle time short enough to act meaningfully within a single layover window, and shall complete calculation and dispatch of an adjusted setpoint (Inf.15) within that cycle.</Description>
+      </Requirement>
+      <Requirement uuid="0e83a434-9df0-5aec-b38a-4221c2a76006" id="R-RTC-02">
+        <Name>Real-time grid-limit supervision</Name>
+        <Description>The EMS shall continuously supervise campus grid import measured at the PCC against the applicable site connection limit while an opportunity-charging session is active.</Description>
+      </Requirement>
+      <Requirement uuid="b246a9d6-d58b-5738-9266-26d1aca0511d" id="R-RTC-03">
+        <Name>Dynamic power redistribution</Name>
+        <Description>When campus PV surplus or campus load changes, the EMS shall adjust the charging power of the active session — increasing it on PV surplus and reducing it as the site limit is approached — within the charge-acceptance limits of the bus and the remaining layover time (SUC-TR-01.3 St.7).</Description>
+      </Requirement>
+      <Requirement uuid="26134426-a78e-5f95-a951-a4138750b486" id="R-RTC-04">
+        <Name>Deviation-triggered re-optimisation</Name>
+        <Description>The EMS shall trigger re-optimisation of the charging plan when irradiance-forecast error, PV-inverter unavailability, campus-load deviation or a change to the shuttle timetable exceeds a configurable threshold.</Description>
+      </Requirement>
+      <Requirement uuid="2dcc6fca-d20f-5608-80cd-916173ba3d70" id="R-RTC-06">
+        <Name>Setpoint execution verification</Name>
+        <Description>The EMS shall verify the delivered charging power and energy against the dispatched setpoints, using session-end and summary data reported through the CSMS (Inf.16, SUC-TR-01.3 St.8–St.9), and identify partial, late or failed execution.</Description>
+      </Requirement>
+      <Requirement uuid="e91cb3b8-3a20-568a-8657-c8647a15ad55" id="R-RTC-07">
+        <Name>Control conflict resolution</Name>
+        <Description>Where PV self-consumption or peak-reduction objectives conflict with the battery readiness needed for the next scheduled trips, the EMS shall apply a documented precedence order in which vehicle and battery safety ranks first, shuttle service continuity second, and energy and cost objectives thereafter.</Description>
+      </Requirement>
+      <Requirement uuid="23fa133f-11d9-5fb1-ba4c-4cf8e779ff2e" id="R-RTC-08">
+        <Name>Performance logging</Name>
+        <Description>For each adjustment during a layover session, the EMS decision time, dispatch time, CSMS acknowledgement and measured charging response shall be logged to support KPI-04 and KPI-07 assessment and the pilot performance analysis.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-09">
+      <Name>Grid constraints, flexibility and resilience</Name>
+      <Description>Group of requirements ensuring safe operation under constrained grid conditions while providing external grid services</Description>
+      <Requirement uuid="93b46556-842d-5114-907f-015204b7224d" id="R-GFR-01">
+        <Name>Connection-capacity enforcement</Name>
+        <Description>The EMS shall keep campus net import at the PCC within the configured connection capacity throughout opportunity charging, reducing charging power before the limit is reached; the number and duration of periods in which site and charger limits are respected is the basis for KPI-04 (GA KPI U07).</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-11">
+      <Name>Metering, verification, settlement and KPI reporting</Name>
+      <Description>Group of requirements providing grounds for operational control and project and market outcomes validation</Description>
+      <Requirement uuid="72a2fcc9-cc5f-510c-b017-a16471338a2c" id="R-MVR-01">
+        <Name>Connection-point metering</Name>
+        <Description>The smart meter at the PCC shall measure campus net import and export with accuracy and interval resolution suitable both for the real-time control loop of SUC-TR-01.3 and for the peak-reduction and grid-import KPI calculations (KPI-03, KPI-07).</Description>
+      </Requirement>
+      <Requirement uuid="1cc1f9f7-e6fe-5bc6-9160-dab5baec2bc0" id="R-MVR-02">
+        <Name>Asset-level sub-metering</Name>
+        <Description>Charging energy delivered at the DC charging point, generation from the campus PV plants used in the pilot, and VIPV array output on the bus shall be measurable separately, as required to compute the PV share of charging energy and grid energy imported (KPI-02, KPI-03).</Description>
+      </Requirement>
+      <Requirement uuid="ed279f82-68d1-594e-ab6f-7f8c75fdea2b" id="R-MVR-03">
+        <Name>Session metering</Name>
+        <Description>Each layover charging session shall record start and end meter values, energy transferred, timestamps and a session identifier, as exchanged in Inf.14 and Inf.16 and summarised by the CSMS to the EMS.</Description>
+      </Requirement>
+      <Requirement uuid="0769cf31-0049-5f30-a391-33ed3bee30c8" id="R-MVR-04">
+        <Name>Baseline calculation</Name>
+        <Description>The platform shall calculate and retain the baselines declared in Section 1.5 — the pre-pilot shuttle service-reliability record, the overnight depot-charging case and the non-PV-aware fixed-interval opportunity-charging case — together with their input data, so that the percentage-change targets behind KPI-01 to KPI-08 can be assessed.</Description>
+      </Requirement>
+      <Requirement uuid="539bd672-dacb-5821-9ad5-01e275863e91" id="R-MVR-06">
+        <Name>KPI computation</Name>
+        <Description>The platform shall calculate the eight METU pilot KPIs — trip completion rate, local PV utilisation, grid energy imported, infrastructure constraint compliance, battery readiness, flexibility potential, peak consumption reduction and charging operation cost — and report them against the GA-level KPIs U04, U06, U07, U12, U14, U17 and.</Description>
+      </Requirement>
+      <Requirement uuid="f038e8b5-e9f4-5081-b24c-b08a1b3abe47" id="R-MVR-07">
+        <Name>Delivery report</Name>
+        <Description>The system shall generate reports comparing planned per-layover setpoints with actual delivered charging power and energy, PV share and campus peak impact, per session and per operating day, and shall report post-session KPI data to the Campus Energy Manager (Inf.17, SUC-TR-01.3 St.10).</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-12">
+      <Name>Cybersecurity, privacy and access control</Name>
+      <Description>Group of requirements ensuring secure and privacy-preserving access to services and provide resilient operation of infrastructure</Description>
+      <Requirement uuid="10d7581c-626d-5acf-bdb3-9315d9913ba3" id="R-CYB-01">
+        <Name>Strong authentication</Name>
+        <Description>Campus Shuttle Operator and Campus Energy Manager users, CPO operators, pilot devices (EVSE, PV inverters, PCC meter, data logger) and external services (Weather Forecast Service) shall authenticate before accessing EMS or CSMS telemetry, configuration or commands.</Description>
+      </Requirement>
+      <Requirement uuid="ea8e94a8-caaf-50ef-840f-0fefe2905d76" id="R-CYB-03">
+        <Name>Encryption in transit</Name>
+        <Description>Communications crossing device, campus-site, cloud or organisational boundaries — in particular EMS–CSMS, EMS–Weather Forecast Service and any off-campus hosted component — shall use appropriate encryption in transit.</Description>
+      </Requirement>
+      <Requirement uuid="7d241060-ff8b-585d-865f-177a5920e2c4" id="R-CYB-04">
+        <Name>Command integrity and anti-replay</Name>
+        <Description>Charging plans (Inf.9) and real-time power setpoints (Inf.15) issued by the EMS to the CSMS and relayed to the EVSE shall be protected against unauthorised modification, duplication and replay.</Description>
+      </Requirement>
+      <Requirement uuid="5a3ed105-1d83-510d-adf4-a25ecfb9abdf" id="R-CYB-05">
+        <Name>Security logging and monitoring</Name>
+        <Description>Authentication events, EMS and CSMS commands, changes to timetable or site-limit configuration, firmware updates to the charging point and security-relevant failures shall be logged and monitored by the CPO and the Campus Energy Manager.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-13">
+      <Name>Safety, fault handling and recovery</Name>
+      <Description>Group of requirements ensuring control platform never overrides asset or mobility safety constraints</Description>
+      <Requirement uuid="801520db-6810-5268-a2ae-ede860722cab" id="R-SAF-01">
+        <Name>Asset safety-envelope enforcement</Name>
+        <Description>No EMS or CSMS command shall exceed the 180 kW rated power of the campus DC charging point or the electrical, thermal, SoC and ramp-rate limits reported by the e-bus BMS / OBC.</Description>
+      </Requirement>
+      <Requirement uuid="0018318e-e4f6-5426-a4f1-3564da821bee" id="R-SAF-02">
+        <Name>Fault-state reporting</Name>
+        <Description>The charging point, campus PV inverters, the bus BMS / OBC, the PCC meter, the pyranometer and the VIPV controller / MPPT shall report faults and alarms with severity and timestamp to the CSMS or EMS as applicable.</Description>
+      </Requirement>
+      <Requirement uuid="09c5a19a-3c2d-599e-af78-f0e3ee74bd70" id="R-SAF-04">
+        <Name>Safe loss-of-control behaviour</Name>
+        <Description>On loss of EMS connectivity or of the PCC measurement feed, the charging point shall fall back to a predefined conservative local power limit that is safe for the campus connection and still allows the layover session to contribute to battery readiness, rather than continuing at an unverified elevated setpoint.</Description>
+      </Requirement>
+      <Requirement uuid="b4f47ed1-f4ff-5896-a352-6c21618f94e7" id="R-SAF-07">
+        <Name>Battery protection</Name>
+        <Description>Charging of the e-bus shall respect the SoC, state of health, temperature and fault limits reported by the bus BMS / OBC at all times, including during frequent short opportunity-charging sessions, so that battery degradation from repeated micro-charging is contained.</Description>
+      </Requirement>
+      <Requirement uuid="d44c8229-d92e-5930-94d9-a671a83815c0" id="R-SAF-08">
+        <Name>Mobility-service fail-safe</Name>
+        <Description>If the EMS cannot confirm that the e-bus will reach the required battery readiness before the end of a layover, an alert shall be raised to the Campus Shuttle Operator in time for manual intervention — extending the layover, rescheduling the vehicle or reverting to depot charging — before a scheduled departure is put at risk.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-14">
+      <Name>User interfaces, pricing and participation management</Name>
+      <Description>Group of requirements to ensure intuitive user interfaces, transparent pricing and participation management</Description>
+      <Requirement uuid="66e15025-5d0d-5fa0-94cd-a6e05e7d9c07" id="R-UI-01">
+        <Name>Operator dashboard</Name>
+        <Description>The EMS shall provide the Campus Energy Manager and the Campus Shuttle Operator with current charging-point and PV status, campus power at the PCC, alarms, the active charging plan, the route PV-potential map (Inf.4) and post-session KPI data (Inf.17).</Description>
+      </Requirement>
+      <Requirement uuid="1dfdf73c-ee1e-55a1-946e-bdec57cfd558" id="R-UI-05">
+        <Name>Operator alarm notification</Name>
+        <Description>The Campus Shuttle Operator, CPO and Campus Energy Manager shall receive timely notification of failed or interrupted charging sessions, missed layover charging windows, communication loss with the CSMS or PCC meter, approach to the campus site limit, and vehicle or charger safety alarms.</Description>
+      </Requirement>
+    </RequirementCategory>
+  </RequirementList>
+</IEC62559UseCaseArtefacts>

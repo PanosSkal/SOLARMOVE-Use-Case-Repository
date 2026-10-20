@@ -1,0 +1,867 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SOLAR-MOVE | BUC-PT-01 | Day-Ahead Spot Market Participation of a Multi-Asset Prosumer Facility via VPP Aggregation, with Happy Hour EV Charging
+  IEC 62559-3-STYLE serialization (DRAFT).
+  Structure & field vocabulary aligned to the IEC 62559-2 template as rendered by the
+  Sparx Enterprise Architect / MODSARUS toolchain (reference: the public 'Smart Grid Use
+  Cases' renderings of the BRIDGE EDF/Elering use cases).
+  NOTE: element names are indicative; this file is NOT validated against the normative
+  IEC 62559-3 XSD. UUIDs are deterministic (uuid5) placeholders, not repository-assigned.
+  Source: SOLARMOVE_BUC-PT-01.docx
+-->
+<IEC62559UseCaseArtefacts profile="IEC 62559-3-style, aligned to the IEC 62559-2 template as rendered by the Sparx EA / MODSARUS toolchain" status="DRAFT - not validated against the normative IEC 62559-3 XSD" basedOnTemplate="IEC 62559-2:2015" generatedFrom="SOLARMOVE_BUC-PT-01.docx" namespaceNote="urn:solarmove:iec62559-3-style:v0">
+  <UseCase uuid="a9b7f5dc-3b08-51af-8c54-1490e3b96721" id="BUC_PT_01" version="1.0">
+    <UseCaseIdentification>
+      <ID>BUC_PT_01</ID>
+      <Name>Day-Ahead Spot Market Participation of a Multi-Asset Prosumer Facility via VPP Aggregation, with Happy Hour EV Charging</Name>
+      <Area>Energy System</Area>
+      <Domains>Customer Premises</Domains>
+      <Zones>Process, Field, Station, Operation, Enterprise, Market</Zones>
+    </UseCaseIdentification>
+    <VersionControl>
+      <Version number="1.0">
+        <Date>20.10.2026</Date>
+        <Author>Alexandre Bento (INESC-ID)</Author>
+        <Changes>First public version</Changes>
+        <ApprovalStatus/>
+      </Version>
+    </VersionControl>
+    <ScopeAndObjectives>
+      <Scope>
+        <Paragraph>This use case covers the participation of an ePIPV facility (comprising BESS, EV charging infrastructure, PV generation, and non-flexible commercial facility loads) in the day-ahead electricity wholesale market through a VPP / Aggregator. The Facility EMS computes an optimal day-ahead schedule based on forecasts of PV production, commercial facility load, day-ahead market prices, and EV availability, and identifies Happy Hour windows: periods where PV surplus and low or negative day-ahead prices coincide with available BESS headroom and charging-point occupancy, during which EV users are offered a discounted charging rate to shift demand into that window. The use case is supported by four System Use Cases: SUC-PT-01.1 (Day-Ahead Schedule Optimisation and Happy Hour Identification), SUC-PT-01.2 (Day-Ahead Market Bidding), SUC-PT-01.3 (Real-Time EMS Execution and Happy Hour Activation), and SUC-PT-01.4 (Settlement).</Paragraph>
+      </Scope>
+      <Objectives>
+        <Objective>Minimise the facility's energy procurement costs and maximise revenue from surplus PV generation through optimal day-ahead market participation via the VPP / Aggregator. Demonstrate a Happy Hour mechanism that shifts EV charging demand into PV-surplus, low-price windows through a discounted rate, increasing on-site PV self-consumption and reducing net grid import. Demonstrate reliable day-ahead schedule execution by the Facility EMS across BESS dispatch, EV charging incentives, and PV generation management.</Objective>
+      </Objectives>
+      <RelatedBusinessCases/>
+    </ScopeAndObjectives>
+    <Narrative>
+      <ShortDescription>
+        <Paragraph>An ePIPV facility operated by the ePIPV Site Owner participates in the day-ahead wholesale electricity market through a VPP / Aggregator. The Facility EMS computes an optimal day-ahead schedule based on forecasts of PV production, commercial facility load, day-ahead market prices, and EV availability, and identifies Happy Hour windows, periods where PV surplus and low day-ahead prices align with available BESS headroom and charging-point occupancy, during which EV users are offered a discounted charging rate. The VPP / Aggregator submits the facility's net position to the Day-Ahead Market Operator and communicates the accepted schedule back to the Facility EMS, which executes it in real time, activating the Happy Hour offer through the CPO during the identified windows, after informing registered EV owners by SMS and in-app notification.</Paragraph>
+      </ShortDescription>
+      <CompleteDescription>
+        <Paragraph>The ePIPV Site Owner operates a commercial facility equipped with rooftop PV generation, a battery energy storage system (BESS), commercial facility loads, and EV charging stations serving both employees and retail customers. These assets are managed by a Facility EMS, comprising a cloud-hosted optimisation and forecasting layer and a local real-time control and execution layer. The facility is represented in the wholesale electricity market by a VPP / Aggregator, which aggregates the facility's position within a broader portfolio.</Paragraph>
+        <Paragraph>On the day before delivery (D-1), the Facility EMS collects 24-hour-ahead forecasts for PV generation, commercial facility load, day-ahead market prices, and EV arrival/departure probability distributions derived from historical CPO session data. Running an optimisation algorithm, the Facility EMS determines the optimal BESS charge/discharge schedule and the facility's net energy position for each 15-minute slot. As part of the same optimisation, the EMS identifies Happy Hour windows: slots where PV generation is forecast to exceed commercial facility and BESS charging needs, day-ahead price is favourable, and charging-point occupancy indicates EV demand is available to absorb the surplus, such that offering a discounted EV charging rate during that window increases on-site PV self-consumption and facility revenue rather than exporting or curtailing the surplus.</Paragraph>
+        <Paragraph>The net energy position is communicated to the VPP / Aggregator, which aggregates it with the rest of its portfolio and submits coordinated offers to the Day-Ahead Market Operator before gate closure. After market clearing, the Day-Ahead Market Operator returns the awarded schedule and marginal clearing price, which the VPP / Aggregator communicates back to the Facility EMS. The cloud-hosted layer of the Facility EMS derives an operational dispatch schedule from the awarded position: per-slot BESS, PV, and EV setpoints together with the confirmed Happy Hour window(s) and discount level, ready for real-time execution. EV owners registered in the commercial facility app are informed in advance of the Happy Hour windows and the applicable discount through an SMS and an in-app notification.</Paragraph>
+        <Paragraph>The on-site Facility EMS loads the operational dispatch schedule and begins dispatching the BESS accordingly. Once per hour, the cloud-hosted layer re-fetches near-term forecasts and computes a refined operational schedule for the upcoming hour. Every 15 minutes, the on-site EMS dispatches BESS, EV charging, and PV curtailment to track that schedule, compensating in real time for any deviation between actual and forecast conditions, and uses that tracking deviation, together with the current spot market price, to compute an EV charging energy rate that it signals to the CPO. The CPO applies this rate to active and connecting EV sessions; other components of the session price (the CPO service fee, parking, and any other charges) are unaffected. The facility manages forecast deviations through this continuous rate adjustment rather than through intraday market participation, since capturing the value of a deviation locally is typically more profitable to the ePIPV Site Owner than the equivalent corrective position on the intraday market.</Paragraph>
+        <Paragraph>At the end of the delivery day, the Day-Ahead Market Operator settles the facility's delivered position against its awarded schedule. The VPP / Aggregator receives the settlement, comprising the market value of the delivered position at the cleared price, and allocates it to the ePIPV Site Owner according to the aggregation agreement. The economic benefit to the ePIPV Site Owner is realised through reduced energy procurement costs, revenue from surplus PV energy exported or consumed at favourable prices, and increased EV charging revenue captured through the Happy Hour mechanism rather than lost to curtailment or low-value export.</Paragraph>
+      </CompleteDescription>
+    </Narrative>
+    <KeyPerformanceIndicators>
+      <KPI uuid="19efcd5c-a9a7-56dd-8f46-c580c424374d" id="U04">
+        <Name>Operation Cost (ePIPV)</Name>
+        <Description>Reduction of the facility operating cost through optimal day-ahead scheduling, BESS dispatch and Happy Hour EV charging revenue. Target: reduce ≥25%</Description>
+        <ReferenceToObjectives>Objective 1</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="654dd9ff-0451-596f-8aac-2a4788926414" id="U11">
+        <Name>Renewables Curtailment Avoidance</Name>
+        <Description>Reduction of the amount of PV generation curtailed, by consuming it on site, enabled by the Happy Hour demand shifting. Target: &gt;=25% at pilot level</Description>
+        <ReferenceToObjectives>Objectives 1 and 2</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="45602d81-f672-53c6-9dfd-812bbf394af7" id="U15">
+        <Name>Energy Invoice Reduction (ePIPV)</Name>
+        <Description>Reduction of the facility’s energy invoice from day-ahead optimisation and increased PV self-consumption. Target: &gt;=20% reduction</Description>
+        <ReferenceToObjectives>Objective 1</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="671b2f49-f876-5b8b-81b4-407d2396d9b5" id="U13">
+        <Name>Revenue Created by DERs</Name>
+        <Description>Additional revenue from PV, BESS and EV charging assets through day-ahead market participation and Happy Hour. Target: increase &gt;=25%</Description>
+        <ReferenceToObjectives>Objectives 1 and 2</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="8118b2a3-dfad-5744-9bd0-f95a5834b1e1" id="U10">
+        <Name>Collective Self-Consumption</Name>
+        <Description>Share of on-site PV generation consumed locally by the facility’s loads and EV charging. Target: &gt;=75% at pilot level</Description>
+        <ReferenceToObjectives>Objective 2</ReferenceToObjectives>
+      </KPI>
+    </KeyPerformanceIndicators>
+    <UseCaseConditions>
+      <Assumptions>
+        <Assumption>The ePIPV facility comprises PV generation, BESS, non-flexible commercial facility loads, and EV charging infrastructure, all monitored and controlled by a Facility EMS capable of adjusting the operation of each asset in real time.</Assumption>
+        <Assumption>The ePIPV facility has access to a VPP / Aggregator that aggregates the facility's energy position within a broader portfolio for wholesale market participation.</Assumption>
+        <Assumption>The EV charging energy rate signalled to the CPO is applied automatically to active sessions without requiring active enrolment.</Assumption>
+        <Assumption>The capacity offered to the day-ahead market is determined jointly with the facility's other market commitments (mFRR via BUC-PT-02, DSO flexibility market via BUC-PT-03) within a single EMS optimisation run that maximises overall facility revenue across all available market channels.</Assumption>
+      </Assumptions>
+      <Prerequisites>
+        <Prerequisite>The Facility EMS receives real-time data from all facility assets (PV generation, BESS state-of-charge, EV charging sessions, non-flexible commercial facility load measurements).</Prerequisite>
+        <Prerequisite>Reliable bi-directional communication exists between the local Facility EMS, the cloud-hosted optimisation modules, the VPP / Aggregator platform, and the CPO.</Prerequisite>
+        <Prerequisite>A contractual aggregation agreement exists between the ePIPV Site Owner and the VPP / Aggregator.</Prerequisite>
+        <Prerequisite>The EV charging infrastructure supports dynamic rate application via the CPO's charging management system, allowing the EV charging energy rate to be applied to active sessions in real time.</Prerequisite>
+      </Prerequisites>
+    </UseCaseConditions>
+    <ClassificationInformation>
+      <RelationToOtherUseCases>This BUC's day-ahead schedule (SUC-PT-01.1) shares a single EMS optimisation run with BUC-PT-02 (mFRR provision) and BUC-PT-03 (DSO flexibility market), which jointly determine how facility flexibility is allocated across market channels to maximise total revenue.</RelationToOtherUseCases>
+      <LevelOfDepth>Business use case, detailed down to system use cases (SUC-PT-01.1 to SUC-PT-01.4) and their step-by-step sequences.</LevelOfDepth>
+      <Prioritisation>High. This BUC is demonstrated on live infrastructure at three retail sites and provides the market-participation baseline that BUC-PT-02 and BUC-PT-03 build upon.</Prioritisation>
+      <GenericRegionalNationalRelation>The Portuguese pilot executes this BUC on live AC infrastructure at three retail sites (Continente Matosinhos, Continente Amadora, Continente Évora), operated by SONAE MC with EMS/CPO support from Elergone. No DC infrastructure counterpart is deployed for this BUC in the current demonstrator.</GenericRegionalNationalRelation>
+      <NatureOfUseCase>Business use case (market process).</NatureOfUseCase>
+      <FurtherKeywords>day-ahead market, VPP, aggregation, BESS, EV charging, Happy Hour, PV self-consumption.</FurtherKeywords>
+    </ClassificationInformation>
+    <GeneralRemarks>
+      <Paragraph>This BUC is demonstrated on live infrastructure at three Continente retail sites in Portugal (Matosinhos, Amadora and Évora), operated by SONAE MC with EMS and CPO support from Elergone. Each site’s ePIPV facility, comprising rooftop PV, BESS, EV charging and non-flexible commercial loads, is managed by a Facility EMS that schedules the assets day-ahead. A VPP / Aggregator submits the facility’s net position to the day-ahead market operated by OMIE. The features tested are day-ahead schedule optimisation and bidding, real-time schedule execution, and the Happy Hour mechanism, which shifts EV charging into PV-surplus, low-price periods. The actors involved are the ePIPV Site Owner, the CPO, the VPP / Aggregator, the Market Operator and the Facility EMS. Settlement is computed by the Market Operator and allocated to the ePIPV Site Owner by the VPP / Aggregator.</Paragraph>
+    </GeneralRemarks>
+    <Diagrams>
+      <Diagram number="Figure 1" type="Use case diagram">
+        <Caption>BUC-PT-01 — Day-Ahead Spot Market Participation of a Multi-Asset Prosumer Facility via VPP Aggregation, with Happy Hour EV Charging (use case diagram)</Caption>
+        <ImageReference>images/fig1-buc-pt-01-use-case-diagram.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 2" type="Sequence diagram">
+        <Caption>SUC-PT-01.1 — Day-Ahead Schedule Optimisation and Happy Hour Identification (sequence diagram)</Caption>
+        <ImageReference>images/fig2-suc-pt-01.1-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 3" type="Sequence diagram">
+        <Caption>SUC-PT-01.2 — Day-Ahead Market Bidding (sequence diagram)</Caption>
+        <ImageReference>images/fig3-suc-pt-01.2-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 4" type="Sequence diagram">
+        <Caption>SUC-PT-01.3 — Real-Time EMS Execution and Happy Hour Activation (sequence diagram)</Caption>
+        <ImageReference>images/fig4-suc-pt-01.3-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 5" type="Sequence diagram">
+        <Caption>SUC-PT-01.4 — Settlement (sequence diagram)</Caption>
+        <ImageReference>images/fig5-suc-pt-01.4-sequence.png</ImageReference>
+      </Diagram>
+    </Diagrams>
+    <References>
+      <Reference number="1">
+        <Type>Regulation</Type>
+        <Description>Day-Ahead and Intraday Electricity Market Rules (Governing Rules of the Market), under Law 24/2013 and the MIBEL agreement</Description>
+        <Status>Current</Status>
+        <ImpactOnUseCase>Defines the day-ahead auction mechanics (marginal pricing, bid submission, gate closure, settlement) modelled in SUC-PT-01.2 and SUC-PT-01.4</ImpactOnUseCase>
+        <Originator>OMIE / ERSE / CNMC</Originator>
+        <Link>https://www.omie.es/sites/default/files/2025-03/r_28022025_en.pdf</Link>
+      </Reference>
+    </References>
+    <StepByStepAnalysis>
+      <ScenariosOverview>
+        <ScenarioOverview number="1">
+          <ScenarioName>Day-Ahead Schedule Optimisation and Happy Hour Identification (SUC-PT-01.1)</ScenarioName>
+          <ScenarioDescription>Facility EMS backend computes load, PV, EV, and market price forecasts, computes the optimal day-ahead schedule, identifies Happy Hour window(s), and derives the operational dispatch schedule.</ScenarioDescription>
+          <PrimaryActor>Facility EMS</PrimaryActor>
+          <TriggeringEvent>D-1 daily optimisation cycle</TriggeringEvent>
+          <PreCondition>Facility EMS has access to historical and real-time data required for forecasting</PreCondition>
+          <PostCondition>A day-ahead schedule, Happy Hour window(s), and (pending award) an operational dispatch schedule are ready</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="2">
+          <ScenarioName>Day-Ahead Market Bidding (SUC-PT-01.2)</ScenarioName>
+          <ScenarioDescription>VPP / Aggregator aggregates and bids the facility's net position into the day-ahead market; awarded schedule is confirmed back.</ScenarioDescription>
+          <PrimaryActor>VPP / Aggregator</PrimaryActor>
+          <TriggeringEvent>Day-ahead market gate closure</TriggeringEvent>
+          <PreCondition>Day-ahead schedule is available</PreCondition>
+          <PostCondition>Accepted schedule confirmed at the Facility EMS</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="3">
+          <ScenarioName>Real-Time EMS Execution and Happy Hour Activation (SUC-PT-01.3)</ScenarioName>
+          <ScenarioDescription>Facility EMS computes an hourly rolling schedule, dispatches assets every 15 minutes to track it, and adjusts the EV charging energy rate accordingly.</ScenarioDescription>
+          <PrimaryActor>Facility EMS</PrimaryActor>
+          <TriggeringEvent>Start of delivery day / Happy Hour window start</TriggeringEvent>
+          <PreCondition>Operational dispatch schedule derived (SUC-PT-01.1/.2)</PreCondition>
+          <PostCondition>Schedule executed; Happy Hour delivered and re-evaluated as needed; actual position logged</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="4">
+          <ScenarioName>Settlement (SUC-PT-01.4)</ScenarioName>
+          <ScenarioDescription>Market Operator settles the delivered position against the awarded schedule; VPP / Aggregator allocates revenue to the ePIPV Site Owner.</ScenarioDescription>
+          <PrimaryActor>VPP / Aggregator</PrimaryActor>
+          <TriggeringEvent>Periodic settlement cycle</TriggeringEvent>
+          <PreCondition>Delivered position for the settlement period is recorded</PreCondition>
+          <PostCondition>Revenue allocated to the ePIPV Site Owner</PostCondition>
+        </ScenarioOverview>
+      </ScenariosOverview>
+      <Scenarios>
+        <Scenario name="4.2.1 Day-Ahead Schedule Optimisation and Happy Hour Identification (SUC-PT-01.1)">
+          <Step number="1.1">
+            <Event>D-1 optimisation cycle starts</Event>
+            <NameOfProcessActivity>Compute load forecast</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS backend computes commercial facility load forecast for the next 24h.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-02</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.2">
+            <Event>Load forecast ready</Event>
+            <NameOfProcessActivity>Compute PV generation forecast</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS backend computes PV generation forecast for the next 24h.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-01</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.3">
+            <Event>PV forecast ready</Event>
+            <NameOfProcessActivity>Compute EV availability forecast</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS backend computes EV arrival/departure probability distributions from historical CPO session data.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-03</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.4">
+            <Event>EV forecast ready</Event>
+            <NameOfProcessActivity>Compute BESS state-of-charge trajectory</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS backend projects BESS state-of-charge trajectory from current SoC and expected operating profile.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-06</RID>
+              <RID>R-AIC-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.5">
+            <Event>SoC trajectory ready</Event>
+            <NameOfProcessActivity>Retrieve day-ahead price forecast</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS backend retrieves the day-ahead market price forecast for the next 24h.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-04</RID>
+              <RID>R-COM-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.6">
+            <Event>All forecasts compiled</Event>
+            <NameOfProcessActivity>Compute schedule and identify Happy Hour</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS computes the optimal day-ahead schedule and identifies Happy Hour window(s) from PV surplus, day-ahead price, BESS headroom, and expected charging-point occupancy.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>Inf.1</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-03</RID>
+              <RID>R-EMS-06</RID>
+              <RID>R-FOR-05</RID>
+              <RID>R-FOR-06</RID>
+              <RID>R-FOR-08</RID>
+              <RID>R-GFR-02</RID>
+              <RID>R-GFR-04</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.2 Day-Ahead Market Bidding (SUC-PT-01.2)">
+          <Step number="2.1">
+            <Event>Day-ahead schedule available</Event>
+            <NameOfProcessActivity>Communicate net position</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS communicates net energy position and Happy Hour window(s).</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>VPP / Aggregator</InformationReceiver>
+            <InformationExchanged>Inf.1</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-01</RID>
+              <RID>R-COM-07</RID>
+              <RID>R-CYB-01</RID>
+              <RID>R-CYB-03</RID>
+              <RID>R-INT-07</RID>
+              <RID>R-AIC-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.2">
+            <Event>Net position received</Event>
+            <NameOfProcessActivity>Aggregate and bid</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>VPP / Aggregator aggregates facility position with portfolio; submits coordinated offer before gate closure.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>VPP / Aggregator</InformationProducer>
+            <InformationReceiver>Market Operator</InformationReceiver>
+            <InformationExchanged>Inf.2</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-01</RID>
+              <RID>R-EMS-07</RID>
+              <RID>R-COM-07</RID>
+              <RID>R-INT-07</RID>
+              <RID>R-CYB-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.3">
+            <Event>Gate closure reached</Event>
+            <NameOfProcessActivity>Market clearing</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Market Operator clears the market; returns awarded schedule and marginal clearing price.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>Market Operator</InformationProducer>
+            <InformationReceiver>VPP / Aggregator</InformationReceiver>
+            <InformationExchanged>Inf.3</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-03</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-CYB-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.4">
+            <Event>Market cleared</Event>
+            <NameOfProcessActivity>Forward accepted schedule</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>VPP / Aggregator forwards the accepted schedule and clearing price.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>VPP / Aggregator</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>Inf.3</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-03</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-COM-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.5">
+            <Event>Accepted schedule received</Event>
+            <NameOfProcessActivity>Derive Operational Dispatch Schedule</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS (cloud) derives per-slot BESS/PV/EV setpoints and the confirmed Happy Hour window(s)/discount level from the day-ahead award.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>Inf.4</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-03</RID>
+              <RID>R-RTC-01</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.3 Real-Time EMS Execution and Happy Hour Activation (SUC-PT-01.3)">
+          <Step number="3.1">
+            <Event>Delivery day starts</Event>
+            <NameOfProcessActivity>Load operational schedule and dispatch BESS</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>On-site Facility EMS loads the operational dispatch schedule and begins BESS dispatch accordingly.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-03</RID>
+              <RID>R-RTC-01</RID>
+              <RID>R-RTC-06</RID>
+              <RID>R-SAF-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.2">
+            <Event>Hour boundary reached</Event>
+            <NameOfProcessActivity>Compute next-hour asset schedule</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Cloud Facility EMS re-fetches near-term forecasts and computes a refined operational schedule for the upcoming hour (e.g. computed at 16:00 for the 17:00–18:00 period). Repeated hourly, at each hour boundary.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>Inf.4</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-05</RID>
+              <RID>R-FOR-05</RID>
+              <RID>R-FOR-07</RID>
+              <RID>R-RTC-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.3">
+            <Event>15-min interval elapsed</Event>
+            <NameOfProcessActivity>Dispatch ePIPV assets to track scheduled setpoints</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>On-site Facility EMS dispatches BESS, EV charging, and PV curtailment to track the current operational schedule, compensating in real time for deviation between actual and forecast conditions. Repeated every 15 minutes.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-02</RID>
+              <RID>R-EMS-04</RID>
+              <RID>R-RTC-01</RID>
+              <RID>R-RTC-03</RID>
+              <RID>R-RTC-06</RID>
+              <RID>R-SAF-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.4">
+            <Event>Tracking deviation computed</Event>
+            <NameOfProcessActivity>Adjust EV charging energy rate</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>On-site Facility EMS uses the tracking deviation from step 3.3, together with the current spot market price, to compute the EV charging energy rate to signal to the CPO. Repeated every 15 minutes.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>CPO</InformationReceiver>
+            <InformationExchanged>Inf.5</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-03</RID>
+              <RID>R-EMS-03</RID>
+              <RID>R-UI-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.5">
+            <Event>New energy rate received</Event>
+            <NameOfProcessActivity>Apply updated energy rate</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>CPO applies the updated per-kWh EV charging energy rate to active and connecting EV sessions; other session price components (CPO service fee, parking, and any other charges) are unaffected by this mechanism.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>CPO</InformationProducer>
+            <InformationReceiver>CPO</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-03</RID>
+              <RID>R-UI-02</RID>
+              <RID>R-UI-03</RID>
+              <RID>R-COM-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.6">
+            <Event>End of delivery day reached</Event>
+            <NameOfProcessActivity>Confirm delivered position</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>On-site Facility EMS reports the actual delivered position at end of day.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>VPP / Aggregator</InformationReceiver>
+            <InformationExchanged>Inf.6</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-RTC-08</RID>
+              <RID>R-MVR-01</RID>
+              <RID>R-DAT-02</RID>
+              <RID>R-COM-03</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.4 Settlement (SUC-PT-01.4)">
+          <Step number="4.1">
+            <Event>Settlement cycle starts</Event>
+            <NameOfProcessActivity>Aggregate delivered position</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Market Operator aggregates the facility's delivered position for the settlement period.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>Market Operator</InformationProducer>
+            <InformationReceiver>Market Operator</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MVR-01</RID>
+              <RID>R-MVR-06</RID>
+              <RID>R-DAT-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4.2">
+            <Event>Delivered position aggregated</Event>
+            <NameOfProcessActivity>Compute settlement</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Market Operator computes settlement value from the delivered position at the cleared price.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>Market Operator</InformationProducer>
+            <InformationReceiver>Market Operator</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MVR-04</RID>
+              <RID>R-MVR-05</RID>
+              <RID>R-MKT-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4.3">
+            <Event>Settlement computed</Event>
+            <NameOfProcessActivity>Issue settlement</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Market Operator issues settlement to the VPP / Aggregator.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>Market Operator</InformationProducer>
+            <InformationReceiver>VPP / Aggregator</InformationReceiver>
+            <InformationExchanged>Inf.7</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-08</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-CYB-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4.4">
+            <Event>Settlement received</Event>
+            <NameOfProcessActivity>Acknowledge settlement</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>VPP / Aggregator acknowledges settlement receipt.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>VPP / Aggregator</InformationProducer>
+            <InformationReceiver>Market Operator</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4.5">
+            <Event>Settlement acknowledged</Event>
+            <NameOfProcessActivity>Allocate revenue</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>VPP / Aggregator allocates revenue to the ePIPV Site Owner per the aggregation agreement.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>VPP / Aggregator</InformationProducer>
+            <InformationReceiver>ePIPV Site Owner</InformationReceiver>
+            <InformationExchanged>Inf.7</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-08</RID>
+              <RID>R-MVR-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4.6">
+            <Event>Revenue allocated</Event>
+            <NameOfProcessActivity>Acknowledge revenue</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>ePIPV Site Owner acknowledges receipt.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>ePIPV Site Owner</InformationProducer>
+            <InformationReceiver>VPP / Aggregator</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-03</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+      </Scenarios>
+    </StepByStepAnalysis>
+    <InformationExchanged>
+      <Information uuid="f112e007-e23f-575f-91a2-36445d15523d" id="Inf.1">
+        <Name>Day-ahead schedule and Happy Hour window</Name>
+        <Description>Net position per 15-min slot (MW), proposed Happy Hour window(s) (start/end, discounted rate)</Description>
+        <RequirementReferences>
+          <RID>R-EMS-03</RID>
+          <RID>R-DAT-03</RID>
+          <RID>R-INT-05</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="939c40ae-021e-5745-b6ab-a57ff67d7aee" id="Inf.2">
+        <Name>Day-ahead bid</Name>
+        <Description>Bid ID, net position per slot (MW), price</Description>
+        <RequirementReferences>
+          <RID>R-MKT-01</RID>
+          <RID>R-INT-07</RID>
+          <RID>R-CYB-01</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="bb913082-db08-5005-8c2e-3953bce65737" id="Inf.3">
+        <Name>Day-ahead award</Name>
+        <Description>Contract/award ID, awarded schedule per slot, marginal clearing price (EUR/MWh)</Description>
+        <RequirementReferences>
+          <RID>R-MKT-03</RID>
+          <RID>R-CYB-04</RID>
+          <RID>R-DAT-03</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="ba903226-2804-5dcc-a22b-11037b8040f3" id="Inf.4">
+        <Name>Operational dispatch schedule</Name>
+        <Description>Per-slot BESS/PV/EV setpoints for the upcoming hour, derived from the day-ahead award and refined hourly using near-term forecasts.</Description>
+        <RequirementReferences>
+          <RID>R-EMS-03</RID>
+          <RID>R-RTC-01</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="dc506f20-0823-581f-b331-72478d385324" id="Inf.5">
+        <Name>EV charging energy rate signal</Name>
+        <Description>EV charging energy rate (€/kWh), timestamp; reflects current tracking deviation and spot market price, ranging from full discount to no discount.</Description>
+        <RequirementReferences>
+          <RID>R-SC-03</RID>
+          <RID>R-UI-03</RID>
+          <RID>R-INT-05</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="ae0ce9b5-45c5-5cf2-827a-48242cd9b770" id="Inf.6">
+        <Name>Delivered position report</Name>
+        <Description>Actual net position per slot (MW), deviation from schedule</Description>
+        <RequirementReferences>
+          <RID>R-MVR-01</RID>
+          <RID>R-DAT-02</RID>
+          <RID>R-RTC-08</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="51e9b295-5e8e-5e93-95b2-acececbf9db7" id="Inf.7">
+        <Name>Day-ahead settlement result</Name>
+        <Description>Settlement period, delivered position value (EUR), any imbalance charge</Description>
+        <RequirementReferences>
+          <RID>R-MVR-04</RID>
+          <RID>R-MKT-08</RID>
+          <RID>R-MVR-05</RID>
+        </RequirementReferences>
+      </Information>
+    </InformationExchanged>
+    <CommonTermsAndDefinitions>
+      <Term>
+        <Name>Happy Hour</Name>
+        <Definition>Time window in which PV surplus and low or negative day-ahead prices coincide with available BESS headroom and charging-point occupancy, during which a discounted EV charging energy rate is applied to shift demand into the window.</Definition>
+      </Term>
+    </CommonTermsAndDefinitions>
+  </UseCase>
+  <ActorList>
+    <Actor uuid="310fd175-ba21-5b46-9338-8343a46acda1">
+      <Name>ePIPV Site Owner (prosumer)</Name>
+      <Type>Business</Type>
+      <Description>Entity that owns and operates the ePIPV facility and its distributed energy resources, and contractually delegates wholesale market participation to the VPP / Aggregator</Description>
+      <FurtherInformation>SONAE MC</FurtherInformation>
+    </Actor>
+    <Actor uuid="de08baad-a104-542d-ad59-ff96517e24b9">
+      <Name>CPO</Name>
+      <Type>Business</Type>
+      <Description>Party operating the EV charging infrastructure and providing real-time session data to the Facility EMS</Description>
+      <FurtherInformation>Elergone</FurtherInformation>
+    </Actor>
+    <Actor uuid="4417fadf-5666-5574-9b59-9dd935facd1b">
+      <Name>VPP / Aggregator</Name>
+      <Type>Business</Type>
+      <Description>Party that aggregates the facility's net energy position within a broader portfolio, submits bids to the wholesale market, and manages settlement</Description>
+      <FurtherInformation>Elergone</FurtherInformation>
+    </Actor>
+    <Actor uuid="5f600b43-df17-5d0f-8126-cc1a5e2cfdc7">
+      <Name>Market Operator</Name>
+      <Type>Business</Type>
+      <Description>Party that operates the day-ahead and intraday electricity market sessions, clears submitted bids, and returns awarded schedules and marginal prices</Description>
+      <FurtherInformation>OMIE</FurtherInformation>
+    </Actor>
+    <Actor uuid="86cd7f92-012d-5186-9d8f-0ad2008faf42">
+      <Name>Facility EMS</Name>
+      <Type>System</Type>
+      <Description>System that monitors and controls all facility assets, runs optimisation and forecasting algorithms, and executes the accepted market schedule in real time</Description>
+      <FurtherInformation>Elergone and INESC-ID</FurtherInformation>
+    </Actor>
+  </ActorList>
+  <RequirementList>
+    <RequirementCategory id="CAT-01">
+      <Name>Asset integration and commissioning</Name>
+      <Description>All physical assets must be installed, commissioned, operational and addressable before pilot operation</Description>
+      <Requirement uuid="7d289d19-7a52-593b-b611-90f7f5ffa651" id="R-AIC-03">
+        <Name>Asset capability registration</Name>
+        <Description>The platform shall maintain the technical capabilities and operating limits of each asset, including rated power, energy capacity, control modes, ramp limits, SoC limits and availability.</Description>
+      </Requirement>
+      <Requirement uuid="934cee3f-8a24-5559-beaf-95e7500a05bf" id="R-AIC-07">
+        <Name>Market asset registration</Name>
+        <Description>Assets intended for market or flexibility participation shall be registered with the required technical, metering, connection-point and geographic attributes before qualification or bidding.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-02">
+      <Name>Energy Management System capabilities</Name>
+      <Description>Contains requirements related to EMS functionalities and capabilities</Description>
+      <Requirement uuid="7f5ca55c-2388-59d0-ade8-19e57f35c827" id="R-EMS-02">
+        <Name>Multi-asset orchestration</Name>
+        <Description>The EMS shall coordinate EV charging, PV generation, BESS operation, controllable loads and grid exchange within the applicable pilot boundary.</Description>
+      </Requirement>
+      <Requirement uuid="3ba8786b-6f51-5d8e-bc05-a5f7a47111d2" id="R-EMS-03">
+        <Name>Schedule and setpoint generation</Name>
+        <Description>The EMS shall translate optimisation results and external commitments into asset-level schedules, limits and setpoints.</Description>
+      </Requirement>
+      <Requirement uuid="ff2facb4-898a-561f-97c0-346951f5e2ac" id="R-EMS-04">
+        <Name>Constraint enforcement</Name>
+        <Description>The EMS shall prevent dispatch that violates grid connection limits, asset limits, user requirements, mobility-service constraints or contracted reserve obligations.</Description>
+      </Requirement>
+      <Requirement uuid="744d75b3-9595-565c-b4aa-1e53fa062997" id="R-EMS-05">
+        <Name>Execution monitoring and rescheduling</Name>
+        <Description>The EMS shall compare actual operation with the active plan and trigger rescheduling when deviations exceed configurable thresholds.</Description>
+      </Requirement>
+      <Requirement uuid="8bb6eb06-89ad-55e3-8ee3-a351ada9282b" id="R-EMS-06">
+        <Name>Flexibility estimation</Name>
+        <Description>The EMS shall calculate available upward and downward flexibility by time interval, including power, energy, duration and limiting constraints.</Description>
+      </Requirement>
+      <Requirement uuid="19cb0e63-4699-53e1-89b1-5eae6a12e229" id="R-EMS-07">
+        <Name>Distributed-site aggregation</Name>
+        <Description>The EMS or VPP layer shall aggregate multiple charging clusters or facilities into a single controllable and reportable portfolio without losing site-level constraints.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-03">
+      <Name>Smart charging, V2G and mobility-service constraints</Name>
+      <Description>The charging infrastructure functionalities and capabilities</Description>
+      <Requirement uuid="ad87b65f-6a4c-53f6-b6ef-d8c6cf2852bd" id="R-SC-03">
+        <Name>Dynamic charging control</Name>
+        <Description>The charging infrastructure shall accept remote time-based charging profiles or dynamic power limits for individual EVSEs or sessions.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-04">
+      <Name>Communications and connectivity</Name>
+      <Description>Collection of requirements to enable reliable communication</Description>
+      <Requirement uuid="cd8b9df0-a84a-5376-9925-6bf431544828" id="R-COM-01">
+        <Name>Bidirectional communications</Name>
+        <Description>Bidirectional communication shall be available wherever both telemetry and remote control are required between assets, EMS, CSMS, BMS, VPP and external platforms.</Description>
+      </Requirement>
+      <Requirement uuid="c5b90632-f4de-5b7f-8c4a-1a975d1fcf54" id="R-COM-03">
+        <Name>Message acknowledgement</Name>
+        <Description>Control commands and market activations shall be acknowledged by the receiving system with acceptance, rejection or failure status.</Description>
+      </Requirement>
+      <Requirement uuid="ea6984cd-d2cf-5bd0-bbac-f6f847528430" id="R-COM-07">
+        <Name>External platform connectivity</Name>
+        <Description>The VPP/aggregator or EMS shall provide reliable interfaces to day-ahead, intraday, balancing and DSO flexibility platforms as applicable.</Description>
+      </Requirement>
+      <Requirement uuid="ebcf7efa-2839-5c5a-b910-5d4bd85765fa" id="R-COM-08">
+        <Name>User-channel connectivity</Name>
+        <Description>Web and mobile interfaces shall support reliable exchange of authentication, charging preferences, prices, offers and participation decisions.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-05">
+      <Name>Data acquisition, quality and storage</Name>
+      <Description>Requirements for common data management mechanisms</Description>
+      <Requirement uuid="ebd00066-4885-54cd-9b1d-b1c96b64f92b" id="R-DAT-01">
+        <Name>Operational telemetry acquisition</Name>
+        <Description>The platform shall acquire EVSE, PV, BESS, meter, site-load, weather and mobility data required by the applicable use case.</Description>
+      </Requirement>
+      <Requirement uuid="f39d973b-57c9-5243-8aa1-864604772469" id="R-DAT-02">
+        <Name>Common timestamping</Name>
+        <Description>All operational records shall contain timestamps referenced to a common time base and include timezone or UTC information.</Description>
+      </Requirement>
+      <Requirement uuid="01bdbc8e-82c6-5b6d-91be-daa12b5f1e12" id="R-DAT-03">
+        <Name>Data validation</Name>
+        <Description>Incoming data shall be checked for missing values, staleness, invalid ranges, inconsistent units and implausible changes before use in control or settlement.</Description>
+      </Requirement>
+      <Requirement uuid="15cc7781-e8fa-571b-957a-5eb6d1ddb26d" id="R-DAT-05">
+        <Name>Historical data retention</Name>
+        <Description>Historical measurements, schedules, commands, forecasts, user declarations and market messages shall be retained for the period required for KPI assessment, audit and settlement.</Description>
+      </Requirement>
+      <Requirement uuid="97b571d1-1a59-5dd4-a281-d054f154455b" id="R-DAT-06">
+        <Name>Interval aggregation</Name>
+        <Description>The data platform shall support aggregation and resampling to the operational and market intervals required by each pilot, including 1-minute and 15-minute periods where applicable.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-06">
+      <Name>Semantic and protocol interoperability</Name>
+      <Description>Requirements for enabling interoperable communications</Description>
+      <Requirement uuid="8632b16c-0273-5a1c-9122-e633628cc8d0" id="R-INT-05">
+        <Name>Common semantic definitions</Name>
+        <Description>All parties shall use agreed definitions for power direction, flexibility direction, SoC, availability, activation state, connection point and settlement interval.</Description>
+      </Requirement>
+      <Requirement uuid="c6968fbd-2b2a-5633-97de-5cd03ebc5304" id="R-INT-07">
+        <Name>Market message interoperability</Name>
+        <Description>Market and grid-service exchanges shall map to the formats and role definitions required by the relevant market operator, DSO, TSO or aggregator.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-07">
+      <Name>Forecasting and optimisation</Name>
+      <Description>Contains requirements enabling reliable predictive capabilities</Description>
+      <Requirement uuid="8f584961-ab3f-5e91-8648-f79a89f0d460" id="R-FOR-01">
+        <Name>PV forecasting</Name>
+        <Description>The platform shall produce PV generation forecasts at the time resolution and horizon required for charging, BESS and market optimisation.</Description>
+      </Requirement>
+      <Requirement uuid="c32a21c3-0963-5127-995e-83baef07797a" id="R-FOR-02">
+        <Name>Load forecasting</Name>
+        <Description>The platform shall forecast non-flexible and controllable site demand for the relevant planning horizon.</Description>
+      </Requirement>
+      <Requirement uuid="d7f23700-3001-5fb2-bc86-6a75633722dd" id="R-FOR-03">
+        <Name>EV demand forecasting</Name>
+        <Description>The platform shall forecast EV arrival, departure, energy need and charging availability using historical or declared session information.</Description>
+      </Requirement>
+      <Requirement uuid="8d3e3969-7109-5e25-a8c7-8b8ee5b1a371" id="R-FOR-04">
+        <Name>Price forecasting</Name>
+        <Description>Where economic dispatch or market bidding is required, the platform shall acquire or forecast day-ahead, intraday and retail/grid prices.</Description>
+      </Requirement>
+      <Requirement uuid="c3a0c983-7a0a-57b1-a135-ec75740dfe0e" id="R-FOR-05">
+        <Name>Constraint-aware optimisation</Name>
+        <Description>Optimisation shall include asset power and energy limits, grid limits, charging deadlines, reserve commitments, load constraints and permissible PV curtailment.</Description>
+      </Requirement>
+      <Requirement uuid="339e9fa7-77a8-5086-83d3-3b7c535aad26" id="R-FOR-06">
+        <Name>Multi-horizon optimisation</Name>
+        <Description>The platform shall support day-ahead planning, intraday correction and real-time adjustment where required by the use case.</Description>
+      </Requirement>
+      <Requirement uuid="559c2ec6-da11-5e5f-bd33-4879ed1168e5" id="R-FOR-07">
+        <Name>Forecast-error handling</Name>
+        <Description>The platform shall detect forecast deviations and update schedules or flexibility estimates using the latest validated measurements.</Description>
+      </Requirement>
+      <Requirement uuid="45dd13e9-390b-5b58-a311-bd149da60036" id="R-FOR-08">
+        <Name>Objective configurability</Name>
+        <Description>Optimisation objectives and weights shall be configurable for PV self-consumption, cost, peak reduction, service reliability, curtailment, flexibility revenue and battery use.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-08">
+      <Name>Real-time control and performance</Name>
+      <Description>Group of requirements enabling near-real-time control to maintain grid compliance and track market or operational commitments</Description>
+      <Requirement uuid="e9fe6340-267c-5036-a0da-ff67ac056867" id="R-RTC-01">
+        <Name>Defined control cycle</Name>
+        <Description>Each real-time control function shall operate at a documented cycle time appropriate to its use case and shall complete calculation and dispatch within that cycle.</Description>
+      </Requirement>
+      <Requirement uuid="421a19ee-dbeb-50f1-a400-a160f96a69d6" id="R-RTC-03">
+        <Name>Dynamic power redistribution</Name>
+        <Description>When available power changes, the EMS shall redistribute power among active chargers, BESS and controllable loads according to current constraints and priorities.</Description>
+      </Requirement>
+      <Requirement uuid="9913e1ab-f5fa-570b-a9e2-1e6957623f1c" id="R-RTC-04">
+        <Name>Deviation-triggered re-optimisation</Name>
+        <Description>The EMS shall trigger re-optimisation when schedule deviation, asset unavailability or forecast error exceeds a configurable threshold.</Description>
+      </Requirement>
+      <Requirement uuid="ca1bf401-d999-5a29-9e81-d8d328c7be38" id="R-RTC-06">
+        <Name>Setpoint execution verification</Name>
+        <Description>The platform shall verify actual response after dispatch and identify partial, late or failed execution.</Description>
+      </Requirement>
+      <Requirement uuid="1ede1ea8-27f3-5092-831d-1bc3f456be2f" id="R-RTC-08">
+        <Name>Performance logging</Name>
+        <Description>Control-cycle start time, decision time, dispatch time, acknowledgement and measured response shall be logged for performance assessment.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-09">
+      <Name>Grid constraints, flexibility and resilience</Name>
+      <Description>Group of requirements ensuring safe operation under constrained grid conditions while providing external grid services</Description>
+      <Requirement uuid="65dbd288-9532-59d1-abb3-8311defabb3c" id="R-GFR-02">
+        <Name>Upward and downward flexibility calculation</Name>
+        <Description>The platform shall calculate feasible upward and downward power and energy flexibility with duration, availability window and recovery requirement.</Description>
+      </Requirement>
+      <Requirement uuid="b5b3860f-9684-577d-8c05-44e991b7254b" id="R-GFR-04">
+        <Name>No double commitment</Name>
+        <Description>The system shall prevent the same asset headroom from being committed simultaneously to incompatible services or schedules.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-10">
+      <Name>Market, aggregator and external platform integration</Name>
+      <Description>Group of requirements ensuring integration into electricity and flexibility markets</Description>
+      <Requirement uuid="60a285dd-00bd-58d6-9fd9-5b2421d09d46" id="R-MKT-01">
+        <Name>Day-ahead bid preparation</Name>
+        <Description>The facility EMS shall produce a time-indexed net energy position and supporting asset schedule for submission through the VPP/aggregator.</Description>
+      </Requirement>
+      <Requirement uuid="55393c5a-1632-5059-b941-d86d59f4ee7c" id="R-MKT-03">
+        <Name>Awarded schedule reception</Name>
+        <Description>The VPP/aggregator interface shall receive and validate accepted schedules, prices and delivery periods and make them available to the EMS.</Description>
+      </Requirement>
+      <Requirement uuid="8cf0b84c-7636-52bd-9301-f4a72f76edc4" id="R-MKT-08">
+        <Name>Settlement result exchange</Name>
+        <Description>The external-platform interface shall exchange delivered quantities, prices, penalties, imbalance results and remuneration components with the responsible party.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-11">
+      <Name>Metering, verification, settlement and KPI reporting</Name>
+      <Description>Group of requirements providing grounds for operational control and project and market outcomes validation</Description>
+      <Requirement uuid="daa38776-d7cc-5c80-abb8-21771f85392b" id="R-MVR-01">
+        <Name>Connection-point metering</Name>
+        <Description>The system shall measure net import/export at the relevant connection point with accuracy and interval resolution suitable for control and, where applicable, settlement.</Description>
+      </Requirement>
+      <Requirement uuid="6fa00f0d-92d9-555e-8850-b800ef8c4b3f" id="R-MVR-04">
+        <Name>Baseline calculation</Name>
+        <Description>Where service delivery is assessed against a baseline, the platform shall calculate and retain the applicable adjusted reference value and its input data.</Description>
+      </Requirement>
+      <Requirement uuid="88e69c46-ad04-52dd-8bc2-9678ac54a266" id="R-MVR-05">
+        <Name>Settlement-grade audit trail</Name>
+        <Description>Measurements used for financial settlement shall be immutable or tamper-evident, timestamped and traceable through all processing steps.</Description>
+      </Requirement>
+      <Requirement uuid="7ce6bd04-57b6-5741-a671-8ef59f853702" id="R-MVR-06">
+        <Name>KPI computation</Name>
+        <Description>The platform shall calculate the applicable project KPIs, including PV self-consumption, peak reduction, curtailment avoidance, operating cost, flexibility potential and charging-service performance.</Description>
+      </Requirement>
+      <Requirement uuid="0edd56da-9d11-569c-bb91-3623b0989780" id="R-MVR-07">
+        <Name>Delivery report</Name>
+        <Description>The system shall generate reports comparing requested, scheduled and actual power/energy for each flexibility or market event.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-12">
+      <Name>Cybersecurity, privacy and access control</Name>
+      <Description>Group of requirements ensuring secure and privacy-preserving access to services and provide resilient operation of infrastructure</Description>
+      <Requirement uuid="cf989d58-bf83-56c9-82ca-d00df4ccfbf2" id="R-CYB-01">
+        <Name>Strong authentication</Name>
+        <Description>Human users, devices and external systems shall authenticate before accessing telemetry, configuration, commands, bids or personal data.</Description>
+      </Requirement>
+      <Requirement uuid="01d6c556-fcbc-56cf-9109-1d42070c3f24" id="R-CYB-03">
+        <Name>Encryption in transit</Name>
+        <Description>All communications crossing device, site, cloud or organisational trust boundaries shall use appropriate encryption in transit.</Description>
+      </Requirement>
+      <Requirement uuid="0d4ed4c6-0028-5d34-8989-f89c91b9a21f" id="R-CYB-04">
+        <Name>Command integrity and anti-replay</Name>
+        <Description>Control commands and market activations shall be protected against unauthorised modification, duplication and replay.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-13">
+      <Name>Safety, fault handling and recovery</Name>
+      <Description>Group of requirements ensuring control platform never overrides asset or mobility safety constraints</Description>
+      <Requirement uuid="a58ec430-70fe-51c1-ae8a-a6fb0187e0d9" id="R-SAF-01">
+        <Name>Asset safety-envelope enforcement</Name>
+        <Description>No EMS, CSMS or market command shall exceed the validated electrical, thermal, SoC, ramp-rate or manufacturer limits of an asset.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-14">
+      <Name>User interfaces, pricing and participation management</Name>
+      <Description>Group of requirements to ensure intuitive user interfaces, transparent pricing and participation management</Description>
+      <Requirement uuid="3669d18b-dcc4-59da-a6b2-d6340d19fe46" id="R-UI-02">
+        <Name>Charging-user interface</Name>
+        <Description>EV users shall be able to view session status and enter or confirm energy need, departure time and participation preference where required.</Description>
+      </Requirement>
+      <Requirement uuid="883fc3b2-8964-53aa-ae35-ac8dd3e81633" id="R-UI-03">
+        <Name>Transparent price presentation</Name>
+        <Description>Any dynamic tariff, preferential rate, voucher value or flexibility incentive shall be presented before user acceptance with applicable conditions.</Description>
+      </Requirement>
+    </RequirementCategory>
+  </RequirementList>
+</IEC62559UseCaseArtefacts>

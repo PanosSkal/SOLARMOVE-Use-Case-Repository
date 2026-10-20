@@ -1,0 +1,630 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SOLAR-MOVE | BUC-PT-04 | Local P2P Energy Exchange through Dynamic EV Charging Incentives
+  IEC 62559-3-STYLE serialization (DRAFT).
+  Structure & field vocabulary aligned to the IEC 62559-2 template as rendered by the
+  Sparx Enterprise Architect / MODSARUS toolchain (reference: the public 'Smart Grid Use
+  Cases' renderings of the BRIDGE EDF/Elering use cases).
+  NOTE: element names are indicative; this file is NOT validated against the normative
+  IEC 62559-3 XSD. UUIDs are deterministic (uuid5) placeholders, not repository-assigned.
+  Source: SOLARMOVE_BUC-PT-04.docx
+-->
+<IEC62559UseCaseArtefacts profile="IEC 62559-3-style, aligned to the IEC 62559-2 template as rendered by the Sparx EA / MODSARUS toolchain" status="DRAFT - not validated against the normative IEC 62559-3 XSD" basedOnTemplate="IEC 62559-2:2015" generatedFrom="SOLARMOVE_BUC-PT-04.docx" namespaceNote="urn:solarmove:iec62559-3-style:v0">
+  <UseCase uuid="a45feb92-e11b-518d-a083-e71805a37239" id="BUC-PT-04" version="1.0">
+    <UseCaseIdentification>
+      <ID>BUC-PT-04</ID>
+      <Name>Local P2P Energy Exchange through Dynamic EV Charging Incentives</Name>
+      <Area>Energy System</Area>
+      <Domains>Customer Premises</Domains>
+      <Zones>Process, Field, Station, Operation, Enterprise, Market</Zones>
+    </UseCaseIdentification>
+    <VersionControl>
+      <Version number="1.0">
+        <Date>20.10.2026</Date>
+        <Author>Alexandre Bento (INESC-ID)</Author>
+        <Changes>First public version</Changes>
+        <ApprovalStatus/>
+      </Version>
+    </VersionControl>
+    <ScopeAndObjectives>
+      <Scope>
+        <Paragraph>This use case covers a local peer-to-peer energy exchange between EV users connected to the charging infrastructure of an ePIPV facility, facilitated by a Facility EMS acting as a local clearinghouse. V2G-capable EV owners who have opted in can offer energy from their vehicle batteries as selling offers, while any EV user can act as a buyer of locally available energy. The facility itself may also participate as a buyer when locally offered energy is cheaper than grid import. The exchange operates in two directions: surplus absorption, in which the facility or V2G-capable EVs offer energy at preferential rates to incentivise EV charging during local surplus or low market price conditions; and demand modulation, in which the facility offers commercial incentives to EV users in exchange for voluntarily accepting reduced charging power during local demand constraint conditions. The Facility EMS matches buyers and sellers and determines dispatch setpoints. Compensation to selling EV owners is provided through commercial store vouchers rather than direct energy payment.</Paragraph>
+        <Paragraph>The use case is supported by two System Use Cases: SUC-PT-04.1 (Real-Time EMS Clearinghouse Operation and Dispatch), and SUC-PT-04.2 (Dynamic EV Charging Management).</Paragraph>
+      </Scope>
+      <Objectives>
+        <Objective>Establish a locally facilitated P2P energy exchange at facility level, where the Facility EMS acts as clearinghouse matching V2G-capable EV sellers with EV buyers, enabling direct bilateral energy transactions without wholesale market intermediation. Demonstrate a V2G-enabled P2P mechanism where EV owners can monetise their vehicle battery flexibility through store voucher compensation, within current regulatory constraints on direct energy sales. Maximise local renewable energy self-consumption and capture value from low or negative market price conditions by directing locally available energy to EV buyers at preferential rates. Manage facility demand constraints through voluntary EV charging modulation, offering commercial incentives to EV users in exchange for flexible charging behaviour.</Objective>
+      </Objectives>
+      <RelatedBusinessCases/>
+    </ScopeAndObjectives>
+    <Narrative>
+      <ShortDescription>
+        <Paragraph>The Facility EMS operates as a local P2P clearinghouse, continuously monitoring local energy conditions (PV generation, commercial facility loads, BESS state-of-charge, market prices, facility connection capacity, and EV session data). Upon connecting to the charging infrastructure, each EV user declares their energy need (expressed in kWh, SOC percentage, or km of range) and departure time. V2G-capable EV owners who have opted in may additionally declare willingness to sell energy from their battery. The Facility EMS continuously matches available selling offers with buying needs, using the grid import price as reference, determines the applicable energy rate, covering matched P2P trades, facility-wide surplus absorption, and demand modulation, and dispatches coordinated charging and discharging setpoints together with that rate to the CPO. The CPO presents or applies the rate to each session; following session end, it computes billing, shares the billing data with the ePIPV Site Owner, who credits store vouchers to V2G sellers, and settles the underlying energy cost with the CPO.</Paragraph>
+      </ShortDescription>
+      <CompleteDescription>
+        <Paragraph>The ePIPV Site Owner operates a commercial facility equipped with rooftop PV generation, a battery energy storage system (BESS), non-flexible commercial facility loads, and EV charging infrastructure serving both employees and retail customers. The facility hosts a local peer-to-peer energy exchange in which EV users connected to the charging infrastructure act as energy buyers by default, and V2G-capable users who have opted in can additionally act as energy sellers by offering energy from their vehicle batteries. The Facility EMS operates as the local clearinghouse, continuously monitoring energy conditions, matching sellers with buyers, determining the applicable energy rate, and dispatching coordinated charging and discharging setpoints, while ensuring that every EV session meets its declared energy need by the declared departure time. The facility itself may also participate as a buyer when locally offered energy is priced below the current grid import price, making it economically rational to absorb local P2P energy rather than import from the grid. Compensation to selling EV owners is provided through commercial store vouchers rather than direct energy payment.</Paragraph>
+        <Paragraph>Participation Models:</Paragraph>
+        <Paragraph>Two smart charging participation models coexist at the facility, offering EV users different levels of engagement and corresponding benefits: an opt-out model (on-by-default flexibility), where all EV users who connect participate in smart charging by default, their session subject to power modulation within bounds that guarantee delivery of their declared energy need by departure time, in exchange for a standard rate already reflecting the benefit of optimised local energy use, with unmanaged charging at the standard non-flexible rate available to users who explicitly opt out at session start; and an opt-in model (off-by-default flexibility), where EV users who actively enrol receive dynamic real-time price offers during their session, a preferential rate in surplus or low-price conditions, a commercial incentive in demand-constraint conditions, with participation in each individual offer remaining voluntary, accepted or rejected in real time.</Paragraph>
+        <Paragraph>User Declaration and Flexibility Window:</Paragraph>
+        <Paragraph>Upon connecting, each EV user declares their energy need and departure time. The energy need may be expressed in kWh, SOC percentage, or km of range depending on the charging interface, and the Facility EMS normalises this to an energy quantity using vehicle data where available. This declaration defines the boundary condition the Facility EMS must respect: the EV must meet its declared energy need by departure time, with all charging and discharging activity within that window flexible and subject to EMS optimisation. V2G-capable EV owners who have opted in may additionally declare the energy volume they are willing to make available for discharge, and the minimum compensation they require, expressed as a voucher value per kWh discharged.</Paragraph>
+        <Paragraph>Clearinghouse Matching and Dispatch:</Paragraph>
+        <Paragraph>The Facility EMS continuously runs a matching algorithm that pairs available selling offers, from V2G-capable EVs willing to discharge and from the facility itself when it has surplus PV generation or faces low or negative market prices, with buying needs from connected EVs and from the facility itself, which participates as a buyer when locally offered energy is priced below the current grid import price. The applicable energy rate for each transaction is determined within the bounds set by seller minimum compensation and buyer willingness to pay, using the grid import price as the ceiling reference, covering matched P2P trades, facility-wide surplus absorption, and demand modulation as a single unified determination. Once matches and the applicable rate are established, the Facility EMS computes the optimal dispatch and dispatches coordinated setpoints, discharge commands to selling EVs and adjusted charging setpoints to buying EVs, together with the applicable rate, to the CPO, while ensuring all declared departure constraints are respected and redistributing available power across sessions where a demand constraint is active. The Facility EMS continuously re-evaluates matches, rate, and dispatch as new EVs connect, existing sessions end, and energy conditions evolve.</Paragraph>
+        <Paragraph>Surplus Absorption Direction:</Paragraph>
+        <Paragraph>When local PV generation exceeds commercial facility consumption and BESS headroom is limited, or when wholesale market prices fall to very low or negative levels, the facility's determined energy rate reflects a preferential charging rate, incentivising increased EV charging to absorb the available surplus. V2G-capable EVs that have declared selling willingness contribute additional supply to the local pool. Opt-in users receive a real-time notification of the preferential rate and accept or reject; opt-out users automatically benefit from the adjusted rate. As surplus conditions ease, the continuously re-evaluated rate reverts toward standard levels without requiring a separate action.</Paragraph>
+        <Paragraph>Demand Modulation Direction:</Paragraph>
+        <Paragraph>When total facility demand approaches the contracted connection capacity limit, when unexpected high EV affluency creates a demand spike, or when unexpectedly low PV generation increases the cost of full EV charging, the Facility EMS's rate determination reflects the required load reduction as a commercial incentive, framed as loyalty programme points, store credit, or an equivalent benefit managed by the ePIPV Site Owner, offered to opt-in users in exchange for voluntarily accepting reduced charging power for the duration of the constraint. Opt-out users have their charging power modulated automatically within the bounds guaranteed by their declared departure constraints, with the Facility EMS redistributing available power across sessions as part of dispatch, distributing reductions across accepting and opt-out users. As the constraint resolves, normal charging power is restored through the same continuous re-evaluation.</Paragraph>
+        <Paragraph>Settlement:</Paragraph>
+        <Paragraph>Following each session, the CPO computes the session billing, reflecting the applied rate and any dynamic adjustments, and sends the session billing data to the ePIPV Site Owner. Using this data, the ePIPV Site Owner credits selling EV owners with the agreed store voucher compensation to their programme account, proportional to the energy discharged at the matched rate, and, for users who accepted a demand modulation offer, credits the corresponding loyalty incentive. The CPO settles the underlying energy cost with the ePIPV Site Owner through the existing commercial arrangement, reflecting the adjusted energy flows at the facility delivery point.</Paragraph>
+      </CompleteDescription>
+    </Narrative>
+    <KeyPerformanceIndicators>
+      <KPI uuid="ddec73cf-22ee-5c46-a14d-9dacb3afe8dc" id="U02">
+        <Name>Grid Connection Capacity Needs</Name>
+        <Description>Reduction of the grid connection capacity the facility needs to supply its loads and EV charging, through coordinated charging, discharging and modulation of EV sessions. Target: reduce &gt;=25% vs dumb charging</Description>
+        <ReferenceToObjectives>Objective 4</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="ecab701f-634a-5ddc-9b05-fb4b3ec4d194" id="U08">
+        <Name>Willingness to Participate (Flex.)</Name>
+        <Description>Share of EV users willing to take part in the local exchange mechanism (selling energy from the vehicle battery, accepting preferential-rate offers and voluntary charging modulation). Target: &gt;=40%</Description>
+        <ReferenceToObjectives>Objectives 1 and 2</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="4038d554-1078-5064-ba94-90f617163f39" id="U10">
+        <Name>Collective Self-Consumption</Name>
+        <Description>Increase of the share of locally generated PV energy that is consumed locally by the facility loads and the EV sessions, including energy exchanged through V2G. Target: &gt;=15%</Description>
+        <ReferenceToObjectives>Objective 3</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="afca587f-a7c6-5662-ae4b-aa01f80a3609" id="U11">
+        <Name>Renewables Curtailment Avoidance</Name>
+        <Description>Reduction of the PV energy that is curtailed, by directing local surplus to EV charging at preferential rates and to the BESS. Target: &gt;=25% at pilot level</Description>
+        <ReferenceToObjectives>Objective 3</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="d9a0a153-faaa-5cef-85f2-22b8bdd03c29" id="U12">
+        <Name>Peak Consumption Reduction (DR)</Name>
+        <Description>Reduction of the facility peak consumption through voluntary EV charging modulation during demand constraint conditions. Target: &gt;=25% vs without management</Description>
+        <ReferenceToObjectives>Objective 4</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="70aedc0e-06a1-5692-96c2-1e22cbe15181" id="U14">
+        <Name>Use of DERs in Parking Lots/ePIPVs</Name>
+        <Description>Increase in the use of the facility distributed energy resources (PV, BESS and V2G-capable EVs) as flexible assets in the local exchange. Target: increase &gt;=30%</Description>
+        <ReferenceToObjectives>Objective 3</ReferenceToObjectives>
+      </KPI>
+    </KeyPerformanceIndicators>
+    <UseCaseConditions>
+      <Assumptions>
+        <Assumption>The ePIPV facility comprises PV generation, BESS, non-flexible facility loads, as well as EV charging infrastructure, all monitored and controlled by a Facility EMS capable of adjusting the operation of each asset in real time.</Assumption>
+        <Assumption>At least a subset of EV users connected to the facility's charging infrastructure own V2G-capable vehicles and are willing to participate as energy sellers in the local P2P exchange.</Assumption>
+        <Assumption>EV users accept that their charging sessions may be subject to smart charging management within bounds that guarantee delivery of their declared energy need by their declared departure time.</Assumption>
+        <Assumption>The store voucher compensation mechanism is sufficiently attractive to incentivise V2G-capable EV owners to participate as sellers and opt-in users to accept demand modulation offers.</Assumption>
+      </Assumptions>
+      <Prerequisites>
+        <Prerequisite>The Facility EMS receives real-time data from all facility assets (PV generation, BESS state-of-charge, EV charging sessions, non-flexible load measurements).</Prerequisite>
+        <Prerequisite>Reliable bi-directional communication exists between the local Facility EMS and the CPO charging management system, allowing real-time exchange of session data, pricing signals, and power setpoints.</Prerequisite>
+        <Prerequisite>The EV charging infrastructure supports smart charging (dynamic power setpoint modulation via a charging management protocol) allowing the Facility EMS to adjust individual session charging rates in real time.</Prerequisite>
+        <Prerequisite>A loyalty programme and store voucher mechanism are operational and managed by the ePIPV Site Owner.</Prerequisite>
+        <Prerequisite>The commercial arrangement between the ePIPV Site Owner and the CPO covers dynamic rate adjustments, V2G session management, and energy cost settlement.</Prerequisite>
+      </Prerequisites>
+    </UseCaseConditions>
+    <ClassificationInformation>
+      <RelationToOtherUseCases>This BUC operates independently of BUC-PT-01/02/03's day-ahead market optimisation, since it is a local, real-time mechanism that does not participate in wholesale, balancing, or DSO markets.</RelationToOtherUseCases>
+      <LevelOfDepth>Business use case, detailed down to system use cases (SUC-PT-04.1 and SUC-PT-04.2) and their step-by-step sequences.</LevelOfDepth>
+      <Prioritisation>High. Demonstrates the local P2P energy exchange with dynamic EV charging incentives, evaluated by Hardware-in-the-Loop on both AC and DC infrastructure at the INESC-ID laboratory.</Prioritisation>
+      <GenericRegionalNationalRelation>The Portuguese pilot analyses this BUC as Hardware-in-the-Loop entirely within the INESC-ID laboratory, using real operational data from the SONAE installation (PV generation, facility loads, BESS state, EV connections) as boundary conditions, with a comparison between AC and DC infrastructure performance. This comparison produces two infrastructure-level indicators, PT-KPI-01 (AC/DC Infrastructure Energy Efficiency) and PT-KPI-02 (DC vs AC Flexibility Capacity Advantage), which compare the two architectures rather than measure the objectives of this BUC. This methodology is specific to the Portuguese pilot's dual-infrastructure design.</GenericRegionalNationalRelation>
+      <NatureOfUseCase>Business use case (local market process).</NatureOfUseCase>
+      <FurtherKeywords>P2P, V2G, local clearinghouse, store vouchers, demand modulation.</FurtherKeywords>
+    </ClassificationInformation>
+    <GeneralRemarks>
+      <Paragraph>This BUC is evaluated at the INESC-ID laboratory, which has the capability of testing and emulating both AC and DC infrastructures, using Hardware-in-the-Loop with real operational data from the commercial facility (PV generation, facility loads, BESS state and EV connections) as boundary conditions. The ePIPV facility, comprising PV, BESS, EV charging and non-flexible commercial loads, is managed by a Facility EMS that acts as a local clearinghouse, matching V2G selling offers with buying needs of the connected EVs and determining the applicable energy rate. The CPO applies the rate to each charging session and computes the billing, and the ePIPV Site Owner credits store vouchers to the V2G sellers. The features tested are the declaration of energy need and selling willingness, the clearinghouse matching and rate determination, the coordinated dispatch of charging and discharging setpoints including demand modulation, and the billing, voucher crediting and energy cost settlement. The actors involved are the ePIPV Site Owner, the CPO, the EV Users (buyers and sellers) and the Facility EMS.</Paragraph>
+    </GeneralRemarks>
+    <Diagrams>
+      <Diagram number="Figure 1" type="Use case diagram">
+        <Caption>BUC-PT-04 — Local P2P Energy Exchange through Dynamic EV Charging Incentives (use case diagram)</Caption>
+        <ImageReference>images/fig1-buc-pt-04-use-case-diagram.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 2" type="Sequence diagram">
+        <Caption>SUC-PT-04.1 — Real-Time EMS Clearinghouse Operation and Dispatch (sequence diagram)</Caption>
+        <ImageReference>images/fig2-suc-pt-04.1-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 3" type="Sequence diagram">
+        <Caption>SUC-PT-04.2 — Dynamic EV Charging Management (sequence diagram)</Caption>
+        <ImageReference>images/fig3-suc-pt-04.2-sequence.png</ImageReference>
+      </Diagram>
+    </Diagrams>
+    <References/>
+    <StepByStepAnalysis>
+      <ScenariosOverview>
+        <ScenarioOverview number="1">
+          <ScenarioName>Real-Time EMS Clearinghouse Operation and Dispatch (SUC-PT-04.1)</ScenarioName>
+          <ScenarioDescription>EV users declare needs and selling willingness on connection; Facility EMS continuously monitors conditions, matches offers with needs, determines the applicable energy rate, computes optimal dispatch, and dispatches coordinated setpoints.</ScenarioDescription>
+          <PrimaryActor>Facility EMS</PrimaryActor>
+          <TriggeringEvent>EV connects / EV disconnects / every 15 minutes</TriggeringEvent>
+          <PreCondition>Charging infrastructure available</PreCondition>
+          <PostCondition>Coordinated setpoints and applicable rate dispatched to CPO</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="2">
+          <ScenarioName>Dynamic EV Charging Management (SUC-PT-04.2)</ScenarioName>
+          <ScenarioDescription>CPO presents or applies the dispatched rate to EV sessions; following session end, computes billing, shares billing data with the ePIPV Site Owner, who credits store vouchers to V2G sellers and to users who accepted demand modulation offers, and settles the underlying energy cost with the CPO.</ScenarioDescription>
+          <PrimaryActor>CPO</PrimaryActor>
+          <TriggeringEvent>Triggered by SUC-PT-04.1 step 1.8 / EV session ends</TriggeringEvent>
+          <PreCondition>Setpoints and rate dispatched (SUC-PT-04.1)</PreCondition>
+          <PostCondition>Session billed; billing data shared; vouchers credited; energy cost settled</PostCondition>
+        </ScenarioOverview>
+      </ScenariosOverview>
+      <Scenarios>
+        <Scenario name="4.2.1 Real-Time EMS Clearinghouse Operation and Dispatch (SUC-PT-04.1)">
+          <Step number="1.1">
+            <Event>New EV connects</Event>
+            <NameOfProcessActivity>Declare energy need and departure time</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EV user declares energy need (kWh/SOC/km) and departure time upon connecting. (Trigger: new EV connects)</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EV User</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>Inf.1</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-01</RID>
+              <RID>R-SC-02</RID>
+              <RID>R-UI-02</RID>
+              <RID>R-UI-04</RID>
+              <RID>R-CYB-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.2">
+            <Event>Energy need declared</Event>
+            <NameOfProcessActivity>Declare participation model</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EV user is enrolled under opt-out by default, or actively enrols in opt-in.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EV User</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>Inf.2</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-08</RID>
+              <RID>R-UI-02</RID>
+              <RID>R-UI-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.3">
+            <Event>Participation model declared</Event>
+            <NameOfProcessActivity>Declare selling willingness</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>V2G-capable EV owner (opted in) declares energy volume available for discharge and minimum compensation per kWh.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EV User</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>Inf.3</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-06</RID>
+              <RID>R-UI-02</RID>
+              <RID>R-UI-04</RID>
+              <RID>R-CYB-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.4">
+            <Event>EV leaves or 15-min tick</Event>
+            <NameOfProcessActivity>Monitor local conditions</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS monitors PV, load, BESS SoC, market prices, connection capacity, and EV session data. (Loop: EV leave or every 15 min)</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-02</RID>
+              <RID>R-EMS-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.5">
+            <Event>Local conditions read</Event>
+            <NameOfProcessActivity>Run matching algorithm</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS matches selling offers (V2G, facility surplus) with buying needs, using grid import price as reference.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-07</RID>
+              <RID>R-EMS-02</RID>
+              <RID>R-FOR-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.6">
+            <Event>Offers matched</Event>
+            <NameOfProcessActivity>Determine EV charging energy rate</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS determines the applicable EV charging energy rate, covering matched P2P trade prices, facility-wide surplus absorption rates, and demand modulation incentives, within seller/buyer bounds and capped at grid import price where applicable.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>Inf.4</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-03</RID>
+              <RID>R-MKT-07</RID>
+              <RID>R-UI-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.7">
+            <Event>Rate determined</Event>
+            <NameOfProcessActivity>Compute optimal asset dispatch</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS computes optimal BESS, EV charging, and PV dispatch setpoints from the matched trade prices and current facility conditions (PV surplus, grid import price, BESS discharge cost).</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-03</RID>
+              <RID>R-EMS-04</RID>
+              <RID>R-FOR-05</RID>
+              <RID>R-RTC-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.8">
+            <Event>Dispatch computed</Event>
+            <NameOfProcessActivity>Dispatch coordinated setpoints and applicable rate</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS dispatches discharge commands to sellers and adjusted charging setpoints to buyers, respecting departure constraints, together with the applicable energy rate; redistributes available power across sessions where a demand constraint is active.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>CPO</InformationReceiver>
+            <InformationExchanged>Inf.5</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-02</RID>
+              <RID>R-RTC-01</RID>
+              <RID>R-RTC-03</RID>
+              <RID>R-RTC-06</RID>
+              <RID>R-SC-03</RID>
+              <RID>R-SC-06</RID>
+              <RID>R-SAF-01</RID>
+              <RID>R-SAF-07</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.2 Dynamic EV Charging Management (SUC-PT-04.2)">
+          <Step number="2.1">
+            <Event>Rate dispatched</Event>
+            <NameOfProcessActivity>Present offer or apply rate</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>CPO presents or applies the dispatched EV charging energy rate to the session (opt-in: notification/accept-reject; opt-out: automatic). (Triggered by SUC-PT-04.1 step 1.8)</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>CPO</InformationProducer>
+            <InformationReceiver>EV User</InformationReceiver>
+            <InformationExchanged>Inf.5</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-UI-02</RID>
+              <RID>R-UI-03</RID>
+              <RID>R-SC-08</RID>
+              <RID>R-COM-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.2">
+            <Event>EV session ends</Event>
+            <NameOfProcessActivity>Compute session billing</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>CPO computes session billing reflecting the applied rate and any dynamic adjustments. (Trigger: EV session ends)</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>CPO</InformationProducer>
+            <InformationReceiver>CPO</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MVR-03</RID>
+              <RID>R-UI-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.3">
+            <Event>Session billing computed</Event>
+            <NameOfProcessActivity>Send session billing data</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>CPO sends session billing data to the ePIPV Site Owner.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>CPO</InformationProducer>
+            <InformationReceiver>ePIPV Site Owner</InformationReceiver>
+            <InformationExchanged>Inf.6</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-01</RID>
+              <RID>R-CYB-03</RID>
+              <RID>R-MVR-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.4">
+            <Event>Billing data received</Event>
+            <NameOfProcessActivity>Credit store vouchers</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>ePIPV Site Owner credits store voucher compensation to V2G sellers' programme accountsand the loyalty incentive to users who accepted a demand modulation offer, based on the received billing data.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>ePIPV Site Owner</InformationProducer>
+            <InformationReceiver>EV User</InformationReceiver>
+            <InformationExchanged>Inf.7</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-UI-07</RID>
+              <RID>R-MVR-07</RID>
+              <RID>R-COM-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.5">
+            <Event>Vouchers credited</Event>
+            <NameOfProcessActivity>Settle energy cost</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>CPO settles the energy cost with the ePIPV Site Owner through the existing commercial arrangement.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>CPO</InformationProducer>
+            <InformationReceiver>ePIPV Site Owner</InformationReceiver>
+            <InformationExchanged>Inf.8</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-08</RID>
+              <RID>R-MVR-05</RID>
+              <RID>R-COM-01</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+      </Scenarios>
+    </StepByStepAnalysis>
+    <InformationExchanged>
+      <Information uuid="8ea01bb5-a2ca-519b-b9a7-a5c2a835d29e" id="Inf.1">
+        <Name>EV declaration</Name>
+        <Description>Energy need (kWh/SOC/km), departure time</Description>
+        <RequirementReferences>
+          <RID>R-SC-02</RID>
+          <RID>R-UI-04</RID>
+          <RID>R-CYB-06</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="ae89e48a-e54a-577e-b2b2-5f0044387868" id="Inf.2">
+        <Name>Participation model declaration</Name>
+        <Description>Opt-in or opt-out enrolment status</Description>
+        <RequirementReferences>
+          <RID>R-SC-08</RID>
+          <RID>R-UI-04</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="093da74b-263b-5875-a239-8b99d5627edc" id="Inf.3">
+        <Name>Selling declaration</Name>
+        <Description>Available discharge volume (kWh), minimum compensation (€/kWh)</Description>
+        <RequirementReferences>
+          <RID>R-SC-06</RID>
+          <RID>R-UI-04</RID>
+          <RID>R-CYB-06</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="6d3d3b36-2fce-5ff1-a222-b8975ea75b39" id="Inf.4">
+        <Name>Match result</Name>
+        <Description>Matched buyer/seller pairs, quantity (kWh), matched price</Description>
+        <RequirementReferences>
+          <RID>R-MKT-07</RID>
+          <RID>R-DAT-03</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="cc955697-537d-55f7-a303-1a5fdfc24f76" id="Inf.5">
+        <Name>Dispatch setpoints and rate</Name>
+        <Description>Charging/discharging power setpoints per session, together with the applicable EV charging energy rate</Description>
+        <RequirementReferences>
+          <RID>R-EMS-03</RID>
+          <RID>R-RTC-01</RID>
+          <RID>R-UI-03</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="1e89abc4-65f7-51d6-82c1-e1f2187f0f4d" id="Inf.6">
+        <Name>Session billing data</Name>
+        <Description>Session ID, energy charged/discharged (kWh), applicable rate, dynamic rate adjustments applied</Description>
+        <RequirementReferences>
+          <RID>R-MVR-03</RID>
+          <RID>R-MVR-05</RID>
+          <RID>R-DAT-02</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="8280f3db-ba26-5e6f-af2a-fafd3ca9f9bc" id="Inf.7">
+        <Name>Voucher credit</Name>
+        <Description>EV owner account ID, voucher value, energy discharged or modulated</Description>
+        <RequirementReferences>
+          <RID>R-UI-07</RID>
+          <RID>R-MVR-07</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="9b8c3f4c-67f4-5b0d-ab24-56fff50541fc" id="Inf.8">
+        <Name>Energy cost settlement</Name>
+        <Description>Net energy flows at delivery point, settlement amount</Description>
+        <RequirementReferences>
+          <RID>R-MKT-08</RID>
+          <RID>R-MVR-05</RID>
+        </RequirementReferences>
+      </Information>
+    </InformationExchanged>
+    <CommonTermsAndDefinitions>
+      <Term>
+        <Name>Local clearinghouse</Name>
+        <Definition>Role of the Facility EMS in this BUC: it matches the selling offers of V2G-capable EVs and of the facility with the buying needs of the connected EVs and determines the applicable energy rate, without wholesale market intermediation.</Definition>
+      </Term>
+      <Term>
+        <Name>Store voucher</Name>
+        <Definition>Commercial compensation credited by the ePIPV Site Owner to the programme account of EV users, provided instead of a direct energy payment.</Definition>
+      </Term>
+      <Term>
+        <Name>Demand modulation</Name>
+        <Definition>Voluntary acceptance by EV users of a reduced charging power during local demand constraint conditions, in exchange for a store voucher.</Definition>
+      </Term>
+    </CommonTermsAndDefinitions>
+  </UseCase>
+  <ActorList>
+    <Actor uuid="b7641650-6238-5313-bdd2-d337f74c03d6">
+      <Name>ePIPV Site Owner</Name>
+      <Type>Business</Type>
+      <Description>Entity that owns and operates the ePIPV facility and its distributed energy resources; operates the local P2P clearinghouse programme; manages the loyalty programme; credits store vouchers to V2G sellers and loyalty incentives to demand modulation participants; participates as energy buyer when local P2P price is below grid import price</Description>
+      <FurtherInformation>SONAE MC</FurtherInformation>
+    </Actor>
+    <Actor uuid="175edf89-311c-5323-a9a3-d288e866dc03">
+      <Name>CPO</Name>
+      <Type>Business</Type>
+      <Description>Charge Point Operator: party that operates the EV charging infrastructure; receives dispatched setpoints and the applicable EV charging energy rate from the Facility EMS; presents or applies the rate to EV users at the charging interface; computes session billing; sends session billing data to the ePIPV Site Owner; settles energy costs with the ePIPV Site Owner</Description>
+      <FurtherInformation>Elergone</FurtherInformation>
+    </Actor>
+    <Actor uuid="190c40f0-1d8e-50d6-9a04-924d63364c0a">
+      <Name>EV User (Buyer / Seller)</Name>
+      <Type>Business</Type>
+      <Description>EV user who connects to the facility's charging infrastructure; declares energy need and departure time upon connecting, and participates under the opt-out model by default or actively enrols in the opt-in model, receiving and responding to dynamic rate or incentive offers as a buyer. V2G-capable users who have opted in may additionally declare willingness to discharge, acting as a seller and providing energy to the local P2P pool in exchange for store voucher compensation.</Description>
+      <FurtherInformation>SONAE store customer / employee</FurtherInformation>
+    </Actor>
+    <Actor uuid="50faa4fb-0b5a-5ec1-bd08-eac1861ce5c1">
+      <Name>Facility EMS</Name>
+      <Type>System</Type>
+      <Description>System that monitors local energy conditions and market prices; runs the clearinghouse matching algorithm; determines the applicable EV charging energy rate; computes optimal asset dispatch; dispatches coordinated charging and discharging setpoints together with the applicable rate to the CPO</Description>
+      <FurtherInformation>INESC-ID</FurtherInformation>
+    </Actor>
+  </ActorList>
+  <RequirementList>
+    <RequirementCategory id="CAT-02">
+      <Name>Energy Management System capabilities</Name>
+      <Description>Contains requirements related to EMS functionalities and capabilities</Description>
+      <Requirement uuid="3724d3d7-2fd7-5657-a9ad-21587213d60f" id="R-EMS-01">
+        <Name>Unified site and cluster model</Name>
+        <Description>The EMS shall maintain a unified operational model of all connected sites, clusters and controllable assets, including current status, constraints and relationships.</Description>
+      </Requirement>
+      <Requirement uuid="8dad205a-de9b-5933-8939-ebe173ca35d4" id="R-EMS-02">
+        <Name>Multi-asset orchestration</Name>
+        <Description>The EMS shall coordinate EV charging, PV generation, BESS operation, controllable loads and grid exchange within the applicable pilot boundary.</Description>
+      </Requirement>
+      <Requirement uuid="23a94954-06b4-5251-93b8-29c91ef8ded8" id="R-EMS-03">
+        <Name>Schedule and setpoint generation</Name>
+        <Description>The EMS shall translate optimisation results and external commitments into asset-level schedules, limits and setpoints.</Description>
+      </Requirement>
+      <Requirement uuid="e763347c-0bff-5321-b534-7f82cceda516" id="R-EMS-04">
+        <Name>Constraint enforcement</Name>
+        <Description>The EMS shall prevent dispatch that violates grid connection limits, asset limits, user requirements, mobility-service constraints or contracted reserve obligations.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-03">
+      <Name>Smart charging, V2G and mobility-service constraints</Name>
+      <Description>The charging infrastructure functionalities and capabilities</Description>
+      <Requirement uuid="06fa38a4-1f2c-56ca-bdd5-a142f5bf8ab8" id="R-SC-01">
+        <Name>Charging-session detection</Name>
+        <Description>The charging system shall detect and report EV connection, authorisation, session start, active charging, suspension, completion and disconnection events.</Description>
+      </Requirement>
+      <Requirement uuid="03012542-cd55-527d-a5d4-93be5783e5e1" id="R-SC-02">
+        <Name>Charging requirement capture</Name>
+        <Description>The system shall capture, where available, initial SoC, target SoC or energy need, departure time, vehicle type and priority class for each managed session.</Description>
+      </Requirement>
+      <Requirement uuid="3a72743a-2400-5f9d-baa7-0bee4b58a788" id="R-SC-03">
+        <Name>Dynamic charging control</Name>
+        <Description>The charging infrastructure shall accept remote time-based charging profiles or dynamic power limits for individual EVSEs or sessions.</Description>
+      </Requirement>
+      <Requirement uuid="72bf11e2-09dd-54a5-9d8b-f34571ffa5ea" id="R-SC-06">
+        <Name>V2G enablement</Name>
+        <Description>For V2G-capable sessions, the system shall support controlled discharge subject to user consent, minimum departure SoC, vehicle limits and compensation conditions.</Description>
+      </Requirement>
+      <Requirement uuid="393084a9-efd5-5371-ad1f-6d1427bb5482" id="R-SC-08">
+        <Name>Opt-in and opt-out enforcement</Name>
+        <Description>The charging system shall apply the selected participation model and shall not modulate or discharge a session beyond the permissions granted by the user.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-04">
+      <Name>Communications and connectivity</Name>
+      <Description>Collection of requirements to enable reliable communication</Description>
+      <Requirement uuid="57b780a7-1cc0-53b5-b130-7e8d4e1d960a" id="R-COM-01">
+        <Name>Bidirectional communications</Name>
+        <Description>Bidirectional communication shall be available wherever both telemetry and remote control are required between assets, EMS, CSMS, BMS, VPP and external platforms.</Description>
+      </Requirement>
+      <Requirement uuid="81e7c455-ae86-5256-9617-1413c149be15" id="R-COM-08">
+        <Name>User-channel connectivity</Name>
+        <Description>Web and mobile interfaces shall support reliable exchange of authentication, charging preferences, prices, offers and participation decisions.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-05">
+      <Name>Data acquisition, quality and storage</Name>
+      <Description>Requirements for common data management mechanisms</Description>
+      <Requirement uuid="7f56eb9e-1472-5818-b05e-3c39231afb87" id="R-DAT-01">
+        <Name>Operational telemetry acquisition</Name>
+        <Description>The platform shall acquire EVSE, PV, BESS, meter, site-load, weather and mobility data required by the applicable use case.</Description>
+      </Requirement>
+      <Requirement uuid="cdf6fdd6-48fe-5791-abfe-93e0da556af6" id="R-DAT-02">
+        <Name>Common timestamping</Name>
+        <Description>All operational records shall contain timestamps referenced to a common time base and include timezone or UTC information.</Description>
+      </Requirement>
+      <Requirement uuid="392e0797-ef72-52e3-be45-dd206e950c3c" id="R-DAT-03">
+        <Name>Data validation</Name>
+        <Description>Incoming data shall be checked for missing values, staleness, invalid ranges, inconsistent units and implausible changes before use in control or settlement.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-07">
+      <Name>Forecasting and optimisation</Name>
+      <Description>Contains requirements enabling reliable predictive capabilities</Description>
+      <Requirement uuid="ce132e6f-b320-5292-8156-a79f3ecc6248" id="R-FOR-05">
+        <Name>Constraint-aware optimisation</Name>
+        <Description>Optimisation shall include asset power and energy limits, grid limits, charging deadlines, reserve commitments, load constraints and permissible PV curtailment.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-08">
+      <Name>Real-time control and performance</Name>
+      <Description>Group of requirements enabling near-real-time control to maintain grid compliance and track market or operational commitments</Description>
+      <Requirement uuid="9a9a1269-7600-5967-a241-67e1c3d45fd4" id="R-RTC-01">
+        <Name>Defined control cycle</Name>
+        <Description>Each real-time control function shall operate at a documented cycle time appropriate to its use case and shall complete calculation and dispatch within that cycle.</Description>
+      </Requirement>
+      <Requirement uuid="72773a2e-b05d-5ac2-8b84-1425bf98549f" id="R-RTC-03">
+        <Name>Dynamic power redistribution</Name>
+        <Description>When available power changes, the EMS shall redistribute power among active chargers, BESS and controllable loads according to current constraints and priorities.</Description>
+      </Requirement>
+      <Requirement uuid="a3dc46cf-bde5-55b0-8fa4-b57970871fc8" id="R-RTC-06">
+        <Name>Setpoint execution verification</Name>
+        <Description>The platform shall verify actual response after dispatch and identify partial, late or failed execution.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-10">
+      <Name>Market, aggregator and external platform integration</Name>
+      <Description>Group of requirements ensuring integration into electricity and flexibility markets</Description>
+      <Requirement uuid="52e51867-f2e1-56e8-8aa1-8d5b5e32949f" id="R-MKT-07">
+        <Name>Local P2P matching</Name>
+        <Description>The Facility EMS shall match eligible local sellers and buyers subject to seller minimum compensation, buyer willingness to pay, grid-price reference and technical feasibility.</Description>
+      </Requirement>
+      <Requirement uuid="f9b7a5d6-7aec-561f-b222-481e637411d5" id="R-MKT-08">
+        <Name>Settlement result exchange</Name>
+        <Description>The external-platform interface shall exchange delivered quantities, prices, penalties, imbalance results and remuneration components with the responsible party.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-11">
+      <Name>Metering, verification, settlement and KPI reporting</Name>
+      <Description>Group of requirements providing grounds for operational control and project and market outcomes validation</Description>
+      <Requirement uuid="d7d5d13f-5591-573c-90d6-3038eb3e59b3" id="R-MVR-03">
+        <Name>Session metering</Name>
+        <Description>Each charging or V2G session shall record start and end meter values, energy transferred, timestamps and session identifier.</Description>
+      </Requirement>
+      <Requirement uuid="aeeba7c1-52ef-51e6-a124-bca78963d56c" id="R-MVR-05">
+        <Name>Settlement-grade audit trail</Name>
+        <Description>Measurements used for financial settlement shall be immutable or tamper-evident, timestamped and traceable through all processing steps.</Description>
+      </Requirement>
+      <Requirement uuid="b9a7cfe5-d1be-53cb-9da7-f43feebfb6c9" id="R-MVR-07">
+        <Name>Delivery report</Name>
+        <Description>The system shall generate reports comparing requested, scheduled and actual power/energy for each flexibility or market event.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-12">
+      <Name>Cybersecurity, privacy and access control</Name>
+      <Description>Group of requirements ensuring secure and privacy-preserving access to services and provide resilient operation of infrastructure</Description>
+      <Requirement uuid="c158f1c8-d345-5392-8bb3-2951019417fa" id="R-CYB-03">
+        <Name>Encryption in transit</Name>
+        <Description>All communications crossing device, site, cloud or organisational trust boundaries shall use appropriate encryption in transit.</Description>
+      </Requirement>
+      <Requirement uuid="f76e41d5-bc2b-544e-9e9c-0a595076fa7c" id="R-CYB-06">
+        <Name>Personal-data minimisation</Name>
+        <Description>The platform shall collect and retain only the personal and mobility data necessary for the declared service and shall apply access and retention controls.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-13">
+      <Name>Safety, fault handling and recovery</Name>
+      <Description>Group of requirements ensuring control platform never overrides asset or mobility safety constraints</Description>
+      <Requirement uuid="48915850-19aa-5478-a9fe-c1e7b9c7417f" id="R-SAF-01">
+        <Name>Asset safety-envelope enforcement</Name>
+        <Description>No EMS, CSMS or market command shall exceed the validated electrical, thermal, SoC, ramp-rate or manufacturer limits of an asset.</Description>
+      </Requirement>
+      <Requirement uuid="551e6bc1-4524-53a3-b63c-b70fca033f8c" id="R-SAF-07">
+        <Name>Battery protection</Name>
+        <Description>BESS and vehicle charging/discharging shall respect BMS-reported SoC, SoH, temperature and fault limits at all times.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-14">
+      <Name>User interfaces, pricing and participation management</Name>
+      <Description>Group of requirements to ensure intuitive user interfaces, transparent pricing and participation management</Description>
+      <Requirement uuid="4a3eb0e0-02e2-5b28-947b-cf1f6d7c99ad" id="R-UI-02">
+        <Name>Charging-user interface</Name>
+        <Description>EV users shall be able to view session status and enter or confirm energy need, departure time and participation preference where required.</Description>
+      </Requirement>
+      <Requirement uuid="78c79006-e03b-51a0-9d4f-a9f70cc5d95b" id="R-UI-03">
+        <Name>Transparent price presentation</Name>
+        <Description>Any dynamic tariff, preferential rate, voucher value or flexibility incentive shall be presented before user acceptance with applicable conditions.</Description>
+      </Requirement>
+      <Requirement uuid="ea2d9432-7c2f-588f-85b9-a040f50329f5" id="R-UI-04">
+        <Name>Participation consent record</Name>
+        <Description>The system shall record opt-in, opt-out, V2G consent, offer acceptance and withdrawal with user/session identifier and timestamp.</Description>
+      </Requirement>
+      <Requirement uuid="e6b29939-9803-5cb7-993a-f6cde0f62023" id="R-UI-07">
+        <Name>Voucher and loyalty integration</Name>
+        <Description>The platform shall issue and track voucher or loyalty compensation linked to verified V2G delivery or accepted charging modulation.</Description>
+      </Requirement>
+    </RequirementCategory>
+  </RequirementList>
+</IEC62559UseCaseArtefacts>

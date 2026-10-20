@@ -1,0 +1,894 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SOLAR-MOVE | BUC-PT-03 | DSO Local Flexibility Market Service Provision by a Multi-Asset Prosumer Facility through a Periodic Auction Contract
+  IEC 62559-3-STYLE serialization (DRAFT).
+  Structure & field vocabulary aligned to the IEC 62559-2 template as rendered by the
+  Sparx Enterprise Architect / MODSARUS toolchain (reference: the public 'Smart Grid Use
+  Cases' renderings of the BRIDGE EDF/Elering use cases).
+  NOTE: element names are indicative; this file is NOT validated against the normative
+  IEC 62559-3 XSD. UUIDs are deterministic (uuid5) placeholders, not repository-assigned.
+  Source: SOLARMOVE_BUC-PT-03.docx
+-->
+<IEC62559UseCaseArtefacts profile="IEC 62559-3-style, aligned to the IEC 62559-2 template as rendered by the Sparx EA / MODSARUS toolchain" status="DRAFT - not validated against the normative IEC 62559-3 XSD" basedOnTemplate="IEC 62559-2:2015" generatedFrom="SOLARMOVE_BUC-PT-03.docx" namespaceNote="urn:solarmove:iec62559-3-style:v0">
+  <UseCase uuid="ff944152-6c4a-509e-bb42-fda3e2d18e73" id="BUC-PT-03" version="1.0">
+    <UseCaseIdentification>
+      <ID>BUC-PT-03</ID>
+      <Name>DSO Local Flexibility Market Service Provision by a Multi-Asset Prosumer Facility through a Periodic Auction Contract</Name>
+      <Area>Energy System</Area>
+      <Domains>Customer Premises, Distribution</Domains>
+      <Zones>Process, Field, Station, Operation, Enterprise, Market</Zones>
+    </UseCaseIdentification>
+    <VersionControl>
+      <Version number="1.0">
+        <Date>20.10.2026</Date>
+        <Author>Alexandre Bento (INESC-ID)</Author>
+        <Changes>First public version</Changes>
+        <ApprovalStatus/>
+      </Version>
+    </VersionControl>
+    <ScopeAndObjectives>
+      <Scope>
+        <Paragraph>This use case covers the participation of an ePIPV facility comprising BESS, EV charging infrastructure, PV generation, and non-flexible facility loads in a DSO-operated local flexibility market. It spans two temporal phases: a contracting phase, in which the ePIPV Site Owner registers assets on the market platform, participates in a periodic auction organised by the DSO, and establishes a multi-year flexibility service contract; and an operational phase, in which the DSO issues activation instructions during contracted service windows and the Facility EMS delivers the requested flexibility response, with settlement based on measured energy against a standardised reference value. The use case is supported by four System Use Cases: SUC-PT-03.1 (Flexibility Headroom Assessment), SUC-PT-03.2 (Auction Participation and Contract Management), SUC-PT-03.3 (Real-Time EMS Execution), and SUC-PT-03.4 (Settlement).</Paragraph>
+      </Scope>
+      <Objectives>
+        <Objective>Generate revenue for the ePIPV Site Owner, acting as flexibility service provider (FSP), by offering local flexibility services to the DSO in both upward and downward directions, covering both availability and utilisation remuneration components. Demonstrate the capability of a mixed asset portfolio to deliver reliable and measurable flexibility responses under a standardised DSO flexibility market framework. Contribute to local network congestion management and renewable energy integration by providing demand-side flexibility at distribution network level.</Objective>
+      </Objectives>
+      <RelatedBusinessCases/>
+    </ScopeAndObjectives>
+    <Narrative>
+      <ShortDescription>
+        <Paragraph>When the DSO identifies a local network flexibility need, it publishes a competition on the DSO Flexibility Market Platform. The ePIPV site Owner registers its flexible assets on the platform, assesses available flexibility headroom, and submits a bid. If the auction clears successfully and the DSO validates the results, the facility undergoes a qualification test and the ePIPV Becomes an Flexibility Service Provider (FSP) by signing a multi-year flexibility service contract with the DSO. During the contracted service period, when the DSO detects a network need, it issues an activation instruction via the platform with the applicable advance notice. The Facility EMS receives the instruction and makes the required adjustments across available assets to meet the flexibility order. Settlement is computed per 15-minute slot by comparing actual measured power against a standardised adjusted reference value, with payment comprising an availability component for contracted readiness and a utilisation component for energy actually delivered, paid to the ePIPV Site Owner.</Paragraph>
+      </ShortDescription>
+      <CompleteDescription>
+        <Paragraph>When the DSO identifies a local network flexibility need, it organises local flexibility competitions across different service types, each responding to a distinct network operational need:</Paragraph>
+        <Paragraph>The Secure service addresses peak consumption management or overvoltage conditions under normal network operation. Activation instructions are issued with 15 minutes advance notice. The availability payment applies unconditionally for all contracted service windows.</Paragraph>
+        <Paragraph>The Dynamic service addresses congestion arising during planned network maintenance periods, when specific network assets are temporarily unavailable. The DSO must notify the FSP of the relevant service window at least 7 days in advance. If this notice period is not met, the DSO cannot invoke the Dynamic service type for that event. The activation instruction itself is still issued with 15 minutes advance notice.</Paragraph>
+        <Paragraph>The Restore service addresses network restoration following fault events. It has no predictability; activation instructions are issued with 15 minutes notice at any time during the contracted service window. The availability payment applies unconditionally.</Paragraph>
+        <Paragraph>For all service types, the direction of the requested flexibility is specified per competition: upward (consumption reduction or generation increase) or downward (consumption increase or generation reduction). The auction is published on the DSO Flexibility Market Platform specifying the geographic zone, service type, direction, required power, service windows, and minimum qualifying capacity per flexible unit (typically 10 kW).</Paragraph>
+        <Paragraph>Once assets are validated, the ePIPV Site Owner derives representative load, PV generation, and EV charging demand profiles for the auction period, the EV profile adjusted for projected adoption growth over the auction horizon, and assesses the BESS's contribution to flexibility headroom under alternative operational scenarios, accounting for network tariff costs, market price conditions, and flexibility remuneration. This produces a flexibility supply curve: available flexible power as a function of the price at which the ePIPV Site Owner is willing to offer it. The ePIPV Site Owner selects a bid point from this curve in accordance with the specific auction's characteristics (zone, service type, direction, required power, service windows) and submits a bid specifying available flexible power (MW), an availability price (€/MW/h), and a utilisation price (€/MWh).</Paragraph>
+        <Paragraph>The DSO Flexibility Market Platform evaluates submitted bids by economic merit, ranks and accepts technically compliant bids until the required power for the zone is covered, and the DSO validates the clearing results. Selected bidders undergo a qualification test within 45 days of bid close, verifying dispatch responsiveness, delivery of contracted power within response time, sustained delivery, and measurement accuracy. Upon passing, the ePIPV facility owner signs a multi-year flexibility service contract with the DSO, establishing contracted flexible power, service windows, prices, and performance obligations.</Paragraph>
+        <Paragraph>During contracted service windows, the Facility EMS maintains facility assets in a state of readiness. When the DSO detects a network flexibility need within a contracted window, it issues an activation instruction via the platform specifying direction, requested power, and duration, with the advance notice applicable to the contracted service type. The platform routes the instruction to the Facility EMS, which makes the required adjustments across available assets.</Paragraph>
+        <Paragraph>Settlement is computed by the DSO for each 15-minute slot of the activation period. The adjusted reference value (VRA) represents the facility's expected power profile absent activation: for consumption assets, derived from the average of the 8 most representative of the last 10 weekdays (or 2 of the last 4 non-working days for weekends/holidays), excluding outliers via modified Z-Score, corrected by an adjustment factor reflecting deviations in the 2 hours preceding activation; for BESS assets, VRA is always zero; for assets with a day-ahead schedule, VRA equals that schedule. Delivered flexibility per slot is the absolute difference between measured power and VRA. The valorised energy per slot follows a three-band rule: below 60% of ordered amount, zero payment; between 60% and 140%, fully paid; above 140%, capped at the ordered amount. Total settled energy (SET) sums valorised energy across the activation period. The utilisation payment is SET multiplied by the contracted utilisation rate; the availability payment is the contracted flexible power multiplied by the availability rate and contracted service hours, subject to notification conditions. Following each activation, the Facility EMS restores assets to their pre-activation or preferred state. The DSO issues a performance report and settlement invoice paying the FSP.</Paragraph>
+      </CompleteDescription>
+    </Narrative>
+    <KeyPerformanceIndicators>
+      <KPI uuid="f7c044b2-0b74-5435-99f2-1fa254975e3d" id="U04">
+        <Name>Operation Cost (ePIPV)</Name>
+        <Description>Reduction of the facility operating cost through flexibility availability and utilisation remuneration and coordinated multi-asset operation. Target: reduce &gt;=25% vs non-optimal</Description>
+        <ReferenceToObjectives>Objective 1</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="e68b4ba2-c1cc-586f-9d1b-8ccdbcbd9c1e" id="U05">
+        <Name>Flexibility Participation (Operation)</Name>
+        <Description>Increase of the flexibility the facility actually offers and delivers to the market, through contracted flexibility service windows and delivered activations. Target: increase &gt;=100%</Description>
+        <ReferenceToObjectives>Objectives 1 and 2</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="cbb37380-b437-5a7e-80cc-70edd1b19f60" id="U06">
+        <Name>Flexibility Potential</Name>
+        <Description>Increase of the flexible power and energy capacity the facility can offer, by coordinating BESS, EV charging and PV curtailment. Target: increase &gt;=25%</Description>
+        <ReferenceToObjectives>Objectives 2 and 3</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="63517422-0903-5ad4-84ce-9bad689d57f4" id="U12">
+        <Name>Peak Consumption Reduction (DR)</Name>
+        <Description>Reduction of the facility’s peak consumption through its participation in the DSO flexibility service, compared with the peak without intelligent management. Target: &gt;=25% vs without management</Description>
+        <ReferenceToObjectives>Objective 3</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="1abd4111-b37c-5abb-a256-13cbafa1721f" id="U20">
+        <Name>ePIPVs Willing to Engage in Flex/DR</Name>
+        <Description>Increase in the willingness of ePIPVs to engage in flexibility services, measured as the widening of the period in which the ePIPV can offer flexibility to the DSO, compared with a baseline ePIPV without the SOLAR-MOVE solutions. Target: Increase &gt;=25%</Description>
+        <ReferenceToObjectives>Objectives 1 and 2</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="e313f808-31bf-59a6-9bac-13171d308b33" id="U19">
+        <Name>Flexibility Participation Tests</Name>
+        <Description>Number of flexibility participation tests carried out in the pilot, i.e. DSO auction cycles and activation events in which the facility takes part. Target: &gt;=2 tests in pilots</Description>
+        <ReferenceToObjectives>Objectives 1 and 2</ReferenceToObjectives>
+      </KPI>
+    </KeyPerformanceIndicators>
+    <UseCaseConditions>
+      <Assumptions>
+        <Assumption>The ePIPV facility comprises PV generation, BESS, non-flexible commercial facility loads, and EV charging infrastructure, all monitored and controlled by a Facility EMS capable of adjusting the operation of each asset in real time.</Assumption>
+        <Assumption>The ePIPV facility's flexible asset capacity is sufficient to meet the minimum qualifying capacity per flexible unit required by the DSO flexibility market (10 kW), without requiring aggregation with other sites.</Assumption>
+        <Assumption>The DSO operates a local flexibility market platform through which competitions are published, bids are submitted, activation instructions are issued, and settlement is managed.</Assumption>
+        <Assumption>EV users accept that their charging sessions may be subject to modulation during contracted flexibility service delivery periods within bounds that guarantee delivery of their minimum energy requirement by departure time.</Assumption>
+        <Assumption>The capacity offered to this market is determined jointly with the facility's other market commitments (day-ahead spot market participation via BUC-PT-01, mFRR via BUC-PT-02) within a single EMS optimisation run that maximises overall facility revenue across all available market channels.</Assumption>
+      </Assumptions>
+      <Prerequisites>
+        <Prerequisite>The Facility EMS receives real-time data from all facility assets (PV generation, BESS state-of-charge, EV charging sessions, non-flexible load measurements).</Prerequisite>
+        <Prerequisite>Reliable bi-directional communication exists between the local Facility EMS and the DSO Flexibility Market Platform, meeting the minimum availability requirements defined by the DSO.</Prerequisite>
+        <Prerequisite>The EV charging infrastructure supports smart charging (dynamic power setpoint modulation), allowing the Facility EMS to adjust individual session charging rates in real time.</Prerequisite>
+        <Prerequisite>The ePIPV Site Owner has access to historical facility operating data (load, PV generation, EV charging sessions) covering a period sufficient to construct representative profiles for the auction horizon, together with EV adoption growth projections.</Prerequisite>
+      </Prerequisites>
+    </UseCaseConditions>
+    <ClassificationInformation>
+      <RelationToOtherUseCases>This BUC's flexibility headroom assessment (SUC-PT-03.1) shares a single EMS optimisation run with BUC-PT-01 (day-ahead spot market participation) and BUC-PT-02 (mFRR provision), which jointly determine how facility flexibility is allocated across market channels to maximise total revenue.</RelationToOtherUseCases>
+      <LevelOfDepth>Business use case, detailed down to system use cases (SUC-PT-03.1 to SUC-PT-03.4) and their step-by-step sequences.</LevelOfDepth>
+      <Prioritisation>High. Demonstrates the provision of a local flexibility service to the DSO by a multi-asset prosumer facility, evaluated on both AC and DC infrastructure at the INESC-ID laboratory.</Prioritisation>
+      <GenericRegionalNationalRelation>The Portuguese pilot executes this BUC as a parallel comparison between AC infrastructure, tested as Hardware-in-the-Loop against a Digital Twin of the Continente facility, and DC infrastructure, physically emulated as Power-Hardware-in-the-Loop at the INESC-ID laboratory. This comparison produces two infrastructure-level indicators, PT-KPI-01 and PT-KPI-02, which compare the two architectures rather than measure the objectives of this BUC. This methodology is specific to the Portuguese pilot's dual-infrastructure design.</GenericRegionalNationalRelation>
+      <NatureOfUseCase>Business use case (market process).</NatureOfUseCase>
+      <FurtherKeywords>DSO flexibility market, FIRMe (Integrated Flexibility in a Market Regime), FSP (Flexibility Service Provider), congestion management, BESS, EV charging.</FurtherKeywords>
+    </ClassificationInformation>
+    <GeneralRemarks>
+      <Paragraph>This BUC is evaluated at the INESC-ID laboratory, which has the capability of testing and emulating both AC and DC infrastructures, using a downscaled replica of the commercial facility. The ePIPV facility, comprising PV, BESS, EV charging and non-flexible commercial loads, is managed by a Facility EMS that assesses the available flexibility headroom and derives a flexibility supply curve. The ePIPV Site Owner, acting as FSP, participates in a periodic auction organised by the DSO on its flexibility market platform and, once qualified, delivers the requested flexibility upon DSO activation instructions. The features tested are the flexibility headroom assessment, auction participation and contract management, readiness maintenance and the coordinated multi-asset activation response, and settlement against a reference value. The actors involved are the ePIPV Site Owner, the DSO, the Facility EMS and the DSO Flexibility Market Platform.</Paragraph>
+    </GeneralRemarks>
+    <Diagrams>
+      <Diagram number="Figure 1" type="Use case diagram">
+        <Caption>BUC-PT-03 — DSO Local Flexibility Market Service Provision by a Multi-Asset Prosumer Facility through a Periodic Auction Contract (use case diagram)</Caption>
+        <ImageReference>images/fig1-buc-pt-03-use-case-diagram.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 2" type="Sequence diagram">
+        <Caption>SUC-PT-03.1 — Flexibility Headroom Assessment (sequence diagram)</Caption>
+        <ImageReference>images/fig2-suc-pt-03.1-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 3" type="Sequence diagram">
+        <Caption>SUC-PT-03.2 — Auction Participation and Contract Management (sequence diagram)</Caption>
+        <ImageReference>images/fig3-suc-pt-03.2-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 4" type="Sequence diagram">
+        <Caption>SUC-PT-03.3 — Real-Time EMS Execution (sequence diagram)</Caption>
+        <ImageReference>images/fig4-suc-pt-03.3-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 5" type="Sequence diagram">
+        <Caption>SUC-PT-03.4 — Settlement (sequence diagram)</Caption>
+        <ImageReference>images/fig5-suc-pt-03.4-sequence.png</ImageReference>
+      </Diagram>
+    </Diagrams>
+    <References>
+      <Reference number="1">
+        <Type>Regulation</Type>
+        <Description>Regulamento dos Concursos para a Prestação de Serviços de Flexibilidade (FIRMe Tender Rules 2025), E-REDES, for the FIRMe pilot</Description>
+        <Status>Current (pilot)</Status>
+        <ImpactOnUseCase>Defines the auction mechanics, service types (Secure/Dynamic/Restore), and 10 kW minimum qualifying capacity modelled in SUC-PT-03.1 to SUC-PT-03.4</ImpactOnUseCase>
+        <Originator>ERSE / E-REDES</Originator>
+        <Link>https://www.e-redes.pt/sites/eredes/files/2025-07/E-REDES_FIRMe_Tender%2BRules_2025.pdf</Link>
+      </Reference>
+    </References>
+    <StepByStepAnalysis>
+      <ScenariosOverview>
+        <ScenarioOverview number="1">
+          <ScenarioName>Flexibility Headroom Assessment (SUC-PT-03.1)</ScenarioName>
+          <ScenarioDescription>Facility EMS backend computes load, PV, and BESS forecasts and assesses available flexibility headroom for the competition's service windows.</ScenarioDescription>
+          <PrimaryActor>Facility EMS</PrimaryActor>
+          <TriggeringEvent>Auction publication</TriggeringEvent>
+          <PreCondition>Facility EMS has access to forecasting data</PreCondition>
+          <PostCondition>Flexibility headroom profile ready for bidding</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="2">
+          <ScenarioName>Auction Participation and Contract Management (SUC-PT-03.2)</ScenarioName>
+          <ScenarioDescription>ePIPV Site Owner registers assets, submits a bid, undergoes qualification, and signs the flexibility service contract.</ScenarioDescription>
+          <PrimaryActor>ePIPV Site Owner</PrimaryActor>
+          <TriggeringEvent>Auction publication / bid close</TriggeringEvent>
+          <PreCondition>Headroom profile available (SUC-PT-03.1)</PreCondition>
+          <PostCondition>Flexibility service contract signed</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="3">
+          <ScenarioName>Real-Time EMS Execution (SUC-PT-03.3)</ScenarioName>
+          <ScenarioDescription>Facility EMS maintains readiness and executes the flexibility response upon activation instruction.</ScenarioDescription>
+          <PrimaryActor>Facility EMS</PrimaryActor>
+          <TriggeringEvent>Start of contracted service window / DSO activation instruction</TriggeringEvent>
+          <PreCondition>Flexibility service contract active (SUC-PT-03.2)</PreCondition>
+          <PostCondition>Flexibility delivered and confirmed; assets recovered</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="4">
+          <ScenarioName>Settlement (SUC-PT-03.4)</ScenarioName>
+          <ScenarioDescription>DSO computes settlement from measured delivery against the adjusted reference value (VRA); pays the FSP.</ScenarioDescription>
+          <PrimaryActor>DSO</PrimaryActor>
+          <TriggeringEvent>Periodic settlement cycle</TriggeringEvent>
+          <PreCondition>Activation deliveries recorded</PreCondition>
+          <PostCondition>Revenue allocated to the ePIPV Site Owner</PostCondition>
+        </ScenarioOverview>
+      </ScenariosOverview>
+      <Scenarios>
+        <Scenario name="4.2.1 Flexibility Headroom Assessment (SUC-PT-03.1)">
+          <Step number="1.1">
+            <Event>Auction published</Event>
+            <NameOfProcessActivity>Compute load profile for auction period</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>ePIPV Site Owner derives a representative load profile for the auction period from historical data.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>ePIPV Site Owner</InformationProducer>
+            <InformationReceiver>ePIPV Site Owner</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-02</RID>
+              <RID>R-DAT-05</RID>
+              <RID>R-FOR-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.2">
+            <Event>Load profile ready</Event>
+            <NameOfProcessActivity>Compute PV generation profile for auction period</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>ePIPV Site Owner derives a representative PV generation profile for the auction period from historical data.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>ePIPV Site Owner</InformationProducer>
+            <InformationReceiver>ePIPV Site Owner</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-01</RID>
+              <RID>R-DAT-05</RID>
+              <RID>R-FOR-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.3">
+            <Event>PV profile ready</Event>
+            <NameOfProcessActivity>Compute EV charging demand profile for auction period</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>ePIPV Site Owner derives a representative EV charging demand profile for the auction period from historical CPO session data, adjusted for projected EV adoption growth over the auction horizon.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>ePIPV Site Owner</InformationProducer>
+            <InformationReceiver>ePIPV Site Owner</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-03</RID>
+              <RID>R-DAT-05</RID>
+              <RID>R-FOR-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.4">
+            <Event>EV demand profile ready</Event>
+            <NameOfProcessActivity>Assess BESS flexibility contribution and cost</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>ePIPV Site Owner uses the load, PV, and EV demand profiles from steps 1.1–1.3, together with the BESS's known technical characteristics, to assess the BESS's contribution to flexibility headroom under alternative operational scenarios accounting for network tariff costs, market price conditions and flexibility remuneration.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>ePIPV Site Owner</InformationProducer>
+            <InformationReceiver>ePIPV Site Owner</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-06</RID>
+              <RID>R-AIC-03</RID>
+              <RID>R-FOR-05</RID>
+              <RID>R-GFR-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.5">
+            <Event>Profiles and BESS assessment ready</Event>
+            <NameOfProcessActivity>Compute flexibility supply curve</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>ePIPV Site Owner combines the profile and BESS assessment outputs from steps 1.1–1.4 to compute, per service window and direction, a flexibility supply curve: available flexible power (kW) as a function of the availability and utilisation price at which the ePIPV Site Owner is willing to offer it, reflecting the increasing opportunity cost of allocating additional capacity away from other uses (self-consumption, other market participation) as the offered quantity increases.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>ePIPV Site Owner</InformationProducer>
+            <InformationReceiver>ePIPV Site Owner</InformationReceiver>
+            <InformationExchanged>Inf.1</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-06</RID>
+              <RID>R-GFR-02</RID>
+              <RID>R-GFR-03</RID>
+              <RID>R-FOR-08</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.2 Auction Participation and Contract Management (SUC-PT-03.2)">
+          <Step number="2.1">
+            <Event>Auction cycle starts</Event>
+            <NameOfProcessActivity>Publish auction</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>DSO publishes competition details (zone, service type, direction, required power, windows, minimum capacity).</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>DSO</InformationProducer>
+            <InformationReceiver>DSO Flexibility Market Platform</InformationReceiver>
+            <InformationExchanged>Inf.2</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-06</RID>
+              <RID>R-COM-07</RID>
+              <RID>R-INT-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.2">
+            <Event>Auction published</Event>
+            <NameOfProcessActivity>Register assets</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>ePIPV Site Owner registers facility assets on the platform (technology type, capacity, connection point, location).</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>ePIPV Site Owner</InformationProducer>
+            <InformationReceiver>DSO Flexibility Market Platform</InformationReceiver>
+            <InformationExchanged>Inf.3</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-07</RID>
+              <RID>R-MKT-06</RID>
+              <RID>R-COM-07</RID>
+              <RID>R-CYB-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.3">
+            <Event>Assets registered</Event>
+            <NameOfProcessActivity>Validate registration</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Platform validates asset eligibility for the competition zone and service type.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>DSO Flexibility Market Platform</InformationProducer>
+            <InformationReceiver>ePIPV Site Owner</InformationReceiver>
+            <InformationExchanged>Inf.3</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-07</RID>
+              <RID>R-COM-03</RID>
+              <RID>R-DAT-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.4">
+            <Event>Registration validated</Event>
+            <NameOfProcessActivity>Submit bid</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>ePIPV Site Owner selects a bid point (flexible power, availability price, utilisation price) from the flexibility supply curve (Inf.1), in accordance with this auction's characteristics (zone, service type, direction, required power, service windows), and submits the bid.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>ePIPV Site Owner</InformationProducer>
+            <InformationReceiver>DSO Flexibility Market Platform</InformationReceiver>
+            <InformationExchanged>Inf.1, Inf.4</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-06</RID>
+              <RID>R-INT-07</RID>
+              <RID>R-CYB-01</RID>
+              <RID>R-CYB-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.5">
+            <Event>Bid window closed</Event>
+            <NameOfProcessActivity>Clear auction</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Platform evaluates bids by economic merit and clears the auction.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>DSO Flexibility Market Platform</InformationProducer>
+            <InformationReceiver>DSO</InformationReceiver>
+            <InformationExchanged>Inf.5</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-06</RID>
+              <RID>R-COM-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.6">
+            <Event>Auction cleared</Event>
+            <NameOfProcessActivity>Validate clearing</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>DSO validates that cleared power meets the zone requirement; communicates results.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>DSO</InformationProducer>
+            <InformationReceiver>ePIPV Site Owner</InformationReceiver>
+            <InformationExchanged>Inf.5</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-06</RID>
+              <RID>R-COM-03</RID>
+              <RID>R-DAT-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.7">
+            <Event>Clearing validated</Event>
+            <NameOfProcessActivity>Qualification test</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>DSO conducts a qualification test verifying dispatch response, delivery, duration, and measurement accuracy.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>DSO</InformationProducer>
+            <InformationReceiver>ePIPV Site Owner</InformationReceiver>
+            <InformationExchanged>Inf.6</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-04</RID>
+              <RID>R-RTC-06</RID>
+              <RID>R-MVR-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.8">
+            <Event>Qualification passed</Event>
+            <NameOfProcessActivity>Sign contract</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>ePIPV Site Owner signs the multi-year flexibility service contract with the DSO, becoming a FSP.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>DSO</InformationProducer>
+            <InformationReceiver>ePIPV Site Owner</InformationReceiver>
+            <InformationExchanged>Inf.7</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-06</RID>
+              <RID>R-CYB-09</RID>
+              <RID>R-COM-03</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.3 Real-Time EMS Execution (SUC-PT-03.3)">
+          <Step number="3.1">
+            <Event>Service window starts</Event>
+            <NameOfProcessActivity>Load contracted schedule</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS loads contracted service windows and required power from the flexibility contract.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>Inf.7</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-03</RID>
+              <RID>R-COM-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.2">
+            <Event>Contracted schedule loaded</Event>
+            <NameOfProcessActivity>Enter readiness state</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS maintains assets in readiness for contracted service windows.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-08</RID>
+              <RID>R-GFR-03</RID>
+              <RID>R-SAF-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.3">
+            <Event>Network need detected</Event>
+            <NameOfProcessActivity>Issue activation instruction</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>DSO detects a network need and issues an activation instruction (direction, power, activation start time, duration) with applicable notice.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>DSO</InformationProducer>
+            <InformationReceiver>DSO Flexibility Market Platform</InformationReceiver>
+            <InformationExchanged>Inf.8</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-05</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-CYB-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.4">
+            <Event>Activation instruction issued</Event>
+            <NameOfProcessActivity>Route activation instruction</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Platform routes the instruction to the Facility EMS.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>DSO Flexibility Market Platform</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>Inf.8</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-05</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-COM-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.5">
+            <Event>Activation instruction received</Event>
+            <NameOfProcessActivity>Execute flexibility response</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS makes required adjustments across BESS, EV charging, and PV curtailment to meet the order.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-02</RID>
+              <RID>R-EMS-04</RID>
+              <RID>R-RTC-01</RID>
+              <RID>R-RTC-02</RID>
+              <RID>R-RTC-05</RID>
+              <RID>R-SAF-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.6">
+            <Event>Response executed</Event>
+            <NameOfProcessActivity>Confirm delivery</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS confirms delivered response.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>DSO Flexibility Market Platform</InformationReceiver>
+            <InformationExchanged>Inf.9</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-RTC-06</RID>
+              <RID>R-RTC-08</RID>
+              <RID>R-GFR-08</RID>
+              <RID>R-MVR-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.7">
+            <Event>Delivery confirmed</Event>
+            <NameOfProcessActivity>Post-activation recovery</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS restores assets to pre-activation or preferred state.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SAF-06</RID>
+              <RID>R-EMS-08</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.4 Settlement (SUC-PT-03.4)">
+          <Step number="4.1">
+            <Event>Settlement cycle starts</Event>
+            <NameOfProcessActivity>Compute VRA</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>DSO computes the adjusted reference value for each activation slot.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>DSO</InformationProducer>
+            <InformationReceiver>DSO</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MVR-04</RID>
+              <RID>R-MVR-05</RID>
+              <RID>R-DAT-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4.2">
+            <Event>VRA computed</Event>
+            <NameOfProcessActivity>Compute delivered flexibility</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>DSO computes delivered flexibility as the difference between measured power and VRA.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>DSO</InformationProducer>
+            <InformationReceiver>DSO</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MVR-04</RID>
+              <RID>R-GFR-08</RID>
+              <RID>R-MVR-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4.3">
+            <Event>Delivered flexibility computed</Event>
+            <NameOfProcessActivity>Apply three-band valorisation</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>DSO applies the three-band payment rule to compute valorised energy per slot.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>DSO</InformationProducer>
+            <InformationReceiver>DSO</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MVR-04</RID>
+              <RID>R-MVR-05</RID>
+              <RID>R-MKT-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4.4">
+            <Event>Valorisation applied</Event>
+            <NameOfProcessActivity>Issue settlement</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>DSO issues the availability and utilisation payment to the ePIPV Site Owner.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>DSO</InformationProducer>
+            <InformationReceiver>ePIPV Site Owner</InformationReceiver>
+            <InformationExchanged>Inf.10</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-08</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-CYB-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4.5">
+            <Event>Settlement received</Event>
+            <NameOfProcessActivity>Acknowledge settlement</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>ePIPV Site Owner acknowledges settlement receipt.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>ePIPV Site Owner</InformationProducer>
+            <InformationReceiver>DSO</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-03</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+      </Scenarios>
+    </StepByStepAnalysis>
+    <InformationExchanged>
+      <Information uuid="13a5ae86-def8-53d4-8220-8b30e6c3cb57" id="Inf.1">
+        <Name>Flexibility supply curve</Name>
+        <Description>Per service window and direction, a set of (available flexible power (kW), availability price (€/MW/h), utilisation price (€/MWh)) points describing how much flexibility the ePIPV Site Owner is willing to offer at increasing price levels.</Description>
+        <RequirementReferences>
+          <RID>R-EMS-06</RID>
+          <RID>R-GFR-02</RID>
+          <RID>R-DAT-03</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="80473425-8414-5a6f-acc1-1f390a572299" id="Inf.2">
+        <Name>Auction publication</Name>
+        <Description>Zone, service type, direction, required power, service windows, minimum qualifying capacity</Description>
+        <RequirementReferences>
+          <RID>R-MKT-06</RID>
+          <RID>R-INT-07</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="2f892514-0102-532a-aeec-d9e8c652e8bd" id="Inf.3">
+        <Name>Asset registration</Name>
+        <Description>Technology type, capacity, connection point ID, location</Description>
+        <RequirementReferences>
+          <RID>R-AIC-07</RID>
+          <RID>R-AIC-02</RID>
+          <RID>R-DAT-04</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="0618f4ad-cd93-573c-8cad-efdcbfa49934" id="Inf.4">
+        <Name>Flexibility bid</Name>
+        <Description>Flexible power (MW), availability price (EUR/MW/h), utilisation price (EUR/MWh)</Description>
+        <RequirementReferences>
+          <RID>R-MKT-06</RID>
+          <RID>R-INT-07</RID>
+          <RID>R-CYB-01</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="9664755b-0a90-526a-8608-b255f3d73fff" id="Inf.5">
+        <Name>Auction clearing result</Name>
+        <Description>Cleared power, cleared prices, validation status</Description>
+        <RequirementReferences>
+          <RID>R-MKT-06</RID>
+          <RID>R-DAT-04</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="61828bb7-32fe-5896-97a8-2ba664b696ce" id="Inf.6">
+        <Name>Qualification test result</Name>
+        <Description>Response time, delivery duration, measurement accuracy, pass/fail</Description>
+        <RequirementReferences>
+          <RID>R-AIC-04</RID>
+          <RID>R-RTC-06</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="9a7589af-9496-5d5c-b8e4-6dff59e7a29a" id="Inf.7">
+        <Name>Flexibility service contract</Name>
+        <Description>Contracted power, service windows, prices, performance obligations</Description>
+        <RequirementReferences>
+          <RID>R-MKT-06</RID>
+          <RID>R-CYB-09</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="cf684781-8bd5-50ff-8dce-f7d2f80226b8" id="Inf.8">
+        <Name>Activation instruction</Name>
+        <Description>Direction, requested power (MW), activation start time, duration, advance notice</Description>
+        <RequirementReferences>
+          <RID>R-MKT-05</RID>
+          <RID>R-RTC-05</RID>
+          <RID>R-CYB-04</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="cc5809bf-c6d0-5be3-b080-45c80477e50a" id="Inf.9">
+        <Name>Delivery confirmation</Name>
+        <Description>Delivered power per slot, timestamps</Description>
+        <RequirementReferences>
+          <RID>R-MVR-01</RID>
+          <RID>R-GFR-08</RID>
+          <RID>R-DAT-02</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="041bffe4-ed74-53be-8715-470591e3ca5e" id="Inf.10">
+        <Name>Settlement result</Name>
+        <Description>Availability payment (EUR), utilisation payment (EUR), settlement period</Description>
+        <RequirementReferences>
+          <RID>R-MVR-04</RID>
+          <RID>R-MKT-08</RID>
+          <RID>R-MVR-05</RID>
+        </RequirementReferences>
+      </Information>
+    </InformationExchanged>
+    <CommonTermsAndDefinitions>
+      <Term>
+        <Name>FIRMe</Name>
+        <Definition>Integrated Flexibility in a Market Regime: the pilot project of the Portuguese DSO (E-REDES), through which local flexibility services are procured in market-based auctions.</Definition>
+      </Term>
+    </CommonTermsAndDefinitions>
+  </UseCase>
+  <ActorList>
+    <Actor uuid="a0637316-c92c-5d09-b6f4-420f909b2b86">
+      <Name>ePIPV Site Owner</Name>
+      <Type>Business</Type>
+      <Description>Entity that owns and operates the ePIPV facility and its distributed energy resources; assesses available flexibility headroom and derives the facility's flexibility supply curve; acting as FSP</Description>
+      <FurtherInformation>SONAE MC</FurtherInformation>
+    </Actor>
+    <Actor uuid="e37944cc-dddd-5c18-bf95-3df1091de5c8">
+      <Name>DSO</Name>
+      <Type>Business</Type>
+      <Description>Distribution System Operator: party responsible for operating the local distribution network, identifying local network flexibility needs, organising auctions, validating clearing results, conducting qualification tests, issuing activation instructions, computing settlement, and issuing payment</Description>
+      <FurtherInformation>E-REDES</FurtherInformation>
+    </Actor>
+    <Actor uuid="2a49e45f-1f9b-52e6-8abd-e97be5188995">
+      <Name>Facility EMS</Name>
+      <Type>System</Type>
+      <Description>System that monitors and controls all facility assets, maintains asset readiness during contracted service windows, and makes the required adjustments to meet flexibility orders upon activation.</Description>
+      <FurtherInformation>INESC-ID</FurtherInformation>
+    </Actor>
+    <Actor uuid="acd75c4f-f4b5-52d9-b195-1dae155b1c97">
+      <Name>DSO Flexibility Market Platform</Name>
+      <Type>System</Type>
+      <Description>Platform that hosts the auction process, manages asset registration and qualification, routes activation instructions to FSPs, and provides settlement data and performance reports</Description>
+      <FurtherInformation>Piclo Flex</FurtherInformation>
+    </Actor>
+  </ActorList>
+  <RequirementList>
+    <RequirementCategory id="CAT-01">
+      <Name>Asset integration and commissioning</Name>
+      <Description>All physical assets must be installed, commissioned, operational and addressable before pilot operation</Description>
+      <Requirement uuid="9b711860-49c3-55ad-8994-e2a40ca24abb" id="R-AIC-02">
+        <Name>Unique asset identification</Name>
+        <Description>Every integrated asset shall have a persistent unique identifier that is used consistently by field systems, the EMS, CSMS, VPP/aggregator and reporting functions.</Description>
+      </Requirement>
+      <Requirement uuid="1795cb7e-9f7a-55c2-bcad-26cdf405a6d1" id="R-AIC-03">
+        <Name>Asset capability registration</Name>
+        <Description>The platform shall maintain the technical capabilities and operating limits of each asset, including rated power, energy capacity, control modes, ramp limits, SoC limits and availability.</Description>
+      </Requirement>
+      <Requirement uuid="4970fee3-e847-5962-bc7b-087941e257e7" id="R-AIC-04">
+        <Name>Connectivity verification</Name>
+        <Description>Commissioning shall include verification that each controllable or monitored asset can exchange the required telemetry, commands and acknowledgements with its supervising system.</Description>
+      </Requirement>
+      <Requirement uuid="33dd2330-8009-50f5-82f0-0c481b34a10f" id="R-AIC-07">
+        <Name>Market asset registration</Name>
+        <Description>Assets intended for market or flexibility participation shall be registered with the required technical, metering, connection-point and geographic attributes before qualification or bidding.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-02">
+      <Name>Energy Management System capabilities</Name>
+      <Description>Contains requirements related to EMS functionalities and capabilities</Description>
+      <Requirement uuid="117f5464-2228-56f0-8239-6440f8e86925" id="R-EMS-02">
+        <Name>Multi-asset orchestration</Name>
+        <Description>The EMS shall coordinate EV charging, PV generation, BESS operation, controllable loads and grid exchange within the applicable pilot boundary.</Description>
+      </Requirement>
+      <Requirement uuid="3a35010a-231d-5e46-89e8-55cb652a2d0d" id="R-EMS-03">
+        <Name>Schedule and setpoint generation</Name>
+        <Description>The EMS shall translate optimisation results and external commitments into asset-level schedules, limits and setpoints.</Description>
+      </Requirement>
+      <Requirement uuid="d3c05bba-484c-560a-a6f7-8b9cd2f4e4b6" id="R-EMS-04">
+        <Name>Constraint enforcement</Name>
+        <Description>The EMS shall prevent dispatch that violates grid connection limits, asset limits, user requirements, mobility-service constraints or contracted reserve obligations.</Description>
+      </Requirement>
+      <Requirement uuid="1d7e49bb-48c1-58b5-a71c-3934b0a337f9" id="R-EMS-06">
+        <Name>Flexibility estimation</Name>
+        <Description>The EMS shall calculate available upward and downward flexibility by time interval, including power, energy, duration and limiting constraints.</Description>
+      </Requirement>
+      <Requirement uuid="ddccce42-c082-5a4c-bd3e-3c4c5f471325" id="R-EMS-08">
+        <Name>Operating-mode management</Name>
+        <Description>The EMS shall support normal, constrained-grid, market-activation, emergency and recovery modes with explicit transition rules.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-04">
+      <Name>Communications and connectivity</Name>
+      <Description>Collection of requirements to enable reliable communication</Description>
+      <Requirement uuid="e3d47941-0baa-5022-9f1b-c23251c94b55" id="R-COM-01">
+        <Name>Bidirectional communications</Name>
+        <Description>Bidirectional communication shall be available wherever both telemetry and remote control are required between assets, EMS, CSMS, BMS, VPP and external platforms.</Description>
+      </Requirement>
+      <Requirement uuid="04e7386c-9a1e-5567-b32b-b1d410e27e2f" id="R-COM-03">
+        <Name>Message acknowledgement</Name>
+        <Description>Control commands and market activations shall be acknowledged by the receiving system with acceptance, rejection or failure status.</Description>
+      </Requirement>
+      <Requirement uuid="0270a2c4-1991-5fe4-a491-990c388064dc" id="R-COM-04">
+        <Name>Store-and-forward capability</Name>
+        <Description>Where temporary loss of connectivity is possible, systems shall buffer non-real-time telemetry and forward it after reconnection without duplication.</Description>
+      </Requirement>
+      <Requirement uuid="8781bbe5-b095-5b78-afeb-abfadca85477" id="R-COM-07">
+        <Name>External platform connectivity</Name>
+        <Description>The VPP/aggregator or EMS shall provide reliable interfaces to day-ahead, intraday, balancing and DSO flexibility platforms as applicable.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-05">
+      <Name>Data acquisition, quality and storage</Name>
+      <Description>Requirements for common data management mechanisms</Description>
+      <Requirement uuid="8fa68268-1483-50fd-8ccc-2f7bc0a216a9" id="R-DAT-02">
+        <Name>Common timestamping</Name>
+        <Description>All operational records shall contain timestamps referenced to a common time base and include timezone or UTC information.</Description>
+      </Requirement>
+      <Requirement uuid="58ef8611-040f-5306-bd66-a9fe6b52f0a7" id="R-DAT-03">
+        <Name>Data validation</Name>
+        <Description>Incoming data shall be checked for missing values, staleness, invalid ranges, inconsistent units and implausible changes before use in control or settlement.</Description>
+      </Requirement>
+      <Requirement uuid="37f741c7-9df4-5ff3-8890-eb82d4d60e52" id="R-DAT-04">
+        <Name>Data-quality status</Name>
+        <Description>The platform shall attach a quality or validity status to measurements and forecasts used by optimisation, baseline and reporting functions.</Description>
+      </Requirement>
+      <Requirement uuid="359b0720-c202-5aa4-a397-116108114b70" id="R-DAT-05">
+        <Name>Historical data retention</Name>
+        <Description>Historical measurements, schedules, commands, forecasts, user declarations and market messages shall be retained for the period required for KPI assessment, audit and settlement.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-06">
+      <Name>Semantic and protocol interoperability</Name>
+      <Description>Requirements for enabling interoperable communications</Description>
+      <Requirement uuid="abf3ba43-3232-5703-a570-e5961278652d" id="R-INT-07">
+        <Name>Market message interoperability</Name>
+        <Description>Market and grid-service exchanges shall map to the formats and role definitions required by the relevant market operator, DSO, TSO or aggregator.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-07">
+      <Name>Forecasting and optimisation</Name>
+      <Description>Contains requirements enabling reliable predictive capabilities</Description>
+      <Requirement uuid="bcc0a083-abfb-59f8-80ee-3d65b716cb11" id="R-FOR-01">
+        <Name>PV forecasting</Name>
+        <Description>The platform shall produce PV generation forecasts at the time resolution and horizon required for charging, BESS and market optimisation.</Description>
+      </Requirement>
+      <Requirement uuid="a2be6adf-385c-5151-830f-d224e4c19e00" id="R-FOR-02">
+        <Name>Load forecasting</Name>
+        <Description>The platform shall forecast non-flexible and controllable site demand for the relevant planning horizon.</Description>
+      </Requirement>
+      <Requirement uuid="b37aa795-c839-56e6-a6d2-579595f164b3" id="R-FOR-03">
+        <Name>EV demand forecasting</Name>
+        <Description>The platform shall forecast EV arrival, departure, energy need and charging availability using historical or declared session information.</Description>
+      </Requirement>
+      <Requirement uuid="d1194b03-ddea-5e5b-b5a2-af804fe701d4" id="R-FOR-05">
+        <Name>Constraint-aware optimisation</Name>
+        <Description>Optimisation shall include asset power and energy limits, grid limits, charging deadlines, reserve commitments, load constraints and permissible PV curtailment.</Description>
+      </Requirement>
+      <Requirement uuid="30e2e1d7-9ecd-5708-8643-caf28916a42d" id="R-FOR-06">
+        <Name>Multi-horizon optimisation</Name>
+        <Description>The platform shall support day-ahead planning, intraday correction and real-time adjustment where required by the use case.</Description>
+      </Requirement>
+      <Requirement uuid="d3072a1a-3868-5270-a4d9-430183dfccac" id="R-FOR-08">
+        <Name>Objective configurability</Name>
+        <Description>Optimisation objectives and weights shall be configurable for PV self-consumption, cost, peak reduction, service reliability, curtailment, flexibility revenue and battery use.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-08">
+      <Name>Real-time control and performance</Name>
+      <Description>Group of requirements enabling near-real-time control to maintain grid compliance and track market or operational commitments</Description>
+      <Requirement uuid="c5167c31-0e47-563d-ab39-8bc65a38538f" id="R-RTC-01">
+        <Name>Defined control cycle</Name>
+        <Description>Each real-time control function shall operate at a documented cycle time appropriate to its use case and shall complete calculation and dispatch within that cycle.</Description>
+      </Requirement>
+      <Requirement uuid="83777844-60d0-59a1-a9ba-27982de0fb4f" id="R-RTC-02">
+        <Name>Real-time grid-limit supervision</Name>
+        <Description>The EMS shall continuously supervise aggregate import/export against the applicable connection or circuit limit.</Description>
+      </Requirement>
+      <Requirement uuid="b547dbc2-6205-5f13-af69-be9a727870c5" id="R-RTC-05">
+        <Name>Activation response timing</Name>
+        <Description>The system shall execute DSO/TSO or market activation instructions within the mandatory response time associated with the contracted product.</Description>
+      </Requirement>
+      <Requirement uuid="12cb17b9-556c-53aa-a803-59e6990ac571" id="R-RTC-06">
+        <Name>Setpoint execution verification</Name>
+        <Description>The platform shall verify actual response after dispatch and identify partial, late or failed execution.</Description>
+      </Requirement>
+      <Requirement uuid="2ef0a2fb-6da4-50d4-b715-9eb5893212ec" id="R-RTC-08">
+        <Name>Performance logging</Name>
+        <Description>Control-cycle start time, decision time, dispatch time, acknowledgement and measured response shall be logged for performance assessment.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-09">
+      <Name>Grid constraints, flexibility and resilience</Name>
+      <Description>Group of requirements ensuring safe operation under constrained grid conditions while providing external grid services</Description>
+      <Requirement uuid="66e01e19-bf41-53a9-8909-613348452e8f" id="R-GFR-02">
+        <Name>Upward and downward flexibility calculation</Name>
+        <Description>The platform shall calculate feasible upward and downward power and energy flexibility with duration, availability window and recovery requirement.</Description>
+      </Requirement>
+      <Requirement uuid="e38c8e60-8058-5ce7-9308-a341f1e1722e" id="R-GFR-03">
+        <Name>Flexibility reservation</Name>
+        <Description>Awarded or contracted flexibility shall be reserved in asset schedules so that it remains activatable during the committed service window.</Description>
+      </Requirement>
+      <Requirement uuid="8cb85066-33f7-570d-98cb-de55dd6780cd" id="R-GFR-08">
+        <Name>Flexibility delivery verification</Name>
+        <Description>The system shall compare requested and measured response and calculate delivered power, energy, duration and accuracy.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-10">
+      <Name>Market, aggregator and external platform integration</Name>
+      <Description>Group of requirements ensuring integration into electricity and flexibility markets</Description>
+      <Requirement uuid="a60be150-1fc9-5012-97db-3e9ec01ee834" id="R-MKT-05">
+        <Name>Activation-order handling</Name>
+        <Description>The system shall receive, authenticate, validate and execute activation orders containing direction, magnitude, start time and duration.</Description>
+      </Requirement>
+      <Requirement uuid="e09dfb86-ea8e-5659-8396-81605540392f" id="R-MKT-06">
+        <Name>DSO flexibility competition support</Name>
+        <Description>The platform shall support asset registration, competition discovery, qualification data, availability price, utilisation price and service-window submission.</Description>
+      </Requirement>
+      <Requirement uuid="63793c26-5321-5e5b-b7fc-1962c66625cb" id="R-MKT-08">
+        <Name>Settlement result exchange</Name>
+        <Description>The external-platform interface shall exchange delivered quantities, prices, penalties, imbalance results and remuneration components with the responsible party.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-11">
+      <Name>Metering, verification, settlement and KPI reporting</Name>
+      <Description>Group of requirements providing grounds for operational control and project and market outcomes validation</Description>
+      <Requirement uuid="f3b88e8b-eb66-5be9-b89c-43696872611f" id="R-MVR-01">
+        <Name>Connection-point metering</Name>
+        <Description>The system shall measure net import/export at the relevant connection point with accuracy and interval resolution suitable for control and, where applicable, settlement.</Description>
+      </Requirement>
+      <Requirement uuid="183d17b9-6be6-5a2e-9ba7-e252e4b1657b" id="R-MVR-04">
+        <Name>Baseline calculation</Name>
+        <Description>Where service delivery is assessed against a baseline, the platform shall calculate and retain the applicable adjusted reference value and its input data.</Description>
+      </Requirement>
+      <Requirement uuid="241d7feb-4118-56af-8b38-e23b8c756329" id="R-MVR-05">
+        <Name>Settlement-grade audit trail</Name>
+        <Description>Measurements used for financial settlement shall be immutable or tamper-evident, timestamped and traceable through all processing steps.</Description>
+      </Requirement>
+      <Requirement uuid="3cd912b4-e2b6-54f8-94cd-135f9ca089c1" id="R-MVR-06">
+        <Name>KPI computation</Name>
+        <Description>The platform shall calculate the applicable project KPIs, including PV self-consumption, peak reduction, curtailment avoidance, operating cost, flexibility potential and charging-service performance.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-12">
+      <Name>Cybersecurity, privacy and access control</Name>
+      <Description>Group of requirements ensuring secure and privacy-preserving access to services and provide resilient operation of infrastructure</Description>
+      <Requirement uuid="fb54509e-2edc-536d-8319-09ce17f0fa4d" id="R-CYB-01">
+        <Name>Strong authentication</Name>
+        <Description>Human users, devices and external systems shall authenticate before accessing telemetry, configuration, commands, bids or personal data.</Description>
+      </Requirement>
+      <Requirement uuid="f50a7c3e-c232-5e46-aae1-5fc50a47f054" id="R-CYB-03">
+        <Name>Encryption in transit</Name>
+        <Description>All communications crossing device, site, cloud or organisational trust boundaries shall use appropriate encryption in transit.</Description>
+      </Requirement>
+      <Requirement uuid="76c53dc7-6633-5c23-a7d9-9c8186c2ea3f" id="R-CYB-04">
+        <Name>Command integrity and anti-replay</Name>
+        <Description>Control commands and market activations shall be protected against unauthorised modification, duplication and replay.</Description>
+      </Requirement>
+      <Requirement uuid="fb2ba082-bdf6-5112-938b-ff7c926ec0e1" id="R-CYB-09">
+        <Name>Credential and certificate management</Name>
+        <Description>Credentials, API tokens and certificates shall have controlled issuance, storage, renewal, revocation and expiry handling.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-13">
+      <Name>Safety, fault handling and recovery</Name>
+      <Description>Group of requirements ensuring control platform never overrides asset or mobility safety constraints</Description>
+      <Requirement uuid="cde64105-aeb8-5a4f-ac90-7fbb7ff3cad0" id="R-SAF-01">
+        <Name>Asset safety-envelope enforcement</Name>
+        <Description>No EMS, CSMS or market command shall exceed the validated electrical, thermal, SoC, ramp-rate or manufacturer limits of an asset.</Description>
+      </Requirement>
+      <Requirement uuid="48eef32b-1193-58dc-9a1e-9fc86e377240" id="R-SAF-06">
+        <Name>Recovery validation</Name>
+        <Description>Following a fault or outage, the system shall verify communications, status, limits and metering before returning an asset to automatic control.</Description>
+      </Requirement>
+    </RequirementCategory>
+  </RequirementList>
+</IEC62559UseCaseArtefacts>

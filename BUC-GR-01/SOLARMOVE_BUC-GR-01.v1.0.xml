@@ -1,0 +1,1434 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SOLAR-MOVE | BUC-GR-01 | Coordinated Municipal ePIPV Charging Infrastructure Operation
+  IEC 62559-3-STYLE serialization (DRAFT).
+  Structure & field vocabulary aligned to the IEC 62559-2 template as rendered by the
+  Sparx Enterprise Architect / MODSARUS toolchain (reference: the public 'Smart Grid Use
+  Cases' renderings of the BRIDGE EDF/Elering use cases).
+  NOTE: element names are indicative; this file is NOT validated against the normative
+  IEC 62559-3 XSD. UUIDs are deterministic (uuid5) placeholders, not repository-assigned.
+  Source: SOLARMOVE_BUC-GR-01.docx
+-->
+<IEC62559UseCaseArtefacts profile="IEC 62559-3-style, aligned to the IEC 62559-2 template as rendered by the Sparx EA / MODSARUS toolchain" status="DRAFT - not validated against the normative IEC 62559-3 XSD" basedOnTemplate="IEC 62559-2:2015" generatedFrom="SOLARMOVE_BUC-GR-01.docx" namespaceNote="urn:solarmove:iec62559-3-style:v0">
+  <UseCase uuid="548b547f-ad45-592b-a07c-c839a590f222" id="BUC_GR_01" version="1.0">
+    <UseCaseIdentification>
+      <ID>BUC_GR_01</ID>
+      <Name>Coordinated Municipal ePIPV Charging Infrastructure Operation</Name>
+      <Area>Energy System</Area>
+      <Domains>Distribution System, DER, Customer Premises</Domains>
+      <Zones>Operation, Enterprise, Market</Zones>
+    </UseCaseIdentification>
+    <VersionControl>
+      <Version number="1.0">
+        <Date>20.10.2026</Date>
+        <Author>Nikos Vourgidis (NTUA), Panos Skaloumpakas (NTUA), Vasilis Kalavrouziotis (NTUA)</Author>
+        <Changes>First public version</Changes>
+        <ApprovalStatus/>
+      </Version>
+    </VersionControl>
+    <ScopeAndObjectives>
+      <Scope>
+        <Paragraph>The Municipality of Athens / DAEM operates a growing portfolio of EV charging points while facing rising electricity costs, underused local solar generation and limited visibility over distributed chargers. Charging is not coordinated with PV generation, causing avoidable grid imports, and EV users have no incentive to charge when solar energy is available.</Paragraph>
+        <Paragraph>This use case addresses these challenges by establishing a coordinated municipal charging management framework for EV infrastructure operated or coordinated by DAEM. The scope of this use case follows a staged model with three distinct layers:</Paragraph>
+        <Paragraph>Immediate pilot scope (Serafeio Complex): The primary operational boundary of this BUC. Serafeio hosts 5 AC charging points (22 kW each), one DC charging station (30 kW), and a total of 30 kW of PV capacity (10 kW at the parking lot and 20 kW on the rooftop).</Paragraph>
+        <Paragraph>Parallel visibility scope (DAEM city network): More than 25 AC charging points operated by DAEM / Municipality of Athens across the city are integrated for monitoring and session data collection through a Charging Station Management System (CSMS). These points are included for operational visibility and data aggregation but are not subject to PV-associated EMS control functions during the pilot phase.</Paragraph>
+        <Paragraph>Future scalability scope: The coordinated ePIPV management framework developed at Serafeio can be extended to additional municipal charging sites where integrated PV capacity is investigated alongside the municipal EV charging infrastructure.</Paragraph>
+        <Paragraph>The use case includes the implementation of a centralised Energy Management System (EMS) to coordinate municipal charging in three layers:</Paragraph>
+        <Item>SUC-GR-01.1: Integrated Municipal Energy Data Aggregation. The EMS collects and synchronises data from the CSMS, PV inverters and forecast providers.</Item>
+        <Item>SUC-GR-01.2: PV-Aware Charging Planning Optimisation. Using PV forecasts and expected demand, the EMS identifies intervals of PV surplus relative to the EV charging load and offers reduced tariffs (Green Window) to EV users (implicit demand response).</Item>
+        <Item>SUC-GR-01.3: PV-Aware Real-Time Dynamic Load Modulation. The EMS modulates charging power in 15-minute intervals, based on near-real-time PV production and charging demand, to maximise PV self-consumption and minimise grid import.</Item>
+        <Paragraph>CSMS monitoring and session data collection are already operational. SUC-GR-01.2 depends on PV data availability and SUC-GR-01.3 on charger controllability; both are validated during the pilot. No flexibility or balancing market participation is assumed; the BUC quantifies flexibility potential as a readiness assessment.</Paragraph>
+      </Scope>
+      <Objectives>
+        <Objective id="OBJ-1">Establish a coordinated municipal charging management framework for EV charging infrastructure operated or coordinated by the Municipality of Athens / DAEM, supporting the reduction of municipal electricity costs and the operational efficiency of DAEM's charging network management.</Objective>
+        <Objective id="OBJ-2">Improve operational visibility of municipal charging infrastructure through platform-based monitoring and data collection, reducing manual coordination effort and providing the data foundation required for informed investment and network expansion decisions.</Objective>
+        <Objective id="OBJ-3">Support charging services for municipal and public EV users through economically incentivised, solar-aligned charging windows.</Objective>
+        <Objective id="OBJ-4">Assess the readiness of the municipal charging infrastructure for PV-aware charging operation, where PV generation or PV-related data are available, quantifying the cost-reduction potential of local solar self-consumption relative to grid-imported electricity.</Objective>
+        <Objective id="OBJ-5">Assess the flexibility potential of municipal charging infrastructure through coordinated operation, establishing a measurable baseline for future flexibility market participation and potential demand-side service revenues.</Objective>
+      </Objectives>
+      <RelatedBusinessCases>
+        <Paragraph>This use case supports the ePIPV Municipal Charging Management Business Case of the Municipality of Athens / DAEM, which is committed to fleet electrification and operates charging infrastructure across the city. Public-sector electrification mandates, Greek RES integration targets and regulatory pressure to manage EV charging intelligently act as market drivers.</Paragraph>
+        <Paragraph>The value is primarily operational and cost-saving (less grid electricity for EV charging through local solar self-consumption), with secondary value in risk mitigation (lower exposure to tariff increases), service quality (incentives for EV users) and climate compliance.</Paragraph>
+        <Paragraph>Municipality / DAEM (asset owner and CPO): reduces electricity costs using local solar power; CSMS monitoring replaces fragmented manual coordination.
+EV users (public and municipal): incentivised through the Green Window, communicated via the EMS Web Interface, to charge during high-solar intervals and save on energy costs.
+EMSP and platform providers: gain a real-world ePIPV environment to validate smart-charging software, dynamic-pricing integration and demand-responsive tariffs.</Paragraph>
+      </RelatedBusinessCases>
+    </ScopeAndObjectives>
+    <Narrative>
+      <ShortDescription>
+        <Paragraph>This use case describes the coordinated operation of municipal EV charging infrastructure in Athens, structured as a staged model with Serafeio Complex as the immediate pilot site, the wider DAEM city charging network as a parallel visibility scope, and future scalability to additional municipal locations as a third layer. The use case supports improved charging service management, operational visibility, municipal fleet charging, and future PV-aware, flexibility-ready charging operations. It also lays the foundation for System Use Cases related to charger monitoring, fleet charging management, PV-aware planning and dynamic load management.</Paragraph>
+      </ShortDescription>
+      <CompleteDescription>
+        <Paragraph>The BUC considers a municipal EV charging environment operated by the Municipality of Athens / DAEM, acting as CPO. Serafeio is the reference site, with 5 AC charging points (3x22 kW parking lot, 2x22kW underground parking lot), one DC charging station (30 kW parking lot) and PV of 10 kW (parking lot) and 20 kW (rooftop). DAEM also operates 25 AC charging points across the city. A CSMS supports all municipal chargers and provides an administrator interface and a driver charging app. The pilot adds an EMS Web Interface for EV users, distinct from the CSMS administrator interface and running in parallel to the CPO’s production app so that general operation is not affected. Serafeio operates under net metering, but its contracted capacity (about 1 MW) far exceeds the PV capacity, so PV is almost entirely consumed on site, and grid export is not a value driver.</Paragraph>
+        <Paragraph>Two EV user categories use the infrastructure: municipal users (municipal employees working at Serafeio, charging private cars) and public users. Both are billed normally and can benefit from the Green Window. Municipal users are a known, stable group that the municipality can engage directly and that follows regular working-day patterns, so they are expected to respond more readily and be more predictable; public users are less predictable and respond mainly to price signals. No category has priority: in real-time operation, the available power is shared equally among active sessions.</Paragraph>
+        <Paragraph>The use case helps DAEM manage its charging infrastructure by monitoring charger availability and session data, planning charging to increase the use of renewable electricity where PV data are available, and adjusting charging power where chargers are controllable, to match PV production and EV charging load, reduce peaks and increase flexibility. The CPO operates the charging services, the CSMS supports monitoring and management of sessions, and the EMS supports PV-aware scheduling and flexibility assessment, depending on available data and confirmed control capabilities.</Paragraph>
+        <Paragraph>Integrated Municipal Energy Data Aggregation (SUC-GR-01.1): A core challenge for DAEM is that EV session data and PV generation data exist in separate systems, with no unified view of how charging demand and solar production relate. SUC-GR-01.1 establishes the EMS as the central data layer: it synchronises session data from the CSMS with generation readings from the PV inverters and day-ahead forecasts, producing one integrated energy context of current demand, available solar output and anticipated generation. This context is the basis for all planning and control decisions.</Paragraph>
+        <Paragraph>PV-Aware Charging Planning Optimisation (SUC-GR-01.2): The EMS uses weather-based PV forecasts and expected EV charging demand (from past sessions and the charging intents users declare) to identify intervals where PV is expected to exceed the EV charging load. It translates them into a discounted time-of-use tariff, the Green Window, which is published to the EMSP, applied to billing and shown to users through the EMS Web Interface. Users are not instructed to shift; they are incentivised by transparent price signals, while the municipality increases PV self-consumption and reduces grid import costs. The web interface is available to a selected group of public and municipal users, who time their plug-in manually; no automated smart charging (delayed start or remote vehicle control) is assumed in this pilot phase.</Paragraph>
+        <Paragraph>PV-Aware Real-Time Dynamic Load Modulation (SUC-GR-01.3): The EMS compares actual PV generation with live charging demand every 15 minutes and dispatches updated power limits to the CSMS, which translates them into connector-level profiles executed by the EVSE. When PV surplus is detected, charging power is increased to absorb it; when PV falls below charging demand, power is reduced. The available power is shared equally among active sessions; users do not declare priorities, SoC targets or departure times in this pilot phase (collecting them through the web interface is a possible extension). This keeps charging aligned with PV production and limits unplanned grid imports. charging power is reduced</Paragraph>
+      </CompleteDescription>
+    </Narrative>
+    <KeyPerformanceIndicators>
+      <KPI uuid="bca64ee7-261a-5fa2-a0c5-2f1465bf6b8a" id="U06">
+        <Name>Flexibility Potential</Name>
+        <Description>Measures how much more charging power the EMS can shift upward or downward at Serafeio compared with unmanaged operation. It is assessed on the Serafeio operation and, by simulation, for the wider DAEM charging network as if it were equipped with PV (ePIPV). Target: +25%.</Description>
+        <ReferenceToObjectives>OBJ-5</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="8bf6e675-1ea4-5d53-9f04-2eb8f23d1b32" id="U10">
+        <Name>Collective Self-Consumption</Name>
+        <Description>Measures the share of the PV energy generated at the site that is consumed locally by EV charging, showing how well the EMS aligns charging with solar production. Target: 75% (pilot level).</Description>
+        <ReferenceToObjectives>OBJ-4</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="71735b25-e846-55e3-8b7f-1f160fa50e89" id="U11">
+        <Name>Renewables Curtailment Avoidance</Name>
+        <Description>Measures the reduction in PV energy that would otherwise be curtailed in scenarios where local PV generation exceeds available site demand or export capability. For the current Serafeio configuration, actual curtailment is expected to be limited, so the KPI is mainly assessed through scaled ePIPV scenarios. Target: 25% reduction (pilot level).</Description>
+        <ReferenceToObjectives>OBJ-4</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="8092eb0b-4bdf-5ef6-9aef-b7c25fdc8bbd" id="U12">
+        <Name>Peak Consumption Reduction (DR)</Name>
+        <Description>Measures the reduction in the peak grid demand of the EV charging load. It is driven by the Green Window tariff, which shifts charging into periods of solar surplus relative to the EV charging load, and by the EMS’s real-time control of charging power. Recommendations reach users through the EMS Web Interface. Target: 25% reduction vs the peak without intelligent management.</Description>
+        <ReferenceToObjectives>OBJ-5</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="730332e2-7efe-5979-8bc1-f3ec5bf21116" id="U13">
+        <Name>Increase in revenue created from DERs</Name>
+        <Description>Estimates the economic value that the PV creates for the site owner when the EMS steers its output towards EV charging. Because the PV at Serafeio is small relative to the site load and the pilot has no grid export or market participation, U13 is evaluated by simulation, using scenarios with grid export that vary the PV size and the scale of the DAEM charging network. Target: +25% (simulated scenarios).</Description>
+        <ReferenceToObjectives>OBJ-1, OBJ-4, OBJ-5</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="2cb7035a-8aad-5d10-b390-68bf9227fdad" id="U14">
+        <Name>Use of DERs in ePIPVs</Name>
+        <Description>Measures the share of the EV charging energy that is covered by local PV generation, and its increase compared with unmanaged operation, reflecting lower grid imports. Target: +50% relative improvement.</Description>
+        <ReferenceToObjectives>OBJ-4, OBJ-5</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="795fd7ba-7c0a-5707-a524-936d279362a1" id="U15">
+        <Name>Energy Invoice Reduction</Name>
+        <Description>Measures the reduction in the energy cost of the demonstration users who charge during the Green Window, compared with the standard tariff. It is calculated from charging-session data and the applicable tariff. Target: ≥ 20%.</Description>
+        <ReferenceToObjectives>OBJ-1, OBJ-4</ReferenceToObjectives>
+      </KPI>
+    </KeyPerformanceIndicators>
+    <UseCaseConditions>
+      <Assumptions>
+        <Assumption>Serafeio is the operational pilot boundary; the 25 DAEM AC charging points are monitored only; extension of the full ePIPV control framework depends on PV availability at other sites.</Assumption>
+        <Assumption>A CSMS is already operational across the municipal infrastructure, providing session data, charger status and basic management; it is the baseline monitoring capability on which EMS integration is built.</Assumption>
+        <Assumption>Controllability and data communication of individual charging points vary; not all chargers support live API integration. Controllability, required for real-time load modulation, must be validated per unit.</Assumption>
+        <Assumption>Serafeio has a confirmed PV installation of 30 kW (10 kW parking lot, 20 kW rooftop), the sole source of PV data for the solar-aware functions. It is small relative to the site load (about 1 MW), so no energy is exported. The 25 DAEM AC charging points have no PV and are excluded from PV-aware control.</Assumption>
+        <Assumption>Serafeio serves municipal users (municipal employees charging private EVs) and public users, billed in the same way. Both can take part in the Green Window; municipal users are expected to be more predictable and easier to engage. No category has priority in the allocation of charging power.</Assumption>
+        <Assumption>Real-time load modulation is an optimisation that matches charging power to PV production and charging demand, sharing the available power equally among active sessions. It is an on-site balancing function within the Serafeio boundary, not participation in a regulated flexibility or balancing market.</Assumption>
+        <Assumption>Users access the pilot services through the EMS Web Interface, which runs in parallel to the CPO’s production app and is available to a selected group of public and municipal users. Users plug in manually; no automated smart charging is assumed, and participation in the Green Window is voluntary.</Assumption>
+        <Assumption>The Green Window discount is applied to billing through the EMSP.</Assumption>
+      </Assumptions>
+      <Prerequisites>
+        <Prerequisite>API-based CSMS–EMS integration must be confirmed for the Serafeio chargers (SUC-GR-01.1); where chargers only provide periodic exports, the data latency and its effect on optimisation accuracy must be assessed.</Prerequisite>
+        <Prerequisite>The EMS Web Interface must be deployed, and the selected public and municipal users enrolled (so that municipal sessions can be distinguished), before the Green Window and charging-intent functions are activated.</Prerequisite>
+        <Prerequisite>Near-real-time PV data from the Serafeio inverters must be accessible to the EMS via a confirmed interface before SUC-GR-01.2 and SUC-GR-01.3 are activated.</Prerequisite>
+        <Prerequisite>The equal-sharing rule for real-time modulation and its operating limits must be agreed between DAEM and the CPO before SUC-GR-01.3 is operationalised, including responsibilities in the event of a system fault.</Prerequisite>
+        <Prerequisite>The operational authority and contractual arrangements enabling DAEM to manage sessions and apply dynamic tariffs (billed via the EMSP) must be established before smart charging services are activated.</Prerequisite>
+        <Prerequisite>Participants must be informed through the EMS Web Interface of the data collected and its purpose, in line with data protection requirements (R-UI-08, to be extended to municipal users).</Prerequisite>
+      </Prerequisites>
+    </UseCaseConditions>
+    <ClassificationInformation>
+      <RelationToOtherUseCases>BUC-GR-01 is supported by SUC-GR-01.1 to SUC-GR-01.3 (data aggregation, PV-aware charging planning, real-time load modulation). Within SOLAR-MOVE, it is closest to BUC-AL-01 (PV-aware charging with data aggregation and optimisation) and BUC-DK-01 (coordinated ePIPV charging hub) and shares the Green Window tariff-incentive concept with the Happy Hour offer of BUC-PT-01. Unlike the PT market-oriented BUCs (PT-01/02/03) and the flexibility/VPP elements of AL-01 and DK-01, it involves no market participation. It is also complementary to BUC-TR-01 (PV-aware opportunity charging of a campus e-bus) and to BUC-PT-04 (local P2P charging), which are likewise local PV-aware charging cases.</RelationToOtherUseCases>
+      <LevelOfDepth>Business use case, detailed down to system use cases (SUC-GR-01.1–01.3) and their step-by-step sequences.</LevelOfDepth>
+      <Prioritisation>High (core pilot demonstration). SUC-GR-01.1 (data aggregation) is the enabling prerequisite, SUC-GR-01.2 (PV-aware planning) is the main demonstrated function, and SUC-GR-01.3 (real-time load modulation) is contingent on charger controllability and the agreements listed in the assumptions.</Prioritisation>
+      <GenericRegionalNationalRelation>
+        <Paragraph>While demonstrated at a specific Greek municipal pilot, the underlying logic is generic and replicable. Pilot-specific elements are the site configuration, the role of the municipality as CPO, the city charging network and the Greek regulatory and tariff context.</Paragraph>
+        <Paragraph>The core concept, coordinated management of municipal EV charging against local PV generation through a centralised EMS with a Green Window tariff incentive, can be replicated at any municipality or public body operating EV charging alongside PV (e.g. depots, campuses, public parking), provided the enabling conditions exist: PV data from on-site inverters, a CSMS with API-based session data, controllable chargers and authority to apply dynamic tariffs. Market and regulatory specifics (dynamic tariff basis, DSO notification, flexibility market eligibility) must be assessed for each replication case.</Paragraph>
+      </GenericRegionalNationalRelation>
+      <NatureOfUseCase>Business use case with a technical/system focus: coordinated, PV-aware management of municipal EV charging (pilot demonstration; no market process).</NatureOfUseCase>
+      <FurtherKeywords>Smart charging, electric vehicles, ePIPV, photovoltaics, PV self-consumption, energy management system (EMS), CSMS, dynamic tariff, Green Window, demand response, load modulation, workplace charging, public charging, municipality.</FurtherKeywords>
+    </ClassificationInformation>
+    <GeneralRemarks>
+      <Item>Demonstration approach. The Serafeio functions are demonstrated through the EMS web interface, which collects site data, provides day-ahead charging recommendations to the municipal fleet and public users (including the Green Window signal), and adjusts the charging power of the Serafeio chargers based on PV and demand mismatch. The AthensCharge application operated by DAEM is at a commercial stage and is not part of the demonstration.</Item>
+      <Item>Scale of the pilot. The PV installation at Serafeio (30 kW) is small relative to the site load (about 1 MW), and no energy is exported to the grid. The KPIs are therefore assessed at the EV-charging interface (see §1.5), and U06 and U13 are additionally evaluated by simulation for scaled-up scenarios, including the wider DAEM charging network under an ePIPV assumption. These simulations are not demonstrations and do not involve EMS control of the 25 DAEM charging points, which remain monitoring-only.</Item>
+      <Item>Market participation. The pilot does not involve energy or flexibility market participation. Any such extension would require a prior assessment of regulatory eligibility, as noted in the use case conditions.</Item>
+    </GeneralRemarks>
+    <Diagrams>
+      <Diagram number="Figure 1" type="Use case diagram">
+        <Caption>BUC-GR-01 — Coordinated Municipal ePIPV Charging Infrastructure Operation (use case diagram)</Caption>
+        <ImageReference>images/fig1-buc-gr-01-use-case-diagram.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 2" type="Sequence diagram">
+        <Caption>SUC-GR-01.1 — Integrated Municipal Energy Data Aggregation (sequence diagram)</Caption>
+        <ImageReference>images/fig2-suc-gr-01.1-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 3" type="Sequence diagram">
+        <Caption>SUC-GR-01.2 — PV-Aware Charging Planning Optimisation (sequence diagram)</Caption>
+        <ImageReference>images/fig3-suc-gr-01.2-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 4" type="Sequence diagram">
+        <Caption>SUC-GR-01.3 — PV-Aware Real-Time Dynamic Load Modulation (sequence diagram)</Caption>
+        <ImageReference>images/fig4-suc-gr-01.3-sequence.png</ImageReference>
+      </Diagram>
+    </Diagrams>
+    <References/>
+    <StepByStepAnalysis>
+      <ScenariosOverview>
+        <ScenarioOverview number="1">
+          <ScenarioName>Integrated Municipal Energy Data Aggregation (SUC-GR-01.1)</ScenarioName>
+          <ScenarioDescription>The EMS synchronises session data from the CSMS, generation data from the PV inverters and PV forecasts into an integrated energy context.</ScenarioDescription>
+          <PrimaryActor>EMS</PrimaryActor>
+          <TriggeringEvent>Time Interval (e.g., every 15 min)</TriggeringEvent>
+          <PreCondition>Communication links with CSMS and PV inverters are active.</PreCondition>
+          <PostCondition>An integrated energy context is available to SUC-GR-01.2 and SUC-GR-01.3.</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="2">
+          <ScenarioName>PV-Aware Charging Planning Optimisation (SUC-GR-01.2)</ScenarioName>
+          <ScenarioDescription>The EMS uses PV forecasts and expected EV charging demand to identify intervals of PV surplus relative to the EV charging load and publishes the Green Window tariff to the EMSP, which makes it available to EV users through the EMS Web Interface.</ScenarioDescription>
+          <PrimaryActor>EMS</PrimaryActor>
+          <TriggeringEvent>Day-Ahead Planning Window (e.g., 16:00 CET)</TriggeringEvent>
+          <PreCondition>SUC-GR-01.1 successful implementation; an integrated energy context is available.</PreCondition>
+          <PostCondition>A Green Window tariff schedule (or the standard tariff if no surplus is expected) is published and visible to EV users in the EMS Web Interface.</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="3">
+          <ScenarioName>PV-Aware Real-Time Dynamic Load Modulation (SUC-GR-01.3)</ScenarioName>
+          <ScenarioDescription>Every 15 minutes, the EMS compares actual PV generation with live EV charging demand and dispatches updated charging power limits to the CSMS to maximise PV self-consumption for the charging load.</ScenarioDescription>
+          <PrimaryActor>EMS</PrimaryActor>
+          <TriggeringEvent>Real-time control interval timer expires (e.g., every 15 minutes).</TriggeringEvent>
+          <PreCondition>SUC-GR-01.1 successful synchronisation and active controllable EVSE connections.</PreCondition>
+          <PostCondition>EVSE charging power is modulated to match PV production and charging demand, and the CSMS confirms the new power levels.</PostCondition>
+        </ScenarioOverview>
+      </ScenariosOverview>
+      <Scenarios>
+        <Scenario name="4.2.1 Integrated Municipal Energy Data Aggregation (SUC-GR-01.1)">
+          <Step number="St.1">
+            <Event>Interval timer expires</Event>
+            <NameOfProcessActivity>Sync loop initiation</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS triggers the periodic data collection routine after a 15-minute waiting period.</DescriptionOfProcessActivity>
+            <Service>TIMER</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>-</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-RTC-01</RID>
+              <RID>R-DAT-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.2">
+            <Event>CSMS reachable</Event>
+            <NameOfProcessActivity>Request EV session data</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS requests status and metering data of the active charging sessions at the Serafeio EVSEs from the CSMS API gateway.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>CSMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.1</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-01</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-INT-02</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-MVR-03</RID>
+              <RID>R-CYB-01</RID>
+              <RID>R-CYB-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.2a">
+            <Event>CSMS unreachable</Event>
+            <NameOfProcessActivity>Load cached session data</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS retrieves the last valid Inf.1 from the local database and sets a data staleness flag.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.1</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-02</RID>
+              <RID>R-COM-04</RID>
+              <RID>R-COM-05</RID>
+              <RID>R-DAT-04</RID>
+              <RID>R-SAF-03</RID>
+              <RID>R-SAF-04</RID>
+              <RID>R-CYB-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.3">
+            <Event>PV Inverter reachable</Event>
+            <NameOfProcessActivity>Request PV generation data</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS queries the PV inverters for real-time yield.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>PV Inverter</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.2</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-01</RID>
+              <RID>R-INT-04</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-MVR-02</RID>
+              <RID>R-CYB-01</RID>
+              <RID>R-CYB-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.3a">
+            <Event>PV Inverter unreachable</Event>
+            <NameOfProcessActivity>Load cached PV yield</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS retrieves the last valid Inf.2 from the local database and sets a data staleness flag.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.2</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-02</RID>
+              <RID>R-COM-04</RID>
+              <RID>R-COM-05</RID>
+              <RID>R-DAT-04</RID>
+              <RID>R-SAF-02</RID>
+              <RID>R-SAF-03</RID>
+              <RID>R-CYB-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.4">
+            <Event>Real-time telemetry compiled</Event>
+            <NameOfProcessActivity>Request weather data</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS requests the weather forecast for the Serafeio site (e.g. irradiance, cloud cover, temperature) from the Weather Service.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>Weather Service</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.8</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-01</RID>
+              <RID>R-INT-01</RID>
+              <RID>R-CYB-01</RID>
+              <RID>R-CYB-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.4a">
+            <Event>Weather Service unreachable</Event>
+            <NameOfProcessActivity>Estimate PV production</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS estimates the expected PV production profile for the next 24 hours from stored Serafeio inverter data and flags it as an estimate.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.3</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-02</RID>
+              <RID>R-COM-05</RID>
+              <RID>R-DAT-04</RID>
+              <RID>R-FOR-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.5">
+            <Event>Weather data received</Event>
+            <NameOfProcessActivity>Generate PV yield forecast</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS generates the PV yield forecast at 15-minute resolution for the next 24 hours from the weather data and the Serafeio PV characteristics.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.3</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-01</RID>
+              <RID>R-DAT-02</RID>
+              <RID>R-DAT-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.6">
+            <Event>PV forecast or estimate available</Event>
+            <NameOfProcessActivity>Load charging intents</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS retrieves the charging intents (time slot and optional energy) submitted by municipal and public users and recorded by the EMS Web Interface.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>EMS Web Interface</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.6</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-02</RID>
+              <RID>R-FOR-02</RID>
+              <RID>R-FOR-03</RID>
+              <RID>R-DAT-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.7">
+            <Event>Charging intents loaded</Event>
+            <NameOfProcessActivity>Load historical session patterns</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS retrieves the stored CSMS session history of Serafeio (start and end times, energy) by user category (municipal and public).</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.1</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-AIC-06</RID>
+              <RID>R-FOR-02</RID>
+              <RID>R-FOR-03</RID>
+              <RID>R-DAT-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.8">
+            <Event>All source data compiled</Event>
+            <NameOfProcessActivity>Synthesise energy context</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS validates and aligns session data, PV yield, PV forecast (or estimate) and demand inputs on a 15-minute time base, tagging each with a data-quality flag, to form the integrated data object.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.4</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-01</RID>
+              <RID>R-EMS-06</RID>
+              <RID>R-DAT-02</RID>
+              <RID>R-DAT-03</RID>
+              <RID>R-DAT-04</RID>
+              <RID>R-DAT-06</RID>
+              <RID>R-DAT-07</RID>
+              <RID>R-FOR-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.9">
+            <Event>Data synthesis complete</Event>
+            <NameOfProcessActivity>Commit context to storage</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS writes the finalised Integrated Energy Context object to the local database to notify downstream optimisation.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.4</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-DAT-05</RID>
+              <RID>R-DAT-07</RID>
+              <RID>R-MVR-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.9a">
+            <Event>Cached or estimated data used in this cycle</Event>
+            <NameOfProcessActivity>Operator alert</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS notifies DAEM operators that cached or estimated data were used in this cycle, indicating the affected source and time.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>CPO</InformationReceiver>
+            <InformationExchanged>-</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-UI-05</RID>
+              <RID>R-COM-02</RID>
+              <RID>R-SAF-02</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.2 PV-Aware Charging Planning Optimisation (SUC-GR-01.2)">
+          <Step number="St.1">
+            <Event>Day-ahead planning window opens</Event>
+            <NameOfProcessActivity>Planning loop initiation</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS triggers the day-ahead charging planning routine at the designated time (e.g. 16:00 CET).</DescriptionOfProcessActivity>
+            <Service>TIMER</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>-</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.2">
+            <Event>Planning loop initiated</Event>
+            <NameOfProcessActivity>Energy context retrieval</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS retrieves the latest integrated energy context (Inf.4), containing PV forecast, session history, charging intents and data-quality flags.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.4</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-01</RID>
+              <RID>R-DAT-04</RID>
+              <RID>R-DAT-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.3">
+            <Event>Integrated dataset retrieved</Event>
+            <NameOfProcessActivity>Expected demand estimation</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS estimates the EV charging load at Serafeio for the next day in 15-minute intervals, by user category (municipal and public), from historical sessions and declared charging intents.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.4</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-02</RID>
+              <RID>R-FOR-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.4">
+            <Event>Expected demand available</Event>
+            <NameOfProcessActivity>PV surplus assessment</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS compares forecast PV generation with the expected EV charging load and identifies the intervals in which PV is expected to exceed the charging load, within the grid connection and EVSE limits.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.4</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-04</RID>
+              <RID>R-EMS-06</RID>
+              <RID>R-FOR-05</RID>
+              <RID>R-GFR-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.5">
+            <Event>PV surplus expected</Event>
+            <NameOfProcessActivity>Green Window tariff calculation</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS maps the discounted rates to the identified surplus intervals to form the Green Window tariff schedule.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.5</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-03</RID>
+              <RID>R-FOR-08</RID>
+              <RID>R-DAT-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.5a">
+            <Event>No PV surplus expected</Event>
+            <NameOfProcessActivity>Standard tariff generation</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS generates the standard tariff schedule; no Green Window is defined.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.5</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-03</RID>
+              <RID>R-FOR-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.6">
+            <Event>Tariff schedule finalised (surplus path)</Event>
+            <NameOfProcessActivity>Tariff schedule transmission</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS transmits the Green Window tariff schedule to the EMSP, which applies it to billing.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMSP</InformationReceiver>
+            <InformationExchanged>Inf.5</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-07</RID>
+              <RID>R-INT-01</RID>
+              <RID>R-CYB-03</RID>
+              <RID>R-CYB-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.6a">
+            <Event>Tariff schedule finalised (no-surplus path)</Event>
+            <NameOfProcessActivity>Standard tariff transmission</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS transmits the standard tariff schedule to the EMSP.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMSP</InformationReceiver>
+            <InformationExchanged>Inf.5</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-07</RID>
+              <RID>R-INT-01</RID>
+              <RID>R-CYB-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.7">
+            <Event>Tariff schedule transmitted</Event>
+            <NameOfProcessActivity>Pricing publication</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS publishes the tariff schedule (Green Window intervals or standard) and the charger availability to the EMS Web Interface.</DescriptionOfProcessActivity>
+            <Service>CHANGE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS Web Interface</InformationReceiver>
+            <InformationExchanged>Inf.5</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-07</RID>
+              <RID>R-COM-08</RID>
+              <RID>R-UI-02</RID>
+              <RID>R-INT-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.8">
+            <Event>Pricing published</Event>
+            <NameOfProcessActivity>Pricing display</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The EMS Web Interface shows municipal and public users the Green Window intervals, applicable prices, conditions and charger availability.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EMS Web Interface</InformationProducer>
+            <InformationReceiver>EV User</InformationReceiver>
+            <InformationExchanged>Inf.5</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-UI-02</RID>
+              <RID>R-UI-03</RID>
+              <RID>R-UI-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.9">
+            <Event>User responds to Green Window (optional)</Event>
+            <NameOfProcessActivity>Charging intent submission</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The EV User submits a charging intent (time slot and optional energy) through the EMS Web Interface. Participation is voluntary.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EV User</InformationProducer>
+            <InformationReceiver>EMS Web Interface</InformationReceiver>
+            <InformationExchanged>Inf.6</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-02</RID>
+              <RID>R-SC-08</RID>
+              <RID>R-UI-02</RID>
+              <RID>R-CYB-01</RID>
+              <RID>R-CYB-02</RID>
+              <RID>R-CYB-06</RID>
+              <RID>R-UI-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.10">
+            <Event>Intent received (if St.9 occurred)</Event>
+            <NameOfProcessActivity>Intent recording</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The EMS Web Interface records the intent with the user and session identifier and the timestamp, and keeps it available for retrieval by the EMS (SUC-GR-01.1 St.6).</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS Web Interface</InformationProducer>
+            <InformationReceiver>EMS Web Interface</InformationReceiver>
+            <InformationExchanged>Inf.6</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-08</RID>
+              <RID>R-DAT-02</RID>
+              <RID>R-DAT-05</RID>
+              <RID>R-CYB-03</RID>
+              <RID>R-UI-04</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.3 PV-Aware Real-Time Dynamic Load Modulation (SUC-GR-01.3)">
+          <Step number="St.1">
+            <Event>Real-time control interval timer expires</Event>
+            <NameOfProcessActivity>Control loop initiation</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS triggers the real-time modulation function after a 15-minute waiting period.</DescriptionOfProcessActivity>
+            <Service>TIMER</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>-</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-RTC-01</RID>
+              <RID>R-FOR-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.2">
+            <Event>Real-time loop initiated</Event>
+            <NameOfProcessActivity>Energy context retrieval</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS retrieves the latest integrated energy context (Inf.4) with the current charging session power and the actual PV generation at Serafeio.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.4</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-01</RID>
+              <RID>R-DAT-04</RID>
+              <RID>R-DAT-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.2a">
+            <Event>Energy context stale or unavailable</Event>
+            <NameOfProcessActivity>Fallback mode</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS enters fallback mode, keeps the last confirmed power limits and dispatches no new setpoints in this cycle; the scenario ends.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>-</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-08</RID>
+              <RID>R-DAT-04</RID>
+              <RID>R-SAF-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.3">
+            <Event>Dataset retrieved</Event>
+            <NameOfProcessActivity>Instantaneous mismatch calculation</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS compares the actual PV generation with the live charging demand of the controllable Serafeio EVSEs and checks the net grid import against the connection limit.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.4</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-RTC-02</RID>
+              <RID>R-GFR-01</RID>
+              <RID>R-GFR-02</RID>
+              <RID>R-FOR-07</RID>
+              <RID>R-EMS-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.4a">
+            <Event>PV surplus detected — generation exceeds demand</Event>
+            <NameOfProcessActivity>Raise target charging power</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS increases the target total charging power to absorb the available PV surplus.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.7</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-02</RID>
+              <RID>R-SC-05</RID>
+              <RID>R-GFR-07</RID>
+              <RID>R-FOR-08</RID>
+              <RID>R-SAF-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.4b">
+            <Event>PV deficit detected — demand exceeds generation</Event>
+            <NameOfProcessActivity>Reduce target charging power</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS reduces the target total charging power to limit grid import and restore the balance with PV generation.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.7</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-04</RID>
+              <RID>R-SC-05</RID>
+              <RID>R-RTC-07</RID>
+              <RID>R-GFR-06</RID>
+              <RID>R-SAF-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.4c">
+            <Event>Generation and demand balanced — within tolerance</Event>
+            <NameOfProcessActivity>Maintain current profile</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS determines that no adjustment is required and keeps the active charging profile; no setpoints are dispatched, and the cycle ends.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>-</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-RTC-04</RID>
+              <RID>R-EMS-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.5">
+            <Event>Target charging power determined (St.4a or St.4b)</Event>
+            <NameOfProcessActivity>Equal-share allocation</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS divides the target total power equally among the active sessions at the controlled EVSEs, within each connector's rated power and without distinguishing user categories, producing per-connector limits.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.7</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-04</RID>
+              <RID>R-RTC-03</RID>
+              <RID>R-EMS-03</RID>
+              <RID>R-FOR-05</RID>
+              <RID>R-SAF-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.6">
+            <Event>Control profiles finalised</Event>
+            <NameOfProcessActivity>Setpoint transmission</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS dispatches the per-connector power limits (Inf.7) to the CSMS.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>CSMS</InformationReceiver>
+            <InformationExchanged>Inf.7</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-03</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-COM-03</RID>
+              <RID>R-INT-02</RID>
+              <RID>R-CYB-03</RID>
+              <RID>R-CYB-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.7">
+            <Event>Command received by CSMS</Event>
+            <NameOfProcessActivity>Hardware profile dispatch</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>CSMS translates the power limits into connector-specific smart charging profiles and sends them to the EVSEs.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>CSMS</InformationProducer>
+            <InformationReceiver>EVSE</InformationReceiver>
+            <InformationExchanged>Inf.7</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-03</RID>
+              <RID>R-COM-03</RID>
+              <RID>R-INT-02</RID>
+              <RID>R-CYB-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.8">
+            <Event>Charging profile received by hardware</Event>
+            <NameOfProcessActivity>Real-time power modulation</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The EVSE adjusts the charging power of the active session within the received limit.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>EVSE</InformationProducer>
+            <InformationReceiver>EVSE</InformationReceiver>
+            <InformationExchanged>Inf.7</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SC-03</RID>
+              <RID>R-SAF-01</RID>
+              <RID>R-SAF-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.9">
+            <Event>Physical charging power modified</Event>
+            <NameOfProcessActivity>Feedback status reporting</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>The EVSE reports its new power draw and the execution status to the CSMS.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EVSE</InformationProducer>
+            <InformationReceiver>CSMS</InformationReceiver>
+            <InformationExchanged>Inf.1</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-03</RID>
+              <RID>R-SAF-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.10">
+            <Event>Execution status received by CSMS</Event>
+            <NameOfProcessActivity>Execution verification</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS retrieves the execution status and measured power from the CSMS, compares them with the dispatched limits, calculates the delivered power adjustment and logs the cycle performance.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>CSMS</InformationProducer>
+            <InformationReceiver>EMS</InformationReceiver>
+            <InformationExchanged>Inf.1</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-RTC-06</RID>
+              <RID>R-RTC-08</RID>
+              <RID>R-GFR-08</RID>
+              <RID>R-MVR-07</RID>
+              <RID>R-EMS-05</RID>
+              <RID>R-SAF-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="St.10a">
+            <Event>Partial, late or failed execution detected</Event>
+            <NameOfProcessActivity>Operator alert</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>EMS notifies DAEM operators of the affected EVSE and the deviation from the dispatched limit.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>EMS</InformationProducer>
+            <InformationReceiver>CPO</InformationReceiver>
+            <InformationExchanged>-</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-UI-05</RID>
+              <RID>R-SAF-02</RID>
+              <RID>R-SAF-03</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+      </Scenarios>
+    </StepByStepAnalysis>
+    <InformationExchanged>
+      <Information uuid="22a49d41-dd3f-51f8-806b-baf880c3d93e" id="Inf.1">
+        <Name>EV sessions status</Name>
+        <Description>Status and metering data of the charging sessions at the Serafeio EVSEs via OCPP (active chargers, power in kW, session energy in kWh, connector status and execution status of power limits), plus stored session history (start and end times, energy) by user category. Session data of the DAEM city network points are collected for monitoring only.</Description>
+        <RequirementReferences>
+          <RID>R-AIC-06</RID>
+          <RID>R-EMS-05</RID>
+          <RID>R-EMS-07</RID>
+          <RID>R-SC-01</RID>
+          <RID>R-COM-01</RID>
+          <RID>R-COM-02</RID>
+          <RID>R-COM-03</RID>
+          <RID>R-COM-04</RID>
+          <RID>R-COM-05</RID>
+          <RID>R-DAT-01</RID>
+          <RID>R-DAT-02</RID>
+          <RID>R-DAT-04</RID>
+          <RID>R-DAT-05</RID>
+          <RID>R-DAT-08</RID>
+          <RID>R-INT-02</RID>
+          <RID>R-FOR-02</RID>
+          <RID>R-FOR-03</RID>
+          <RID>R-RTC-06</RID>
+          <RID>R-RTC-08</RID>
+          <RID>R-GFR-08</RID>
+          <RID>R-MVR-01</RID>
+          <RID>R-MVR-02</RID>
+          <RID>R-MVR-03</RID>
+          <RID>R-MVR-07</RID>
+          <RID>R-CYB-01</RID>
+          <RID>R-CYB-03</RID>
+          <RID>R-CYB-08</RID>
+          <RID>R-SAF-02</RID>
+          <RID>R-SAF-03</RID>
+          <RID>R-SAF-04</RID>
+          <RID>R-SAF-06</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="9252516f-7b78-5dee-b379-61939acc0f5e" id="Inf.2">
+        <Name>PV actual yield</Name>
+        <Description>Instantaneous AC output (kW) and cumulative daily yield from the PV inverters.</Description>
+        <RequirementReferences>
+          <RID>R-COM-01</RID>
+          <RID>R-COM-02</RID>
+          <RID>R-COM-04</RID>
+          <RID>R-COM-05</RID>
+          <RID>R-DAT-01</RID>
+          <RID>R-DAT-02</RID>
+          <RID>R-DAT-04</RID>
+          <RID>R-INT-04</RID>
+          <RID>R-MVR-02</RID>
+          <RID>R-CYB-01</RID>
+          <RID>R-CYB-03</RID>
+          <RID>R-CYB-08</RID>
+          <RID>R-SAF-02</RID>
+          <RID>R-SAF-03</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="a1cf49b7-8f36-5104-93f9-e3f7e5888d5e" id="Inf.3">
+        <Name>PV yield forecast</Name>
+        <Description>PV production forecast generated by the EMS in 15-minute intervals for at least the next 24-48 hours from weather data, or an estimate from stored inverter data (flagged as an estimate) when weather data are unavailable.</Description>
+        <RequirementReferences>
+          <RID>R-COM-02</RID>
+          <RID>R-COM-05</RID>
+          <RID>R-DAT-02</RID>
+          <RID>R-DAT-04</RID>
+          <RID>R-DAT-06</RID>
+          <RID>R-FOR-01</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="f7d96994-3963-517a-bac1-9a8e11bb7121" id="Inf.4">
+        <Name>Integrated energy context</Name>
+        <Description>Combined dataset representing current demand, available RES surplus, expected charging demand, data-quality flags and forecasted flexibility headroom.</Description>
+        <RequirementReferences>
+          <RID>R-EMS-01</RID>
+          <RID>R-EMS-04</RID>
+          <RID>R-EMS-05</RID>
+          <RID>R-EMS-06</RID>
+          <RID>R-DAT-02</RID>
+          <RID>R-DAT-03</RID>
+          <RID>R-DAT-04</RID>
+          <RID>R-DAT-05</RID>
+          <RID>R-DAT-06</RID>
+          <RID>R-DAT-07</RID>
+          <RID>R-FOR-02</RID>
+          <RID>R-FOR-03</RID>
+          <RID>R-FOR-05</RID>
+          <RID>R-FOR-06</RID>
+          <RID>R-FOR-07</RID>
+          <RID>R-RTC-02</RID>
+          <RID>R-GFR-01</RID>
+          <RID>R-GFR-02</RID>
+          <RID>R-MVR-04</RID>
+          <RID>R-MVR-06</RID>
+          <RID>R-MVR-08</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="1042e1e2-dcd1-5987-b7fc-7268c875c193" id="Inf.5">
+        <Name>Green Window Tariff Schedule</Name>
+        <Description>Forward-looking time-of-use price schedule for the next day, with reduced tariffs for the Green Window intervals of expected PV surplus (or the standard tariff when none is expected), transmitted to the EMSP for billing and published on the EMS Web Interface.</Description>
+        <RequirementReferences>
+          <RID>R-EMS-03</RID>
+          <RID>R-COM-07</RID>
+          <RID>R-COM-08</RID>
+          <RID>R-DAT-07</RID>
+          <RID>R-INT-01</RID>
+          <RID>R-INT-06</RID>
+          <RID>R-FOR-08</RID>
+          <RID>R-CYB-03</RID>
+          <RID>R-CYB-04</RID>
+          <RID>R-UI-02</RID>
+          <RID>R-UI-03</RID>
+          <RID>R-UI-08</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="46b8a9db-5f56-599d-97e9-d491e6846f4d" id="Inf.6">
+        <Name>Charging Intent</Name>
+        <Description>Planned charging time slot and optional requested energy submitted by municipal and public users through the EMS Web Interface, recorded with user/session identifier, acceptance of the Green Window offer and timestamp.</Description>
+        <RequirementReferences>
+          <RID>R-SC-02</RID>
+          <RID>R-SC-08</RID>
+          <RID>R-COM-08</RID>
+          <RID>R-DAT-01</RID>
+          <RID>R-DAT-02</RID>
+          <RID>R-DAT-05</RID>
+          <RID>R-INT-01</RID>
+          <RID>R-FOR-02</RID>
+          <RID>R-FOR-03</RID>
+          <RID>R-CYB-01</RID>
+          <RID>R-CYB-02</RID>
+          <RID>R-CYB-03</RID>
+          <RID>R-CYB-06</RID>
+          <RID>R-UI-02</RID>
+          <RID>R-UI-04</RID>
+          <RID>R-UI-08</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="0fdf5106-146d-5c98-a950-e355aefb6ce2" id="Inf.7">
+        <Name>Smart Charging Profile</Name>
+        <Description>Near-real-time power limits (kW per connector), shared equally among the active sessions, derived by the EMS and pushed down to modulate charging hardware.</Description>
+        <RequirementReferences>
+          <RID>R-EMS-02</RID>
+          <RID>R-EMS-03</RID>
+          <RID>R-EMS-04</RID>
+          <RID>R-SC-03</RID>
+          <RID>R-SC-04</RID>
+          <RID>R-SC-05</RID>
+          <RID>R-COM-01</RID>
+          <RID>R-COM-03</RID>
+          <RID>R-DAT-07</RID>
+          <RID>R-INT-02</RID>
+          <RID>R-FOR-05</RID>
+          <RID>R-FOR-08</RID>
+          <RID>R-RTC-03</RID>
+          <RID>R-RTC-06</RID>
+          <RID>R-RTC-07</RID>
+          <RID>R-GFR-01</RID>
+          <RID>R-GFR-06</RID>
+          <RID>R-GFR-07</RID>
+          <RID>R-CYB-03</RID>
+          <RID>R-CYB-04</RID>
+          <RID>R-SAF-01</RID>
+          <RID>R-SAF-05</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="93d8141f-8673-5b66-9003-f37437c23a02" id="Inf.8">
+        <Name>Weather Payload</Name>
+        <Description>Weather forecast data for the Serafeio site (irradiance, cloud cover, temperature) for at least the next 24 hours, provided by the Weather Service.</Description>
+        <RequirementReferences>
+          <RID>R-DAT-01</RID>
+          <RID>R-INT-01</RID>
+          <RID>R-CYB-01</RID>
+          <RID>R-CYB-03</RID>
+        </RequirementReferences>
+      </Information>
+      <Notes>
+        <Item>R-AIC-01, R-AIC-02, R-AIC-03, R-AIC-04, R-AIC-05, R-INT-08 apply as preconditions across all scenarios — they govern the commissioning and conformance testing phase before any step executes, not individual steps.</Item>
+        <Item>R-CYB-05, R-CYB-07, R-CYB-09, R-COM-06, R-INT-05, R-DAT-05 are platform-level requirements not tied to a specific step — they apply to the system as a whole and are best captured at the information exchange level (all Inf objects) rather than per step.</Item>
+        <Item>R-MVR-04, R-MVR-06, R-MVR-08 apply post-pilot for baseline, KPI computation and evidence packaging — reference against Inf.4 and Inf.1.</Item>
+        <Item>R-UI-01 (operator dashboard) applies to the CSMS operator interface across all scenarios; R-UI-05 covers operator alerts within the scenarios.</Item>
+      </Notes>
+    </InformationExchanged>
+    <CommonTermsAndDefinitions/>
+  </UseCase>
+  <ActorList>
+    <Actor uuid="82a098fd-78d2-50de-a110-029c8a3f2f67">
+      <Name>CPO</Name>
+      <Type>Business</Type>
+      <Description>Charge Point Operator: actor responsible for operating charging infrastructure and providing charging services to EV users.</Description>
+      <FurtherInformation>The Municipality of Athens / DAEM acts as or coordinates the CPO function, operating 25 municipal AC charging points in the city.</FurtherInformation>
+    </Actor>
+    <Actor uuid="a7f54634-3ce9-57e9-bd36-9939ac7a06ff">
+      <Name>EMSP</Name>
+      <Type>Business</Type>
+      <Description>Electric Mobility Service Provider: actor providing e-mobility services to users, including access to charging points and related service interface.</Description>
+      <FurtherInformation>Manages user accounts, billing, and the distribution of dynamic tariff schedules to EV users.</FurtherInformation>
+    </Actor>
+    <Actor uuid="50110506-e843-5485-9185-8ecb931b450e">
+      <Name>EV User</Name>
+      <Type>Business</Type>
+      <Description>Owner or user of an electric vehicle requiring charging services.</Description>
+      <FurtherInformation>Includes public users and municipal users (municipal employees working at Serafeio, charging private EVs). Both are billed normally and use the EMS Web Interface to view pricing and charger availability and to declare charging intents. Municipal users are expected to be more predictable and easier to engage.</FurtherInformation>
+    </Actor>
+    <Actor uuid="f849f0ea-f476-5b32-b549-00092403b9d5">
+      <Name>CSMS</Name>
+      <Type>System</Type>
+      <Description>System used to monitor and manage charging stations, charging sessions and user interaction.</Description>
+      <FurtherInformation>Supports platform-based monitoring, provides real-time session logs, and executes smart charging profiles sent by the EMS.</FurtherInformation>
+    </Actor>
+    <Actor uuid="e86cc491-954a-5de6-8546-5e44d7587c04">
+      <Name>EVSE</Name>
+      <Type>System</Type>
+      <Description>Physical charging points providing AC/DC electrical charging services to EVs</Description>
+      <FurtherInformation>Consists of 5 AC charging points (22kW) and one DC charging station (30kW) at Serafeio, alongside 25 municipal AC chargers across Athens.</FurtherInformation>
+    </Actor>
+    <Actor uuid="299695da-5879-5cda-b952-16f606627716">
+      <Name>EMS</Name>
+      <Type>System</Type>
+      <Description>Centralised system supporting charging planning, telemetry aggregation and optimisation of charging operations.</Description>
+      <FurtherInformation>Acts as the core platform that processes declared charging intents, session data, inverter yields and weather data to execute smart charging logic and publishes pricing and availability through the EMS Web Interface.</FurtherInformation>
+    </Actor>
+    <Actor uuid="f3c014b1-b277-5df8-91f5-9df34936d2de">
+      <Name>PV Inverter</Name>
+      <Type>System</Type>
+      <Description>Physical power electronics hardware that converts DC solar generation to AC and records real-time generation metrics.</Description>
+      <FurtherInformation>Pushes instantaneous AC active power output (kW) and cumulative daily yield data to the EMS.</FurtherInformation>
+    </Actor>
+    <Actor uuid="d2271dcd-64a8-5688-a1f5-07671f15f903">
+      <Name>EMS Web Interface</Name>
+      <Type>System</Type>
+      <Description>Web-based interface of the EMS through which all EV users (public and municipal fleet) view pricing, Green Window intervals and charger availability, and submit charging intents.</Description>
+      <FurtherInformation>Pilot front-end running in parallel to the CPO’s production charging app, which is not part of the demonstration.</FurtherInformation>
+    </Actor>
+    <Actor uuid="2aa2ca69-6545-5a97-8118-5fb8eae5fb9f">
+      <Name>Weather Service</Name>
+      <Type>System</Type>
+      <Description>External meteorological data service providing location-specific weather forecasts.</Description>
+      <FurtherInformation>Supplies, on request from the EMS, the weather forecast for the Serafeio site (solar irradiance, cloud cover and ambient temperature) for at least the next 24 hours.</FurtherInformation>
+    </Actor>
+  </ActorList>
+  <RequirementList>
+    <RequirementCategory id="CAT-01">
+      <Name>Asset Integration and Commissioning</Name>
+      <Description>All physical assets must be installed, commissioned, operational and addressable before pilot operation.</Description>
+      <Requirement uuid="e56eff12-12f0-55ca-be9d-2b55afc2ebfd" id="R-AIC-01">
+        <Name>Asset commissioning status</Name>
+        <Description>Each EVSE, PV inverter, smart meter and EMS device used in the Greek pilot shall have a recorded commissioning status before operational testing begins.</Description>
+      </Requirement>
+      <Requirement uuid="a64568b9-2910-53bb-b421-e5b68e7f717e" id="R-AIC-02">
+        <Name>Unique asset identification</Name>
+        <Description>Every integrated asset — including each of the 5 AC EVSEs, the DC charging station, the two PV inverters, and the EMS platform — shall have a persistent unique identifier used consistently across field systems, the CSMS and reporting functions.</Description>
+      </Requirement>
+      <Requirement uuid="8bb9ba8d-7f99-55cb-9d68-756c87685b77" id="R-AIC-03">
+        <Name>Asset capability registration</Name>
+        <Description>The CSMS/EMS platform shall maintain the technical capabilities and operating limits of each EVSE and PV inverter, including rated power, control modes, and communication interface specifications.</Description>
+      </Requirement>
+      <Requirement uuid="0b15f02c-86ab-5e69-a34e-ee0d1a4c7c60" id="R-AIC-04">
+        <Name>Connectivity verification</Name>
+        <Description>Commissioning shall verify that each EVSE can exchange session data with the CSMS (via OCPP), and that the PV inverters can provide generation data to the EMS, before pilot operation commences.</Description>
+      </Requirement>
+      <Requirement uuid="b08c23b6-2f34-506c-95c8-3d3c4a4ae1d2" id="R-AIC-05">
+        <Name>Time and configuration setup</Name>
+        <Description>All integrated devices shall be configured with a common time source, agreed sampling intervals (15-minute minimum) and the correct site association before pilot operation.</Description>
+      </Requirement>
+      <Requirement uuid="ed751710-8af4-5dba-82bc-a600612cf0b4" id="R-AIC-06">
+        <Name>Pilot-specific mobility configuration</Name>
+        <Description>The Serafeio grid connection limit, the set of controllable EVSEs, the user categories (municipal and public) and the Green Window tariff parameters shall be configured in the EMS before PV-aware scheduling is enabled.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-02">
+      <Name>Energy Management System Capabilities</Name>
+      <Description>Contains requirements related to EMS functionalities and capabilities.</Description>
+      <Requirement uuid="268ca964-97bd-5ce8-a96f-4d45766a33d1" id="R-EMS-01">
+        <Name>Unified site and cluster model</Name>
+        <Description>The EMS shall maintain a unified operational model of the Serafeio site, including all connected EVSEs, PV inverters and their current status, constraints and relationships, as well as visibility of the DAEM city network charging points through the CSMS.</Description>
+      </Requirement>
+      <Requirement uuid="4d2ae3c5-59f5-5edb-93fa-a2079f5c9b09" id="R-EMS-02">
+        <Name>Multi-asset orchestration</Name>
+        <Description>The EMS shall coordinate EV charging demand against PV generation at the Serafeio site, managing the combined AC and DC charging load within applicable site and grid connection limits.</Description>
+      </Requirement>
+      <Requirement uuid="a4c94d07-b995-5d2d-b89f-50cb50c3ed9e" id="R-EMS-03">
+        <Name>Schedule and setpoint generation</Name>
+        <Description>The EMS shall translate optimisation results from SUC-GR-01.2 into day-ahead Green Window tariff schedules and from SUC-GR-01.3 into real-time per-connector power limits dispatched to the CSMS.</Description>
+      </Requirement>
+      <Requirement uuid="22d07cfe-5528-5624-8c41-f12142c8e613" id="R-EMS-04">
+        <Name>Constraint enforcement</Name>
+        <Description>The EMS shall prevent dispatch decisions that violate grid connection limits, EVSE rated power limits or the confirmed controllability status of individual charging points.</Description>
+      </Requirement>
+      <Requirement uuid="671cef37-bde3-5948-bcb1-55f098485d06" id="R-EMS-05">
+        <Name>Execution monitoring and rescheduling</Name>
+        <Description>The EMS shall compare actual PV generation and charging demand against the active plan and trigger re-optimisation when deviations — such as forecast error or unexpected session behaviour — exceed configurable thresholds.</Description>
+      </Requirement>
+      <Requirement uuid="9257d557-5e80-5935-93c9-35c380e3d107" id="R-EMS-06">
+        <Name>Flexibility estimation</Name>
+        <Description>The EMS shall calculate available upward and downward flexibility at Serafeio at 15-minute intervals, as input to the assessment of KPI U06 (Flexibility Potential), which is extended to the wider DAEM charging network by simulation.</Description>
+      </Requirement>
+      <Requirement uuid="e84d8f09-9f56-5835-bfb5-bacd3d188e52" id="R-EMS-07">
+        <Name>Distributed-site aggregation</Name>
+        <Description>The EMS or CSMS shall aggregate session data from the DAEM city network charging points alongside Serafeio data, maintaining site-level distinction between the ePIPV control boundary and the monitoring-only city network.</Description>
+      </Requirement>
+      <Requirement uuid="66a26fef-ac1b-5709-9c0c-a2a220ca54de" id="R-EMS-08">
+        <Name>Operating-mode management</Name>
+        <Description>The EMS shall support at minimum a normal operation mode (PV-aware scheduling and real-time modulation active), a monitoring-only mode (CSMS data collection without EMS control), and a fallback mode triggered by communication loss or data staleness.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-03">
+      <Name>Smart Charging and Mobility-Service Constraints</Name>
+      <Description>The charging infrastructure functionalities and capabilities.</Description>
+      <Requirement uuid="19af2d7a-cb9a-5f17-b027-1f9cc00abb9f" id="R-SC-01">
+        <Name>Charging-session detection</Name>
+        <Description>The CSMS shall detect and report EV connection, session start, active charging, suspension, completion and disconnection events for all EVSEs at Serafeio and across the DAEM city network charging points.</Description>
+      </Requirement>
+      <Requirement uuid="56878d48-5ca0-5605-b6b5-eb297963f6a3" id="R-SC-02">
+        <Name>Charging requirement capture</Name>
+        <Description>The system shall capture the charging intents submitted by municipal and public users through the EMS Web Interface — a planned charging time slot and, optionally, the requested energy — and make them available to the EMS for demand forecasting and planning.</Description>
+      </Requirement>
+      <Requirement uuid="fe410e48-1693-513b-a21b-83c69a490134" id="R-SC-03">
+        <Name>Dynamic charging control</Name>
+        <Description>The Serafeio EVSEs shall accept remote dynamic power limits dispatched by the EMS via the CSMS, as required by SUC-GR-01.3. Controllability shall be confirmed on a per-unit basis during commissioning.</Description>
+      </Requirement>
+      <Requirement uuid="8e3c2090-6c88-5984-9257-07fafa4d7771" id="R-SC-04">
+        <Name>Mobility requirement guarantee</Name>
+        <Description>When available charging capacity is limited, the EMS shall share it equally among all active sessions at the controlled Serafeio EVSEs, within the rated power of each connector, without differentiating between municipal and public users.</Description>
+      </Requirement>
+      <Requirement uuid="54409b45-fb80-5498-a86c-6f86ed79886a" id="R-SC-05">
+        <Name>Priority-based allocation</Name>
+        <Description>Real-time load modulation shall optimise charging power against PV availability. It shall be applied on a best-effort basis, and no guaranteed energy amount or completion time shall be assumed for any user category in this pilot phase.</Description>
+      </Requirement>
+      <Requirement uuid="9931e1c1-6980-584c-aa02-c23192b3101d" id="R-SC-08">
+        <Name>Opt-in and opt-out enforcement</Name>
+        <Description>Participation in the Green Window incentive mechanism (SUC-GR-01.2) shall be voluntary for municipal and public users; the system shall not apply discounted tariffs or expect a charging-time response from users who have not accepted the offer through the EMS Web Interface.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-04">
+      <Name>Communications and Connectivity</Name>
+      <Description>Requirements to enable reliable communication.</Description>
+      <Requirement uuid="35d4978d-3939-568e-a30e-62726734e68c" id="R-COM-01">
+        <Name>Bidirectional communications</Name>
+        <Description>Bidirectional communication shall be available on the EMS-CSMS interface (session data retrieval and charging profile dispatch) and on the EMS-PV inverter interface (generation data retrieval).</Description>
+      </Requirement>
+      <Requirement uuid="db0b5d11-7bf2-5414-949a-9795abb6cdc2" id="R-COM-02">
+        <Name>Communication health monitoring</Name>
+        <Description>The EMS shall monitor the connection status and last-message time for the CSMS, PV inverter and Weather Service interfaces, and raise a data staleness flag when any of them becomes unreachable, as defined in the fallback steps of SUC-GR-01.1.</Description>
+      </Requirement>
+      <Requirement uuid="f7847798-692d-5560-aa10-748e71fce3f5" id="R-COM-03">
+        <Name>Message acknowledgement</Name>
+        <Description>Charging profile commands dispatched by the EMS to the CSMS (Inf.7) shall be acknowledged with acceptance or failure status; EVSE execution confirmation shall be reported back to the CSMS and logged (SUC-GR-01.3 St.8).</Description>
+      </Requirement>
+      <Requirement uuid="b7169039-c012-56b5-aa11-1b03faf648f8" id="R-COM-04">
+        <Name>Store-and-forward capability</Name>
+        <Description>The EMS shall buffer the last valid session data (Inf.1), PV generation data (Inf.2), and use cached values during temporary communication outages, as specified in the fallback steps of SUC-GR-01.1.</Description>
+      </Requirement>
+      <Requirement uuid="3835e24f-8a3c-5448-91ea-977bd2333b11" id="R-COM-05">
+        <Name>Communication recovery</Name>
+        <Description>The EMS shall automatically attempt reconnection to the CSMS, PV inverter and Weather Service interfaces after a communication outage and restore synchronised data collection without operator intervention.</Description>
+      </Requirement>
+      <Requirement uuid="8be6c245-61dc-5fb0-a12b-e182018e1f7f" id="R-COM-06">
+        <Name>Defined service levels</Name>
+        <Description>The EMS-CSMS and EMS-inverter interfaces shall have documented requirements for update frequency, maximum tolerated data age, and latency appropriate to the 15-minute control cycle of SUC-GR-01.3.</Description>
+      </Requirement>
+      <Requirement uuid="b03e3ec8-4145-5a04-a00e-809795c40d2f" id="R-COM-07">
+        <Name>External platform connectivity</Name>
+        <Description>The EMS shall provide a reliable interface to the EMSP for transmission of the Green Window tariff schedule (Inf.5); the EMSP shall apply it to billing, and the same schedule shall be made available to the EMS Web Interface for presentation to users.</Description>
+      </Requirement>
+      <Requirement uuid="d6f5f659-90ba-5493-8443-22b442bf28f3" id="R-COM-08">
+        <Name>User-channel connectivity</Name>
+        <Description>The EMS Web Interface shall support reliable exchange of Green Window pricing and charger availability information (Inf.5) and charging intents (Inf.6) between municipal and public users and the EMS.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-05">
+      <Name>Data Acquisition, Quality and Storage</Name>
+      <Description>Requirements for common data management mechanisms.</Description>
+      <Requirement uuid="8f3236d4-a034-54a7-90b2-fa294387c2dc" id="R-DAT-01">
+        <Name>Operational telemetry acquisition</Name>
+        <Description>The EMS shall acquire EVSE session data (Inf.1), PV actual yield (Inf.2), weather data (Inf.8) and user charging intents (Inf.6) at the 15-minute resolution required by the SUC-GR-01 scenarios.</Description>
+      </Requirement>
+      <Requirement uuid="210b6abd-ea9c-5b4f-bd87-f834f441af50" id="R-DAT-02">
+        <Name>Common timestamping</Name>
+        <Description>All operational records — session data, PV readings, EMS decisions and EVSE responses — shall contain timestamps referenced to a common time base.</Description>
+      </Requirement>
+      <Requirement uuid="cec6adf1-493b-5493-a4d9-fda122ef8c96" id="R-DAT-03">
+        <Name>Data validation</Name>
+        <Description>Incoming CSMS session data, PV inverter readings and weather data shall be checked for missing values, staleness, invalid ranges and implausible changes before use in optimisation or KPI calculation.</Description>
+      </Requirement>
+      <Requirement uuid="5c723aab-ed37-5896-8589-61fefc1ea0b1" id="R-DAT-04">
+        <Name>Data-quality status</Name>
+        <Description>The EMS shall attach a quality or staleness flag to measurements and forecasts used in optimisation, distinguishing live data from cached fallback values (see the fallback steps of SUC-GR-01.1).</Description>
+      </Requirement>
+      <Requirement uuid="25d07651-007a-5569-be06-521c232204bf" id="R-DAT-05">
+        <Name>Historical data retention</Name>
+        <Description>Session data, charging intents, PV generation readings, EMS schedules, tariff signals and EVSE responses shall be retained for the duration required for KPI computation, demand forecasting, pilot reporting and post-hoc analysis.</Description>
+      </Requirement>
+      <Requirement uuid="d44fa3b1-b7eb-5058-be63-c362a424cf52" id="R-DAT-06">
+        <Name>Interval aggregation</Name>
+        <Description>The data platform shall support aggregation at 15-minute intervals as the primary operational and KPI measurement resolution throughout the pilot.</Description>
+      </Requirement>
+      <Requirement uuid="f47c3757-9d99-55b0-87c3-766f6629d55c" id="R-DAT-07">
+        <Name>Data lineage</Name>
+        <Description>Derived values — including the integrated energy context (Inf.4), Green Window tariff schedules (Inf.5), and KPI results — shall be traceable to their source measurements, algorithms and parameters.</Description>
+      </Requirement>
+      <Requirement uuid="977da5b6-007b-5b57-a9ee-8bfbf9124119" id="R-DAT-08">
+        <Name>Distributed-cluster synchronisation</Name>
+        <Description>Session and status data from the DAEM city network charging points shall be synchronised alongside Serafeio data and clearly associated with their respective site and connection point.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-06">
+      <Name>Semantic and Protocol Interoperability</Name>
+      <Description>Requirements for enabling interoperable communications.</Description>
+      <Requirement uuid="c0215782-0277-5190-a4a9-d26ce0cf187d" id="R-INT-01">
+        <Name>Documented interface specification</Name>
+        <Description>The EMS-CSMS, EMS-PV inverter, EMS-Weather Service, EMS-EMSP and EMS-EMS Web Interface interfaces shall each have a documented protocol, endpoint, data model and error-handling specification.</Description>
+      </Requirement>
+      <Requirement uuid="37214763-3c02-5c27-b4e8-b707988d43f0" id="R-INT-02">
+        <Name>EV charging protocol support</Name>
+        <Description>EVSE-to-CSMS integration shall use OCPP (1.6 or newer version with the functions required for session metering, charger status reporting and smart charging profile dispatch.</Description>
+      </Requirement>
+      <Requirement uuid="0b7742e0-ea1d-5987-bd3e-1b3a4989d03b" id="R-INT-04">
+        <Name>DER interface abstraction</Name>
+        <Description>Vendor-specific PV inverter interfaces (Modbus, API or equivalent) shall be isolated behind an adapter exposing a common EMS-facing data model for generation readings.</Description>
+      </Requirement>
+      <Requirement uuid="d2c5689b-ba6a-5304-9ccc-133708302419" id="R-INT-05">
+        <Name>Common semantic definitions</Name>
+        <Description>All parties shall use agreed definitions for power direction, availability state, session energy, forecast interval and data staleness, consistent across EMS, CSMS, EMSP and reporting functions.</Description>
+      </Requirement>
+      <Requirement uuid="fad22bec-08c7-5916-85f3-3e9f7718189d" id="R-INT-06">
+        <Name>API versioning</Name>
+        <Description>EMS-CSMS and EMS-EMSP APIs shall be versioned; incompatible changes shall be managed without disruption to pilot operation.</Description>
+      </Requirement>
+      <Requirement uuid="c7765497-8cb0-5733-bc21-d8f9980486a5" id="R-INT-08">
+        <Name>Interoperability conformance test</Name>
+        <Description>Each pilot interface shall be validated through conformance testing covering normal data exchange, invalid messages, timeout handling and recovery before live operation.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-07">
+      <Name>Forecasting and Optimisation</Name>
+      <Description>Contains requirements enabling reliable predictive capabilities.</Description>
+      <Requirement uuid="fb8e7f23-1f0d-5602-aa8f-3dc28f212b9f" id="R-FOR-01">
+        <Name>PV forecasting</Name>
+        <Description>The EMS shall generate PV production forecasts at 15-minute resolution for a minimum 24-hour horizon from weather data (Inf.8) and the characteristics of the Serafeio PV installation, as required by the day-ahead planning cycle of SUC-GR-01.2 (Inf.3). When weather data are unavailable, the EMS shall estimate PV production from stored inverter data and flag it as an estimate.</Description>
+      </Requirement>
+      <Requirement uuid="b9718512-e4eb-54ec-bb2a-f80312b03e39" id="R-FOR-02">
+        <Name>Load forecasting</Name>
+        <Description>The EMS shall estimate the expected charging load at Serafeio from historical session data held in the CSMS, supplemented by the charging intents declared by municipal and public users.</Description>
+      </Requirement>
+      <Requirement uuid="a2647842-a201-5bd3-8b1c-08b8f382704c" id="R-FOR-03">
+        <Name>EV demand forecasting</Name>
+        <Description>The EMS shall forecast EV charging demand by user category (municipal and public) from historical session patterns and declared charging intents, and shall update the forecast when new intents are submitted. Municipal user demand is expected to be the more regular and predictable component.</Description>
+      </Requirement>
+      <Requirement uuid="056a75c5-7c17-526b-96fe-090a21f2fe41" id="R-FOR-05">
+        <Name>Constraint-aware optimisation</Name>
+        <Description>Day-ahead and real-time optimisation shall incorporate EVSE rated power limits, grid connection limits and the confirmed controllability status of individual charging points.</Description>
+      </Requirement>
+      <Requirement uuid="caadcd2f-9201-51ed-941a-95850cbd53db" id="R-FOR-06">
+        <Name>Multi-horizon optimisation</Name>
+        <Description>The EMS shall support day-ahead charging planning (SUC-GR-01.2, 24-hour horizon) and real-time load adjustment (SUC-GR-01.3, 15-minute cycle), with the real-time function operating on the integrated energy context (Inf.4) produced by SUC-GR-01.1.</Description>
+      </Requirement>
+      <Requirement uuid="ceda04ac-a0f7-5aa9-aea2-b77e3bbef339" id="R-FOR-07">
+        <Name>Forecast-error handling</Name>
+        <Description>The EMS shall detect deviations between forecast PV generation and actual inverter output and update real-time power limits accordingly via the SUC-GR-01.3 control loop.</Description>
+      </Requirement>
+      <Requirement uuid="ce52c828-ba0a-5e42-993d-63b08f569fc3" id="R-FOR-08">
+        <Name>Objective configurability</Name>
+        <Description>Optimisation objectives shall be configurable for PV self-consumption maximisation, peak grid import reduction and user energy cost reduction through the Green Window, reflecting the hierarchy of OBJ-1 through OBJ-5.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-08">
+      <Name>Real-Time Control and Performance</Name>
+      <Description>Requirements enabling near-real-time control to maintain grid compliance and track operational commitments.</Description>
+      <Requirement uuid="02786ddf-b373-51c5-b9b8-eca65dcccfff" id="R-RTC-01">
+        <Name>Defined control cycle</Name>
+        <Description>The real-time load modulation function (SUC-GR-01.3) shall operate at a 15-minute control cycle; calculation and dispatch of updated power limits (Inf.7) shall complete within this interval.</Description>
+      </Requirement>
+      <Requirement uuid="1a6b5cff-9de8-5b48-aafe-be658bf10ccd" id="R-RTC-02">
+        <Name>Real-time grid-limit supervision</Name>
+        <Description>The EMS shall continuously compare aggregate charging demand against the Serafeio site grid connection capacity and trigger load reduction when the limit is approached.</Description>
+      </Requirement>
+      <Requirement uuid="69f3ee92-b6c8-5fd7-a7bb-96990cd885c6" id="R-RTC-03">
+        <Name>Dynamic power redistribution</Name>
+        <Description>When PV generation changes, the EMS shall redistribute available charging power equally among the active EVSE sessions, within the rated power of each connector, dispatching updated per-connector limits to the CSMS.</Description>
+      </Requirement>
+      <Requirement uuid="9f2862bf-09c3-59a8-a1b6-6c411a587f0e" id="R-RTC-04">
+        <Name>Deviation-triggered re-optimisation</Name>
+        <Description>The EMS shall trigger re-optimisation of charging profiles when PV generation deviation, session state change, or forecast error exceeds a configurable threshold.</Description>
+      </Requirement>
+      <Requirement uuid="1c1946f4-ed81-5257-b8a4-c31266185e42" id="R-RTC-06">
+        <Name>Setpoint execution verification</Name>
+        <Description>Following dispatch of smart charging profiles (Inf.7), the EMS shall verify EVSE response via CSMS feedback (SUC-GR-01.3 St.8) and identify partial, late or failed execution.</Description>
+      </Requirement>
+      <Requirement uuid="70d566d0-84ed-5c2c-b315-765c67515289" id="R-RTC-07">
+        <Name>Control conflict resolution</Name>
+        <Description>When PV surplus absorption conflicts with the grid connection limit or EVSE rated power limits, the EMS shall give precedence to those limits and reduce charging power equally across the active sessions.</Description>
+      </Requirement>
+      <Requirement uuid="fb7c2a96-02e7-5ad1-b4a6-9cd90f022202" id="R-RTC-08">
+        <Name>Performance logging</Name>
+        <Description>EMS decision time, dispatch time, CSMS acknowledgement and measured EVSE response shall be logged for each control cycle to support performance assessment and KPI calculation.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-09">
+      <Name>Grid Constraints, Flexibility and Resilience</Name>
+      <Description>Requirements ensuring safe operation under constrained grid conditions.</Description>
+      <Requirement uuid="a6f0d8bf-3381-50c6-83aa-9f4a5f37c3c1" id="R-GFR-01">
+        <Name>Connection-capacity enforcement</Name>
+        <Description>The EMS shall maintain net grid import at the Serafeio site within the confirmed connection-point capacity at all times, adjusting charging profiles before the limit is reached.</Description>
+      </Requirement>
+      <Requirement uuid="b03b805c-6318-530d-b73b-3954dd09f1cd" id="R-GFR-02">
+        <Name>Upward and downward flexibility calculation</Name>
+        <Description>The EMS shall calculate available upward flexibility (additional charging absorbable from PV surplus) and downward flexibility (charging load that can be reduced) by 15-minute intervals, as the basis for KPI U06 measurement.</Description>
+      </Requirement>
+      <Requirement uuid="4230f754-32d0-5444-be4f-979f74ff30f0" id="R-GFR-06">
+        <Name>Emergency priority operation</Name>
+        <Description>During unplanned PV generation loss or grid supply reduction, the EMS shall reduce charging power equally across the active sessions to keep net grid import within the connection-point capacity.</Description>
+      </Requirement>
+      <Requirement uuid="d404151c-f4bf-5a62-af0e-39694dba255b" id="R-GFR-07">
+        <Name>Controlled restoration</Name>
+        <Description>After a constrained or load-shed event, the EMS shall restore charging power progressively to avoid rebound peaks and renewed grid limit violations.</Description>
+      </Requirement>
+      <Requirement uuid="8b7a3f3e-138b-5776-9252-580fd87e259b" id="R-GFR-08">
+        <Name>Flexibility delivery verification</Name>
+        <Description>The EMS shall compare requested load adjustment against measured EVSE response and calculate delivered power reduction or absorption for each control event, as input to KPI U06 and U12 computation.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-11">
+      <Name>Metering, Verification and KPI Reporting</Name>
+      <Description>Requirements providing grounds for operational and project outcome validation.</Description>
+      <Requirement uuid="2cba2817-09e7-5f16-8600-591f226591fb" id="R-MVR-01">
+        <Name>Connection-point metering</Name>
+        <Description>Net import/export at the Serafeio grid connection point shall be measured at a resolution suitable for KPI calculation and pilot performance reporting.</Description>
+      </Requirement>
+      <Requirement uuid="fe7de81f-bde9-552b-8390-f0b7b6e75247" id="R-MVR-02">
+        <Name>Asset-level sub-metering</Name>
+        <Description>Energy flows from the PV inverters, each EVSE and the DC charging station shall be measurable separately to support the assessment of PV energy delivered to EV charging, self-consumption and peak reduction KPIs.</Description>
+      </Requirement>
+      <Requirement uuid="d02dc5b1-8946-57ef-8da8-a92fcad87535" id="R-MVR-03">
+        <Name>Session metering</Name>
+        <Description>Each charging session shall record start and end meter values, energy transferred, timestamps and session identifier, as captured in Inf.1 via the CSMS.</Description>
+      </Requirement>
+      <Requirement uuid="c019b32f-1324-55e5-b41d-68b5e953ea7d" id="R-MVR-04">
+        <Name>Baseline calculation</Name>
+        <Description>A baseline for grid import, peak EV charging demand and PV energy not delivered to EV charging shall be established, as specified in the KPI methodology deliverables (D3.1, D5.1), to enable percentage-change KPI assessment (KPIs U06, U10, U11, U12, U13, U14, U15).</Description>
+      </Requirement>
+      <Requirement uuid="d7e0d281-62bd-5763-8576-f27a2c85227a" id="R-MVR-06">
+        <Name>KPI computation</Name>
+        <Description>The platform shall calculate all applicable GR pilot KPIs (U06, U10, U11, U12, U13, U14, U15) from measured operational data at the agreed assessment intervals.</Description>
+      </Requirement>
+      <Requirement uuid="44a5ecbb-fa95-5638-ae5f-6f753c410f4e" id="R-MVR-07">
+        <Name>Delivery report</Name>
+        <Description>The system shall generate periodic reports comparing planned and actual charging demand, PV generation, self-consumption and load modulation events for pilot monitoring and WP reporting.</Description>
+      </Requirement>
+      <Requirement uuid="5a70ae49-8816-5423-bfa4-7f705eadb5b5" id="R-MVR-08">
+        <Name>Exportable evidence package</Name>
+        <Description>Raw session data, PV generation records, EMS decisions, KPI results and algorithm parameters shall be exportable for pilot validation, project auditing and deliverable preparation.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-12">
+      <Name>Cybersecurity, Privacy and Access Control</Name>
+      <Description>Requirements ensuring secure and privacy-preserving access to services.</Description>
+      <Requirement uuid="75b48422-22c7-58ff-b024-55b554abffe8" id="R-CYB-01">
+        <Name>Strong authentication</Name>
+        <Description>Human users (DAEM operators and registered EMS Web Interface users), devices (EVSEs, inverters) and external systems (EMSP, Weather Service) shall authenticate before accessing EMS or CSMS functions.</Description>
+      </Requirement>
+      <Requirement uuid="78e24e9f-4617-5783-bcfa-32825b06fcb7" id="R-CYB-02">
+        <Name>Role-based authorisation</Name>
+        <Description>Access rights shall be differentiated by role: DAEM/CPO administrator (full management access), DAEM operator (monitoring and manual override), municipal and public users (own charging intents, sessions and tariff view only), and read-only monitoring access for the DAEM city network.</Description>
+      </Requirement>
+      <Requirement uuid="5116b7f3-089f-50d8-836c-ef12d851811e" id="R-CYB-03">
+        <Name>Encryption in transit</Name>
+        <Description>All communications crossing site, cloud or organisational boundaries — including EMS-CSMS, EMS-EMSP and the user connections to the EMS Web Interface — shall use appropriate encryption.</Description>
+      </Requirement>
+      <Requirement uuid="ea49beb2-2e2a-525b-a6f3-228ffae0fc49" id="R-CYB-04">
+        <Name>Command integrity and anti-replay</Name>
+        <Description>Smart charging profiles (Inf.7) dispatched by the EMS to the CSMS shall be protected against unauthorised modification and replay.</Description>
+      </Requirement>
+      <Requirement uuid="cdef2e55-b94f-568f-b074-969c47cc8448" id="R-CYB-05">
+        <Name>Security logging</Name>
+        <Description>Authentication events, EMS commands, configuration changes and security-relevant failures shall be logged and available for audit review.</Description>
+      </Requirement>
+      <Requirement uuid="5e49a8e9-ddc7-5c73-b126-e87b465a5011" id="R-CYB-06">
+        <Name>Personal-data minimisation</Name>
+        <Description>The platform shall collect and retain only the personal and session data necessary for charging service operation and pilot KPI assessment, with appropriate access and retention controls applied to municipal and public user data.</Description>
+      </Requirement>
+      <Requirement uuid="fd2b9b6b-e4c8-5479-9250-1fd0e799e3c5" id="R-CYB-07">
+        <Name>Secure software update</Name>
+        <Description>EMS platform components, CSMS and connected EVSE firmware shall support authenticated and integrity-checked updates.</Description>
+      </Requirement>
+      <Requirement uuid="ce238c2d-1f57-52e0-be9a-153f7adf60e8" id="R-CYB-08">
+        <Name>Cyber-safe fallback</Name>
+        <Description>Loss of authentication service or detected security violation shall trigger a defined safe operating mode — reverting to monitoring-only operation — without uncontrolled continuation of smart charging commands.</Description>
+      </Requirement>
+      <Requirement uuid="513c4309-9869-5fb2-af22-30b347caa052" id="R-CYB-09">
+        <Name>Credential and certificate management</Name>
+        <Description>API credentials, tokens and certificates used for EMS-CSMS, EMS-EMSP and EMS-inverter interfaces shall have controlled issuance, renewal and revocation procedures.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-13">
+      <Name>Safety, Fault Handling and Recovery</Name>
+      <Description>Requirements ensuring the control platform never overrides asset safety constraints.</Description>
+      <Requirement uuid="baeea6ab-a35c-531f-937d-ac08a653fc68" id="R-SAF-01">
+        <Name>Asset safety-envelope enforcement</Name>
+        <Description>No EMS or CSMS command shall exceed the rated power limits of any EVSE or the maximum output of the PV inverters at Serafeio.</Description>
+      </Requirement>
+      <Requirement uuid="cdf1d93e-cbad-57ce-b017-f8dd06370a1d" id="R-SAF-02">
+        <Name>Fault-state reporting</Name>
+        <Description>EVSEs and PV inverters shall report faults and communication failures with severity and timestamp; the EMS shall raise operator alerts accordingly.</Description>
+      </Requirement>
+      <Requirement uuid="17736c50-b433-5646-9ebc-b40d9f35fc87" id="R-SAF-03">
+        <Name>Automatic isolation of failed assets</Name>
+        <Description>A failed or unreachable EVSE or PV inverter shall be excluded from EMS optimisation and dispatch until it is confirmed as available and its data validated.</Description>
+      </Requirement>
+      <Requirement uuid="2e4ac1e1-d199-59ad-958b-ce377f17a45b" id="R-SAF-04">
+        <Name>Safe loss-of-control behaviour</Name>
+        <Description>On loss of EMS or CSMS connectivity, each EVSE shall transition to a defined local fallback state — either continuing at its last confirmed power limit or stopping safely — without waiting for EMS commands.</Description>
+      </Requirement>
+      <Requirement uuid="ceadcc0d-24f2-51a0-a51e-e25b87ab2bc0" id="R-SAF-05">
+        <Name>Manual override</Name>
+        <Description>Authorised DAEM operators shall be able to stop, curtail or override EMS-controlled charging sessions during abnormal conditions via the CSMS operator interface.</Description>
+      </Requirement>
+      <Requirement uuid="03f59d0d-ed00-5beb-aee4-a83a228ab9b6" id="R-SAF-06">
+        <Name>Recovery validation</Name>
+        <Description>Following a communication outage or asset fault, the EMS shall verify current session data, EVSE status and PV inverter output before resuming optimised control.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-14">
+      <Name>User Interfaces, Pricing and Participation Management</Name>
+      <Description>Requirements to ensure intuitive user interfaces, transparent pricing and participation management.</Description>
+      <Requirement uuid="89052988-5f77-5c6c-a91d-3f22776623d5" id="R-UI-01">
+        <Name>Operator dashboard</Name>
+        <Description>The CSMS platform shall provide DAEM/CPO operators with current EVSE status, active session data and alarms across both Serafeio and the DAEM city network charging points, together with the active charging intents and Green Window schedule for Serafeio.</Description>
+      </Requirement>
+      <Requirement uuid="acbcb722-e8d0-5b73-9587-c1d0d9b74cd0" id="R-UI-02">
+        <Name>Charging-user interface</Name>
+        <Description>The EMS Web Interface shall allow municipal and public users to view charger availability, current pricing, active Green Window intervals and their session status, and to submit charging intents.</Description>
+      </Requirement>
+      <Requirement uuid="7436a036-e748-564d-a26c-9c7532abe329" id="R-UI-03">
+        <Name>Transparent price presentation</Name>
+        <Description>Green Window discounted tariffs (Inf.5) shall be displayed to municipal and public users through the EMS Web Interface before session start, with applicable conditions and validity window clearly stated.</Description>
+      </Requirement>
+      <Requirement uuid="d6bf516e-62fe-589a-84c1-903f14cc20ff" id="R-UI-04">
+        <Name>Participation consent record</Name>
+        <Description>The system shall record user acceptance or non-acceptance of Green Window pricing offers with user/session identifier and timestamp (see Inf.6, SUC-GR-01.2).</Description>
+      </Requirement>
+      <Requirement uuid="3bbf8881-e871-5dca-a540-b35fdb995e36" id="R-UI-05">
+        <Name>Operator alarm notification</Name>
+        <Description>DAEM operators shall receive timely notifications of EVSE faults, communication loss with the EMS or PV inverters, failed or late setpoint execution, and data staleness events.</Description>
+      </Requirement>
+      <Requirement uuid="f5065326-a164-539c-b7f5-56f3c1ef5153" id="R-UI-08">
+        <Name>User privacy notice</Name>
+        <Description>The EMS Web Interface and EMSP platform shall communicate to municipal and public users what charging and participation data are collected and for what purpose, in compliance with applicable data protection requirements.</Description>
+      </Requirement>
+    </RequirementCategory>
+  </RequirementList>
+</IEC62559UseCaseArtefacts>

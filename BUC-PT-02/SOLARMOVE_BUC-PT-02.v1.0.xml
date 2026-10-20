@@ -1,0 +1,866 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  SOLAR-MOVE | BUC-PT-02 | Manual Frequency Restoration Reserve (mFRR) Provision by a Multi-Asset Prosumer Facility via VPP Aggregation
+  IEC 62559-3-STYLE serialization (DRAFT).
+  Structure & field vocabulary aligned to the IEC 62559-2 template as rendered by the
+  Sparx Enterprise Architect / MODSARUS toolchain (reference: the public 'Smart Grid Use
+  Cases' renderings of the BRIDGE EDF/Elering use cases).
+  NOTE: element names are indicative; this file is NOT validated against the normative
+  IEC 62559-3 XSD. UUIDs are deterministic (uuid5) placeholders, not repository-assigned.
+  Source: SOLARMOVE_BUC-PT-02.docx
+-->
+<IEC62559UseCaseArtefacts profile="IEC 62559-3-style, aligned to the IEC 62559-2 template as rendered by the Sparx EA / MODSARUS toolchain" status="DRAFT - not validated against the normative IEC 62559-3 XSD" basedOnTemplate="IEC 62559-2:2015" generatedFrom="SOLARMOVE_BUC-PT-02.docx" namespaceNote="urn:solarmove:iec62559-3-style:v0">
+  <UseCase uuid="c194226a-aefe-5325-8743-ff1a3a5978ec" id="BUC-PT-02" version="1.0">
+    <UseCaseIdentification>
+      <ID>BUC-PT-02</ID>
+      <Name>Manual Frequency Restoration Reserve (mFRR) Provision by a Multi-Asset Prosumer Facility via VPP Aggregation</Name>
+      <Area>Energy System</Area>
+      <Domains>Customer Premises, Transmission</Domains>
+      <Zones>Process, Field, Station, Operation, Enterprise, Market</Zones>
+    </UseCaseIdentification>
+    <VersionControl>
+      <Version number="1.0">
+        <Date>20.10.2026</Date>
+        <Author>Alexandre Bento (INESC-ID)</Author>
+        <Changes>First public version</Changes>
+        <ApprovalStatus/>
+      </Version>
+    </VersionControl>
+    <ScopeAndObjectives>
+      <Scope>
+        <Paragraph>This use case covers the participation of an ePIPV facility (comprising BESS, EV charging infrastructure, PV generation, and non-flexible facility loads) in the mFRR balancing service market managed by the TSO. The facility offers both upward and downward regulation capacity through a VPP/Aggregator acting as BSP. It covers the day-ahead capacity assessment and procurement process, the real-time activation event triggered by the TSO through the balancing activation platform, and the coordinated multi-asset response executed by the Facility EMS. The use case is supported by four System Use Cases: SUC-PT-02.1 (mFRR Capacity Assessment and Optimisation), SUC-PT-02.2 (mFRR Market Bidding and Contract Management), SUC-PT-02.3 (Real-Time EMS Execution), and SUC-PT-02.4 (Settlement).</Paragraph>
+      </Scope>
+      <Objectives>
+        <Objective>Generate revenue for the ePIPV Site Owner by offering mFRR capacity to the TSO through the VPP/Aggregator, covering both capacity availability remuneration and energy activation remuneration. Demonstrate the technical capability of a mixed asset portfolio (BESS, EV charging, and PV) to deliver a coordinated frequency restoration response in both upward and downward regulation directions. Demonstrate that a multi-asset prosumer facility can reliably maintain asset readiness during contracted delivery periods and meet mandatory response time requirements upon activation.</Objective>
+      </Objectives>
+      <RelatedBusinessCases/>
+    </ScopeAndObjectives>
+    <Narrative>
+      <ShortDescription>
+        <Paragraph>The ePIPV facility offers mFRR capacity to the TSO through a VPP/Aggregator registered as BSP. Day-ahead, the Facility EMS determines the available regulation capacity that can be committed for each 15-minute slot and communicates it to the VPP/Aggregator, which submits a capacity bid to the TSO's mFRR capacity market. If awarded, the facility stands ready to activate during the contracted delivery period. Upon receiving an activation signal from the TSO, the VPP/Aggregator forwards the order to the Facility EMS, which immediately coordinates the response across all available assets by modulating BESS, EV charging, and PV generation curtailment in the direction and magnitude required within the mandatory response time.</Paragraph>
+      </ShortDescription>
+      <CompleteDescription>
+        <Paragraph>The ePIPV Site Owner operates a facility with a portfolio of assets capable of delivering power regulation in both directions. For upward regulation, the facility can discharge the BESS, reduce or pause EV charging sessions, and reduce or remove any existing PV generation curtailment, thereby increasing PV output and effectively reducing net consumption or increasing net injection. For downward regulation, the facility can charge the BESS at increased rate, raise EV charging power, and apply or increase PV generation curtailment, thereby decreasing PV output. The facility participates in the mFRR market through a VPP/Aggregator registered as BSP with the TSO, whose Offer Area encompasses the facility's assets aggregated within the VPP/Aggregator's BSP portfolio.</Paragraph>
+        <Paragraph>On the day before delivery (D-1), the Facility EMS assesses the available mFRR capacity for each 15-minute slot of the following day. This assessment takes into account forecast building load profiles, expected PV generation, projected BESS state-of-charge trajectory, and the probability distributions of EV availability derived from CPO historical data. For each slot and each regulation direction, the Facility EMS computes the maximum activatable power. This available capacity profile is communicated to the VPP/Aggregator, which aggregates it with capacity from other sites in its portfolio and submits a combined capacity bid to the TSO's mFRR capacity market before the relevant gate closure. The TSO evaluates submitted bids, clears the capacity market, and awards contracts for the delivery day. The VPP/Aggregator communicates the awarded capacity and contracted delivery periods back to the Facility EMS.</Paragraph>
+        <Paragraph>The Facility EMS uses the awarded schedule to determine which periods require readiness, and enters a state of readiness for those periods, maintaining the contracted assets within the bounds required to guarantee activatability, ensuring BESS state-of-charge is within the range needed to respond, and that scheduled EV departures do not conflict with the activation window. During the contracted delivery period, the TSO monitors system frequency and balance. If a balancing need arises, the TSO issues an activation order specifying direction, power magnitude, and duration. Activation orders can be of two types: scheduled activations, planned for a specific upcoming 15-minute slot and communicated to the BSP at least 10 minutes before delivery; and direct activations, issued immediately in response to unexpected unavailability of other balancing resources. In both cases, the order is transmitted through the balancing activation platform to the VPP/Aggregator, which immediately forwards it to the Facility EMS.</Paragraph>
+        <Paragraph>The Facility EMS executes the activation by coordinating the response across available assets: for upward regulation it prioritises BESS discharge, reduces or pauses EV charging sessions in progress, and removes any existing PV generation curtailment to increase PV output; for downward regulation it charges the BESS at increased rate, raises EV charging setpoints, and applies or increases PV generation curtailment to reduce PV output. The combination and sequencing of assets is determined by the Facility EMS to meet the required power and duration within the mandatory response time (a maximum 12.5-minute preparation period and a maximum 12.5-minute ramping period, per the standardised European mFRR product). The Facility EMS confirms activation to the VPP/Aggregator, which reports delivery to the TSO. Following the activation, the Facility EMS manages the recovery of each asset to its pre-activation or operationally preferred state, subject to any continuation instructions from the TSO.</Paragraph>
+        <Paragraph>At the end of the settlement period, the TSO aggregates activation records and delivery data, verifies the delivered activation against the contracted commitment, and computes the settlement, comprising a capacity remuneration for the contracted availability during the delivery period (EUR/MW/h), and an energy remuneration for the power actually delivered during any activation events (EUR/MWh). The VPP/Aggregator receives the settlement, acknowledges it, and allocates both components to the ePIPV Site Owner according to the aggregation agreement, which acknowledges receipt.</Paragraph>
+      </CompleteDescription>
+    </Narrative>
+    <KeyPerformanceIndicators>
+      <KPI uuid="1e3d89a1-1c65-5b30-8467-afe68f8d36de" id="U04">
+        <Name>Operation Cost (ePIPV)</Name>
+        <Description>Reduction of the facility operating cost through mFRR capacity and activation remuneration and coordinated multi-asset operation. Target: reduce &gt;=25% vs non-optimal</Description>
+        <ReferenceToObjectives>Objective 1</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="e5f8a151-a1bd-5bc3-8847-c9911b818188" id="U05">
+        <Name>Flexibility Participation (Operation)</Name>
+        <Description>Increase of the flexibility the facility actually offers and delivers to the market, through contracted mFRR capacity and delivered activations. Target: increase &gt;=100%</Description>
+        <ReferenceToObjectives>Objectives 1 and 2</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="48a08305-f5fb-5a1d-a019-dd75e52f85ba" id="U06">
+        <Name>Flexibility Potential</Name>
+        <Description>Increase of the flexible power and energy capacity the facility can offer, by coordinating BESS, EV charging and PV curtailment. Target: increase &gt;=25%</Description>
+        <ReferenceToObjectives>Objectives 2 and 3</ReferenceToObjectives>
+      </KPI>
+      <KPI uuid="951beb00-efe2-578b-907a-863fa0acbd41" id="U07">
+        <Name>Constraints Violation Occurrence</Name>
+        <Description>Decrease of the occurrences of asset, grid-connection or EV-user constraint violations during mFRR readiness and activation periods. Target: decrease &gt;=15%</Description>
+        <ReferenceToObjectives>Objective 3</ReferenceToObjectives>
+      </KPI>
+    </KeyPerformanceIndicators>
+    <UseCaseConditions>
+      <Assumptions>
+        <Assumption>The ePIPV facility comprises PV generation, BESS, non-flexible commercial facility loads, and EV charging infrastructure, all monitored and controlled by a Facility EMS capable of adjusting the operation of each asset in real time.</Assumption>
+        <Assumption>The ePIPV facility has access to a VPP/Aggregator that aggregates the facility's flexibility capacity within a broader portfolio for mFRR market participation as BSP.</Assumption>
+        <Assumption>EV users accept that their charging sessions may be subject to modulation during contracted mFRR delivery periods within bounds that guarantee delivery of their minimum energy requirement by departure time.</Assumption>
+        <Assumption>The capacity offered to this market is determined jointly with the facility's other market commitments (day-ahead spot market participation via BUC-PT-01, DSO flexibility market via BUC-PT-03) within a single EMS optimisation run that maximises overall facility revenue across all available market channels.</Assumption>
+        <Assumption>mFRR Band capacity is contracted in Portugal through two parallel products: a monthly-maturity auction (operational since January 2024) and a newer daily-maturity auction introduced by ERSE in September 2025 specifically to enable storage and renewables participation. This BUC targets the daily mFRR Band product, consistent with the facility's BESS-centric flexibility profile.</Assumption>
+      </Assumptions>
+      <Prerequisites>
+        <Prerequisite>The Facility EMS receives real-time data from all facility assets (PV generation, BESS state-of-charge, EV charging sessions, non-flexible load measurements).</Prerequisite>
+        <Prerequisite>Reliable bi-directional communication exists between the local Facility EMS, the VPP/Aggregator platform, and the TSO balancing activation platform, meeting the minimum availability requirements defined by the TSO.</Prerequisite>
+        <Prerequisite>A contractual aggregation agreement exists between the ePIPV Site Owner and the VPP / Aggregator BSP.</Prerequisite>
+        <Prerequisite>The VPP / Aggregator BSP holds a valid BSP registration with the TSO and its Offer Area has passed the TSO qualification test.</Prerequisite>
+        <Prerequisite>The EV charging infrastructure supports smart charging (dynamic power setpoint modulation via a charging management protocol), allowing the Facility EMS to adjust individual session charging rates in real time.</Prerequisite>
+      </Prerequisites>
+    </UseCaseConditions>
+    <ClassificationInformation>
+      <RelationToOtherUseCases>This BUC's day-ahead capacity assessment (SUC-PT-02.1) shares a single EMS optimisation run with BUC-PT-01 (day-ahead spot market participation) and BUC-PT-03 (DSO flexibility market), which jointly determine how facility flexibility is allocated across market channels to maximise total revenue.</RelationToOtherUseCases>
+      <LevelOfDepth>Business use case, detailed down to system use cases (SUC-PT-02.1 to SUC-PT-02.4) and their step-by-step sequences.</LevelOfDepth>
+      <Prioritisation>High. Demonstrates the provision of an ancillary service (mFRR) by a multi-asset prosumer facility, evaluated on both AC and DC infrastructure at the INESC-ID laboratory.</Prioritisation>
+      <GenericRegionalNationalRelation>The Portuguese pilot executes this BUC as a parallel comparison between AC infrastructure, tested as Hardware-in-the-Loop against a Digital Twin of the Continente facilities, and DC infrastructure, physically emulated as Power-Hardware-in-the-Loop at the INESC-ID laboratory. This comparison produces two infrastructure-level indicators, PT-KPI-01 (AC/DC Infrastructure Energy Efficiency) and PT-KPI-02 (DC vs AC Flexibility Capacity Advantage), which compare the two architectures rather than measure the objectives of this BUC. This methodology is specific to the Portuguese pilot's dual-infrastructure design and does not affect the BUC's applicability to a single-infrastructure deployment elsewhere.</GenericRegionalNationalRelation>
+      <NatureOfUseCase>Business use case (market process).</NatureOfUseCase>
+      <FurtherKeywords>mFRR, balancing services, VPP, aggregation, BESS, EV charging, PV curtailment, TSO.</FurtherKeywords>
+    </ClassificationInformation>
+    <GeneralRemarks>
+      <Paragraph>This BUC is evaluated at the INESC-ID laboratory, which has the capability of testing and emulating both AC and DC infrastructures, using a downscaled replica of the commercial facility. The ePIPV facility, comprising PV, BESS, EV charging and non-flexible commercial loads, is managed by a Facility EMS that assesses the available mFRR capacity day-ahead. A VPP / Aggregator BSP bids this capacity to the TSO and forwards activation orders received through the balancing activation platform. The features tested are the day-ahead capacity assessment and bidding, readiness maintenance, the coordinated multi-asset activation response, and settlement. The actors involved are the ePIPV Site Owner, the VPP / Aggregator BSP, the TSO, the Facility EMS and the Balancing Activation Platform.</Paragraph>
+    </GeneralRemarks>
+    <Diagrams>
+      <Diagram number="Figure 1" type="Use case diagram">
+        <Caption>BUC-PT-02 — Manual Frequency Restoration Reserve (mFRR) Provision by a Multi-Asset Prosumer Facility via VPP Aggregation (use case diagram)</Caption>
+        <ImageReference>images/fig1-buc-pt-02-use-case-diagram.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 2" type="Sequence diagram">
+        <Caption>SUC-PT-02.1 — mFRR Capacity Assessment and Optimisation (sequence diagram)</Caption>
+        <ImageReference>images/fig2-suc-pt-02.1-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 3" type="Sequence diagram">
+        <Caption>SUC-PT-02.2 — mFRR Market Bidding and Contract Management (sequence diagram)</Caption>
+        <ImageReference>images/fig3-suc-pt-02.2-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 4" type="Sequence diagram">
+        <Caption>SUC-PT-02.3 — Real-Time EMS Execution (sequence diagram)</Caption>
+        <ImageReference>images/fig4-suc-pt-02.3-sequence.png</ImageReference>
+      </Diagram>
+      <Diagram number="Figure 5" type="Sequence diagram">
+        <Caption>SUC-PT-02.4 — Settlement (sequence diagram)</Caption>
+        <ImageReference>images/fig5-suc-pt-02.4-sequence.png</ImageReference>
+      </Diagram>
+    </Diagrams>
+    <References>
+      <Reference number="1">
+        <Type>Regulation</Type>
+        <Description>Manual de Procedimentos da Gestão Global do Sistema (MPGGS), approved by ERSE Diretiva n.º 9/2025 (11.09.2025), specifically:  • Capítulo XVI (Banda Diária de mFRR, Art. 181.º–193.º) • Capítulo XVII (Energia de mFRR, Art. 194.º–221.º) • Capítulo XX (Produto Específico de Banda de mFRR, Art. 248.º–271.º) • Capítulo XXVII (Procedimentos de Liquidação, Art. 334.º–419.º)</Description>
+        <Status>Current</Status>
+        <ImpactOnUseCase>Defines the mFRR Band auction rules (offer submission, contracting algorithm, settlement) modelled in SUC-PT-02.1 to SUC-PT-02.4</ImpactOnUseCase>
+        <Originator>ERSE</Originator>
+        <Link>https://www.erse.pt/media/q10chfti/mpggs_articulado-250911.pdf</Link>
+      </Reference>
+    </References>
+    <StepByStepAnalysis>
+      <ScenariosOverview>
+        <ScenarioOverview number="1">
+          <ScenarioName>mFRR Capacity Assessment and Optimisation (SUC-PT-02.1)</ScenarioName>
+          <ScenarioDescription>The Facility EMS backend computes load, PV, EV availability, and BESS SoC trajectory forecasts and computes available mFRR capacity per 15-min slot and direction.</ScenarioDescription>
+          <PrimaryActor>Facility EMS</PrimaryActor>
+          <TriggeringEvent>D-1 daily optimisation cycle</TriggeringEvent>
+          <PreCondition>Facility EMS has access to historical and real-time data required for forecasting</PreCondition>
+          <PostCondition>A capacity profile (MW per slot, per direction) is ready for bidding</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="2">
+          <ScenarioName>mFRR Market Bidding and Contract Management (SUC-PT-02.2)</ScenarioName>
+          <ScenarioDescription>The VPP / Aggregator BSP aggregates the facility's capacity into its portfolio, bids into the day-ahead mFRR capacity market, and the awarded contract is confirmed back to the Facility EMS.</ScenarioDescription>
+          <PrimaryActor>VPP / Aggregator BSP</PrimaryActor>
+          <TriggeringEvent>mFRR capacity market gate closure</TriggeringEvent>
+          <PreCondition>Capacity profile from SUC-PT-02.1 is available</PreCondition>
+          <PostCondition>Contracted capacity and delivery periods confirmed at the Facility EMS</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="3">
+          <ScenarioName>Real-Time EMS Execution (SUC-PT-02.3)</ScenarioName>
+          <ScenarioDescription>The Facility EMS loads the contracted schedule, maintains asset readiness through the contracted delivery period, and upon receiving an activation order executes a coordinated multi-asset response and reports delivery.</ScenarioDescription>
+          <PrimaryActor>Facility EMS</PrimaryActor>
+          <TriggeringEvent>Start of contracted delivery period / TSO activation order</TriggeringEvent>
+          <PreCondition>Contracted capacity and delivery periods have been confirmed (SUC-PT-02.2)</PreCondition>
+          <PostCondition>Activation delivered and confirmed; assets recovered to pre-activation state</PostCondition>
+        </ScenarioOverview>
+        <ScenarioOverview number="4">
+          <ScenarioName>Settlement (SUC-PT-02.4)</ScenarioName>
+          <ScenarioDescription>The TSO verifies delivered activation against the contracted commitment and issues settlement; the VPP / Aggregator BSP allocates remuneration to the ePIPV Site Owner.</ScenarioDescription>
+          <PrimaryActor>VPP / Aggregator BSP</PrimaryActor>
+          <TriggeringEvent>Periodic settlement cycle</TriggeringEvent>
+          <PreCondition>Activation deliveries for the settlement period are confirmed and recorded</PreCondition>
+          <PostCondition>Remuneration allocated to the ePIPV Site Owner</PostCondition>
+        </ScenarioOverview>
+      </ScenariosOverview>
+      <Scenarios>
+        <Scenario name="4.2.1 mFRR Capacity Assessment and Optimisation (SUC-PT-02.1)">
+          <Step number="1.1">
+            <Event>D-1 optimisation cycle starts</Event>
+            <NameOfProcessActivity>Compute load forecast</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS backend computes building load forecast for the next 24h in 15-min slots.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-02</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.2">
+            <Event>Load forecast ready</Event>
+            <NameOfProcessActivity>Compute PV generation forecast</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS backend computes PV generation forecast for the next 24h in 15-min slots, fed by a solar irradiance/production API.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-01</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.3">
+            <Event>PV forecast ready</Event>
+            <NameOfProcessActivity>Compute EV availability forecast</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS backend computes EV arrival/departure probability distributions from historical CPO session data.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-FOR-03</RID>
+              <RID>R-DAT-01</RID>
+              <RID>R-DAT-05</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.4">
+            <Event>EV forecast ready</Event>
+            <NameOfProcessActivity>Compute BESS state-of-charge trajectory</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS backend projects the BESS state-of-charge trajectory for the next 24h from the current SoC and the day's expected operating profile.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-06</RID>
+              <RID>R-AIC-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="1.5">
+            <Event>All forecasts compiled</Event>
+            <NameOfProcessActivity>Compute available capacity</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS computes available mFRR capacity per 15-min slot, per direction, from the combined inputs.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>Inf.1</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-06</RID>
+              <RID>R-FOR-05</RID>
+              <RID>R-GFR-02</RID>
+              <RID>R-GFR-03</RID>
+              <RID>R-GFR-04</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.2 mFRR Market Bidding and Contract Management (SUC-PT-02.2)">
+          <Step number="2.1">
+            <Event>Capacity profile ready</Event>
+            <NameOfProcessActivity>Communicate capacity profile</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS communicates available capacity profile and activation constraints.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>VPP / Aggregator BSP</InformationReceiver>
+            <InformationExchanged>Inf.1</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-01</RID>
+              <RID>R-COM-07</RID>
+              <RID>R-CYB-01</RID>
+              <RID>R-CYB-03</RID>
+              <RID>R-AIC-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.2">
+            <Event>Capacity profile received</Event>
+            <NameOfProcessActivity>Aggregate and bid</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>VPP / Aggregator BSP aggregates facility capacity with portfolio; submits combined capacity bid before gate closure.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>VPP / Aggregator BSP</InformationProducer>
+            <InformationReceiver>TSO</InformationReceiver>
+            <InformationExchanged>Inf.2</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-04</RID>
+              <RID>R-EMS-07</RID>
+              <RID>R-COM-07</RID>
+              <RID>R-INT-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.3">
+            <Event>Gate closure reached</Event>
+            <NameOfProcessActivity>Market clearing</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>TSO clears capacity market; communicates awarded capacity and contracted delivery periods.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>TSO</InformationProducer>
+            <InformationReceiver>VPP / Aggregator BSP</InformationReceiver>
+            <InformationExchanged>Inf.3</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-03</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-CYB-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="2.4">
+            <Event>Capacity market cleared</Event>
+            <NameOfProcessActivity>Forward contract</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>VPP / Aggregator BSP forwards awarded capacity contract and contracted delivery periods.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>VPP / Aggregator BSP</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>Inf.3</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-03</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-COM-03</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.3 Real-Time EMS Execution (SUC-PT-02.3)">
+          <Step number="3.1">
+            <Event>Contract confirmed</Event>
+            <NameOfProcessActivity>Load contracted schedule</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS receives the awarded capacity contract and contracted delivery periods (from SUC-PT-02.2) and determines which periods require readiness.</DescriptionOfProcessActivity>
+            <Service>GET</Service>
+            <InformationProducer>VPP / Aggregator BSP</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>Inf.3</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-03</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-COM-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.2">
+            <Event>Contracted schedule loaded</Event>
+            <NameOfProcessActivity>Enter readiness state</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS enters readiness state for the identified periods: manages BESS SoC within activation range, monitors EV departure schedules.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-08</RID>
+              <RID>R-GFR-03</RID>
+              <RID>R-RTC-01</RID>
+              <RID>R-SAF-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.3">
+            <Event>Delivery period active</Event>
+            <NameOfProcessActivity>Issue activation order</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>During the contracted delivery period, TSO issues an activation order specifying type, direction, power magnitude, and duration.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>TSO</InformationProducer>
+            <InformationReceiver>Balancing Activation Platform</InformationReceiver>
+            <InformationExchanged>Inf.4</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-05</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-CYB-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.4">
+            <Event>Activation order issued</Event>
+            <NameOfProcessActivity>Route activation order</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Balancing Activation Platform routes the activation order to the BSP.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>Balancing Activation Platform</InformationProducer>
+            <InformationReceiver>VPP / Aggregator BSP</InformationReceiver>
+            <InformationExchanged>Inf.4</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-05</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-COM-04</RID>
+              <RID>R-CYB-04</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.5">
+            <Event>Activation order routed</Event>
+            <NameOfProcessActivity>Forward activation order</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>VPP / Aggregator BSP forwards the activation order to the Facility EMS.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>VPP / Aggregator BSP</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>Inf.4</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-05</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-COM-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.6">
+            <Event>Activation order received</Event>
+            <NameOfProcessActivity>Execute coordinated response</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS executes the response within the mandatory response time. Upward regulation: discharges BESS, reduces EV charging, removes PV curtailment. Downward regulation: charges BESS, increases EV charging rate, curtails PV.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-EMS-02</RID>
+              <RID>R-EMS-04</RID>
+              <RID>R-SC-03</RID>
+              <RID>R-RTC-01</RID>
+              <RID>R-RTC-02</RID>
+              <RID>R-RTC-05</RID>
+              <RID>R-RTC-06</RID>
+              <RID>R-SAF-01</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.7">
+            <Event>Response executed</Event>
+            <NameOfProcessActivity>Confirm activation delivery</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS confirms activation delivery: actual power delivered, assets mobilised, timestamps.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>VPP / Aggregator BSP</InformationReceiver>
+            <InformationExchanged>Inf.5</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-RTC-06</RID>
+              <RID>R-RTC-08</RID>
+              <RID>R-GFR-08</RID>
+              <RID>R-MVR-01</RID>
+              <RID>R-DAT-02</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.8">
+            <Event>Delivery confirmed</Event>
+            <NameOfProcessActivity>Report activation delivery</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>VPP / Aggregator BSP reports activation delivery.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>VPP / Aggregator BSP</InformationProducer>
+            <InformationReceiver>TSO</InformationReceiver>
+            <InformationExchanged>Inf.5</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-01</RID>
+              <RID>R-COM-03</RID>
+              <RID>R-MVR-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="3.9">
+            <Event>Activation completed</Event>
+            <NameOfProcessActivity>Post-activation recovery</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>Facility EMS manages asset recovery to pre-activation or operationally preferred state.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>Facility EMS</InformationProducer>
+            <InformationReceiver>Facility EMS</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-SAF-06</RID>
+              <RID>R-EMS-08</RID>
+              <RID>R-RTC-07</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+        <Scenario name="4.2.4 Settlement (SUC-PT-02.4)">
+          <Step number="4.1">
+            <Event>Settlement cycle starts</Event>
+            <NameOfProcessActivity>Aggregate activation records</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>TSO aggregates activation records and delivery data for the settlement period.</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>TSO</InformationProducer>
+            <InformationReceiver>TSO</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MVR-01</RID>
+              <RID>R-MVR-06</RID>
+              <RID>R-DAT-06</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4.2">
+            <Event>Activation records aggregated</Event>
+            <NameOfProcessActivity>Verify delivered activation</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>TSO verifies delivered activation against the contracted commitment.</DescriptionOfProcessActivity>
+            <Service>EXECUTE</Service>
+            <InformationProducer>TSO</InformationProducer>
+            <InformationReceiver>TSO</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MVR-04</RID>
+              <RID>R-MVR-05</RID>
+              <RID>R-GFR-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4.3">
+            <Event>Delivery verified</Event>
+            <NameOfProcessActivity>Compute remuneration</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>TSO computes capacity remuneration (EUR/MW/h) and energy remuneration (EUR/MWh).</DescriptionOfProcessActivity>
+            <Service>CREATE</Service>
+            <InformationProducer>TSO</InformationProducer>
+            <InformationReceiver>TSO</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MVR-05</RID>
+              <RID>R-MKT-08</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4.4">
+            <Event>Remuneration computed</Event>
+            <NameOfProcessActivity>Issue settlement</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>TSO issues settlement to the VPP / Aggregator BSP.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>TSO</InformationProducer>
+            <InformationReceiver>VPP / Aggregator BSP</InformationReceiver>
+            <InformationExchanged>Inf.6</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-08</RID>
+              <RID>R-COM-01</RID>
+              <RID>R-CYB-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4.5">
+            <Event>Settlement received</Event>
+            <NameOfProcessActivity>Acknowledge settlement</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>VPP / Aggregator BSP acknowledges settlement receipt.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>VPP / Aggregator BSP</InformationProducer>
+            <InformationReceiver>TSO</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-03</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4.6">
+            <Event>Settlement acknowledged</Event>
+            <NameOfProcessActivity>Allocate remuneration</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>VPP / Aggregator BSP allocates remuneration to the ePIPV Site Owner per the aggregation agreement.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>VPP / Aggregator BSP</InformationProducer>
+            <InformationReceiver>ePIPV Site Owner</InformationReceiver>
+            <InformationExchanged>Inf.6</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-MKT-08</RID>
+              <RID>R-MVR-07</RID>
+            </RequirementReferences>
+          </Step>
+          <Step number="4.7">
+            <Event>Remuneration allocated</Event>
+            <NameOfProcessActivity>Acknowledge remuneration</NameOfProcessActivity>
+            <DescriptionOfProcessActivity>ePIPV Site Owner acknowledges receipt of remuneration.</DescriptionOfProcessActivity>
+            <Service>REPORT</Service>
+            <InformationProducer>ePIPV Site Owner</InformationProducer>
+            <InformationReceiver>VPP / Aggregator BSP</InformationReceiver>
+            <InformationExchanged>–</InformationExchanged>
+            <RequirementReferences>
+              <RID>R-COM-03</RID>
+            </RequirementReferences>
+          </Step>
+        </Scenario>
+      </Scenarios>
+    </StepByStepAnalysis>
+    <InformationExchanged>
+      <Information uuid="03a7f156-719a-50f8-bd08-fc7e52965ade" id="Inf.1">
+        <Name>Capacity availability profile</Name>
+        <Description>Time series per 15-min slot: available upward capacity (MW), available downward capacity (MW), activation constraints</Description>
+        <RequirementReferences>
+          <RID>R-EMS-06</RID>
+          <RID>R-GFR-02</RID>
+          <RID>R-DAT-03</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="ec76bea2-078c-525a-b909-8ba0cae8d950" id="Inf.2">
+        <Name>mFRR capacity bid</Name>
+        <Description>Bid ID, direction (up/down), quantity (MW) per slot, price (EUR/MW/h), portfolio composition reference</Description>
+        <RequirementReferences>
+          <RID>R-MKT-04</RID>
+          <RID>R-INT-07</RID>
+          <RID>R-CYB-01</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="c79f46c6-74d9-5d56-99c5-2a9c34fe260a" id="Inf.3">
+        <Name>mFRR capacity contract award</Name>
+        <Description>Contract ID, awarded capacity (MW) per slot/direction, contracted delivery periods (start/end timestamps), cleared capacity price (EUR/MW/h)</Description>
+        <RequirementReferences>
+          <RID>R-MKT-03</RID>
+          <RID>R-CYB-04</RID>
+          <RID>R-DAT-03</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="99ae0433-f8d5-54da-8516-e48032787137" id="Inf.4">
+        <Name>Activation order</Name>
+        <Description>Order ID, type (scheduled/direct), direction (up/down), power magnitude (MW), duration, mandatory response time</Description>
+        <RequirementReferences>
+          <RID>R-MKT-05</RID>
+          <RID>R-RTC-05</RID>
+          <RID>R-CYB-04</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="fdb10ca9-cc42-5be8-8dba-72295bbcfd1e" id="Inf.5">
+        <Name>Activation delivery confirmation</Name>
+        <Description>Order ID reference, actual power delivered (MW) per timestep, assets mobilised (BESS/EV/PV), delivery timestamps</Description>
+        <RequirementReferences>
+          <RID>R-MVR-01</RID>
+          <RID>R-GFR-08</RID>
+          <RID>R-DAT-02</RID>
+        </RequirementReferences>
+      </Information>
+      <Information uuid="22cde84e-d795-53c5-a482-79b93a3d4ffb" id="Inf.6">
+        <Name>mFRR settlement result</Name>
+        <Description>Settlement period, capacity remuneration (EUR/MW/h), energy remuneration (EUR/MWh), total delivered energy (MWh)</Description>
+        <RequirementReferences>
+          <RID>R-MVR-04</RID>
+          <RID>R-MKT-08</RID>
+          <RID>R-MVR-05</RID>
+        </RequirementReferences>
+      </Information>
+    </InformationExchanged>
+    <CommonTermsAndDefinitions/>
+  </UseCase>
+  <ActorList>
+    <Actor uuid="900d78cc-47f0-5063-80bb-f7832c6b47a1">
+      <Name>ePIPV Site Owner</Name>
+      <Type>Business</Type>
+      <Description>Entity that owns and operates the ePIPV facility and its distributed energy resources, and contractually delegates mFRR market participation to the VPP / Aggregator BSP</Description>
+      <FurtherInformation>SONAE MC</FurtherInformation>
+    </Actor>
+    <Actor uuid="be9291b3-c06f-5af8-a624-dbec81e46e27">
+      <Name>VPP / Aggregator BSP</Name>
+      <Type>Business</Type>
+      <Description>Party that aggregates the facility's flexibility capacity within a broader portfolio, submits capacity bids to the TSO, forwards activation orders to the Facility EMS, reports delivery, and manages settlement</Description>
+      <FurtherInformation>Elergone</FurtherInformation>
+    </Actor>
+    <Actor uuid="8081c534-e4bf-5c36-806a-d1953aefa27f">
+      <Name>TSO</Name>
+      <Type>Business</Type>
+      <Description>Party that procures mFRR capacity day-ahead, issues activation orders during contracted delivery periods, verifies delivered service, and issues settlement</Description>
+      <FurtherInformation>REN</FurtherInformation>
+    </Actor>
+    <Actor uuid="2811bc1e-dfd0-5c63-a726-68663ef033f8">
+      <Name>Facility EMS</Name>
+      <Type>System</Type>
+      <Description>System that monitors and controls all facility assets, assesses available mFRR capacity day-ahead, maintains asset readiness during contracted periods, and executes the coordinated multi-asset activation response upon receiving an activation order</Description>
+      <FurtherInformation>INESC-ID</FurtherInformation>
+    </Actor>
+    <Actor uuid="6538e0e1-60a5-5cb0-954d-3fa156f5fc65">
+      <Name>Balancing Activation Platform</Name>
+      <Type>System</Type>
+      <Description>Platform through which TSO activation orders are routed to BSPs</Description>
+      <FurtherInformation>MARI</FurtherInformation>
+    </Actor>
+  </ActorList>
+  <RequirementList>
+    <RequirementCategory id="CAT-01">
+      <Name>Asset integration and commissioning</Name>
+      <Description>All physical assets must be installed, commissioned, operational and addressable before pilot operation</Description>
+      <Requirement uuid="dd7aac07-2e6b-5e6b-8f2d-e6a7c98a93c1" id="R-AIC-03">
+        <Name>Asset capability registration</Name>
+        <Description>The platform shall maintain the technical capabilities and operating limits of each asset, including rated power, energy capacity, control modes, ramp limits, SoC limits and availability.</Description>
+      </Requirement>
+      <Requirement uuid="2fba1040-f093-5f79-949b-47e0720daa4e" id="R-AIC-07">
+        <Name>Market asset registration</Name>
+        <Description>Assets intended for market or flexibility participation shall be registered with the required technical, metering, connection-point and geographic attributes before qualification or bidding.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-02">
+      <Name>Energy Management System capabilities</Name>
+      <Description>Contains requirements related to EMS functionalities and capabilities</Description>
+      <Requirement uuid="53767691-b7c5-5bde-8063-126dbec09874" id="R-EMS-02">
+        <Name>Multi-asset orchestration</Name>
+        <Description>The EMS shall coordinate EV charging, PV generation, BESS operation, controllable loads and grid exchange within the applicable pilot boundary.</Description>
+      </Requirement>
+      <Requirement uuid="89856ea4-2ad7-5fc8-80a6-a9fd13df77f0" id="R-EMS-03">
+        <Name>Schedule and setpoint generation</Name>
+        <Description>The EMS shall translate optimisation results and external commitments into asset-level schedules, limits and setpoints.</Description>
+      </Requirement>
+      <Requirement uuid="073b48fb-4fae-5837-9281-f5ce9813b211" id="R-EMS-04">
+        <Name>Constraint enforcement</Name>
+        <Description>The EMS shall prevent dispatch that violates grid connection limits, asset limits, user requirements, mobility-service constraints or contracted reserve obligations.</Description>
+      </Requirement>
+      <Requirement uuid="b15fc774-30cd-56de-8244-1e207c9d9bda" id="R-EMS-06">
+        <Name>Flexibility estimation</Name>
+        <Description>The EMS shall calculate available upward and downward flexibility by time interval, including power, energy, duration and limiting constraints.</Description>
+      </Requirement>
+      <Requirement uuid="7a0b7d9e-caa2-5651-ae5e-af941968f602" id="R-EMS-07">
+        <Name>Distributed-site aggregation</Name>
+        <Description>The EMS or VPP layer shall aggregate multiple charging clusters or facilities into a single controllable and reportable portfolio without losing site-level constraints.</Description>
+      </Requirement>
+      <Requirement uuid="73dd466c-d844-5243-95bb-4fdfdf2b4eff" id="R-EMS-08">
+        <Name>Operating-mode management</Name>
+        <Description>The EMS shall support normal, constrained-grid, market-activation, emergency and recovery modes with explicit transition rules.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-03">
+      <Name>Smart charging, V2G and mobility-service constraints</Name>
+      <Description>The charging infrastructure functionalities and capabilities</Description>
+      <Requirement uuid="9e6bee19-624d-5f1d-91af-47f9238869c0" id="R-SC-03">
+        <Name>Dynamic charging control</Name>
+        <Description>The charging infrastructure shall accept remote time-based charging profiles or dynamic power limits for individual EVSEs or sessions.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-04">
+      <Name>Communications and connectivity</Name>
+      <Description>Collection of requirements to enable reliable communication</Description>
+      <Requirement uuid="a5bd8e5f-9729-5336-a961-48f57e015839" id="R-COM-01">
+        <Name>Bidirectional communications</Name>
+        <Description>Bidirectional communication shall be available wherever both telemetry and remote control are required between assets, EMS, CSMS, BMS, VPP and external platforms.</Description>
+      </Requirement>
+      <Requirement uuid="dcf3d21b-9fa0-56ef-8da0-c56629806dea" id="R-COM-03">
+        <Name>Message acknowledgement</Name>
+        <Description>Control commands and market activations shall be acknowledged by the receiving system with acceptance, rejection or failure status.</Description>
+      </Requirement>
+      <Requirement uuid="6c3669a2-84cb-5553-b79a-3e67a4257afc" id="R-COM-04">
+        <Name>Store-and-forward capability</Name>
+        <Description>Where temporary loss of connectivity is possible, systems shall buffer non-real-time telemetry and forward it after reconnection without duplication.</Description>
+      </Requirement>
+      <Requirement uuid="f9218cd7-98f9-51bb-a6f0-0359398c810d" id="R-COM-07">
+        <Name>External platform connectivity</Name>
+        <Description>The VPP/aggregator or EMS shall provide reliable interfaces to day-ahead, intraday, balancing and DSO flexibility platforms as applicable.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-05">
+      <Name>Data acquisition, quality and storage</Name>
+      <Description>Requirements for common data management mechanisms</Description>
+      <Requirement uuid="c9e3624b-29b7-5141-901f-c8f18b084e1f" id="R-DAT-01">
+        <Name>Operational telemetry acquisition</Name>
+        <Description>The platform shall acquire EVSE, PV, BESS, meter, site-load, weather and mobility data required by the applicable use case.</Description>
+      </Requirement>
+      <Requirement uuid="0552920c-7057-5171-8d89-5d0fa6fd979d" id="R-DAT-02">
+        <Name>Common timestamping</Name>
+        <Description>All operational records shall contain timestamps referenced to a common time base and include timezone or UTC information.</Description>
+      </Requirement>
+      <Requirement uuid="9e8d7c49-e897-5dfb-928c-7d9bfc8d9000" id="R-DAT-03">
+        <Name>Data validation</Name>
+        <Description>Incoming data shall be checked for missing values, staleness, invalid ranges, inconsistent units and implausible changes before use in control or settlement.</Description>
+      </Requirement>
+      <Requirement uuid="05b4301e-989d-5e2e-bdbc-f02af8a8330e" id="R-DAT-05">
+        <Name>Historical data retention</Name>
+        <Description>Historical measurements, schedules, commands, forecasts, user declarations and market messages shall be retained for the period required for KPI assessment, audit and settlement.</Description>
+      </Requirement>
+      <Requirement uuid="272f0a51-eb25-55e7-b234-8e15e1bb3fbe" id="R-DAT-06">
+        <Name>Interval aggregation</Name>
+        <Description>The data platform shall support aggregation and resampling to the operational and market intervals required by each pilot, including 1-minute and 15-minute periods where applicable.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-06">
+      <Name>Semantic and protocol interoperability</Name>
+      <Description>Requirements for enabling interoperable communications</Description>
+      <Requirement uuid="5e727a5c-8585-5c9e-8afe-6a4d44f749fe" id="R-INT-07">
+        <Name>Market message interoperability</Name>
+        <Description>Market and grid-service exchanges shall map to the formats and role definitions required by the relevant market operator, DSO, TSO or aggregator.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-07">
+      <Name>Forecasting and optimisation</Name>
+      <Description>Contains requirements enabling reliable predictive capabilities</Description>
+      <Requirement uuid="91329ce1-d554-5dfd-842f-2fd9e7783cc8" id="R-FOR-01">
+        <Name>PV forecasting</Name>
+        <Description>The platform shall produce PV generation forecasts at the time resolution and horizon required for charging, BESS and market optimisation.</Description>
+      </Requirement>
+      <Requirement uuid="4157d027-fe0d-5220-8c2f-9e2124b4da48" id="R-FOR-02">
+        <Name>Load forecasting</Name>
+        <Description>The platform shall forecast non-flexible and controllable site demand for the relevant planning horizon.</Description>
+      </Requirement>
+      <Requirement uuid="3c788e21-ac2f-5046-a185-4cc53abbc35a" id="R-FOR-03">
+        <Name>EV demand forecasting</Name>
+        <Description>The platform shall forecast EV arrival, departure, energy need and charging availability using historical or declared session information.</Description>
+      </Requirement>
+      <Requirement uuid="880104e3-fedf-5865-876d-c69515b27084" id="R-FOR-05">
+        <Name>Constraint-aware optimisation</Name>
+        <Description>Optimisation shall include asset power and energy limits, grid limits, charging deadlines, reserve commitments, load constraints and permissible PV curtailment.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-08">
+      <Name>Real-time control and performance</Name>
+      <Description>Group of requirements enabling near-real-time control to maintain grid compliance and track market or operational commitments</Description>
+      <Requirement uuid="a4b3d5ae-9c5d-54c9-a684-712698639751" id="R-RTC-01">
+        <Name>Defined control cycle</Name>
+        <Description>Each real-time control function shall operate at a documented cycle time appropriate to its use case and shall complete calculation and dispatch within that cycle.</Description>
+      </Requirement>
+      <Requirement uuid="62cb229e-1fa5-592b-880c-e952e684a253" id="R-RTC-02">
+        <Name>Real-time grid-limit supervision</Name>
+        <Description>The EMS shall continuously supervise aggregate import/export against the applicable connection or circuit limit.</Description>
+      </Requirement>
+      <Requirement uuid="d4c003b8-2896-5825-a68a-1b023619dfcb" id="R-RTC-05">
+        <Name>Activation response timing</Name>
+        <Description>The system shall execute DSO/TSO or market activation instructions within the mandatory response time associated with the contracted product.</Description>
+      </Requirement>
+      <Requirement uuid="19168b72-4ac8-5942-ac41-b6a9bb61e739" id="R-RTC-06">
+        <Name>Setpoint execution verification</Name>
+        <Description>The platform shall verify actual response after dispatch and identify partial, late or failed execution.</Description>
+      </Requirement>
+      <Requirement uuid="2b38d190-21b7-5feb-928a-10aa1ee324f5" id="R-RTC-07">
+        <Name>Control conflict resolution</Name>
+        <Description>When multiple objectives or commitments conflict, the system shall apply a documented precedence order that protects safety and binding obligations.</Description>
+      </Requirement>
+      <Requirement uuid="a93f51a9-7696-595c-a486-4a7046edc880" id="R-RTC-08">
+        <Name>Performance logging</Name>
+        <Description>Control-cycle start time, decision time, dispatch time, acknowledgement and measured response shall be logged for performance assessment.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-09">
+      <Name>Grid constraints, flexibility and resilience</Name>
+      <Description>Group of requirements ensuring safe operation under constrained grid conditions while providing external grid services</Description>
+      <Requirement uuid="2f9f4de1-d68c-5d3b-87d3-f2a6d5028441" id="R-GFR-02">
+        <Name>Upward and downward flexibility calculation</Name>
+        <Description>The platform shall calculate feasible upward and downward power and energy flexibility with duration, availability window and recovery requirement.</Description>
+      </Requirement>
+      <Requirement uuid="16e3412c-4491-5e44-9088-332577f9bfee" id="R-GFR-03">
+        <Name>Flexibility reservation</Name>
+        <Description>Awarded or contracted flexibility shall be reserved in asset schedules so that it remains activatable during the committed service window.</Description>
+      </Requirement>
+      <Requirement uuid="78a4f3dd-16d1-5a45-8abf-b8f7e0c37c14" id="R-GFR-04">
+        <Name>No double commitment</Name>
+        <Description>The system shall prevent the same asset headroom from being committed simultaneously to incompatible services or schedules.</Description>
+      </Requirement>
+      <Requirement uuid="02eeaeed-8e04-50d6-aaf1-b421572c5320" id="R-GFR-08">
+        <Name>Flexibility delivery verification</Name>
+        <Description>The system shall compare requested and measured response and calculate delivered power, energy, duration and accuracy.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-10">
+      <Name>Market, aggregator and external platform integration</Name>
+      <Description>Group of requirements ensuring integration into electricity and flexibility markets</Description>
+      <Requirement uuid="821be881-adbd-57a0-b08c-b13cdde5f06e" id="R-MKT-03">
+        <Name>Awarded schedule reception</Name>
+        <Description>The VPP/aggregator interface shall receive and validate accepted schedules, prices and delivery periods and make them available to the EMS.</Description>
+      </Requirement>
+      <Requirement uuid="1436c51a-cd83-5f90-aaea-0d377cfdbfc1" id="R-MKT-04">
+        <Name>Reserve capacity bidding</Name>
+        <Description>The platform shall provide upward and downward mFRR availability profiles and capacity bids for the applicable settlement intervals.</Description>
+      </Requirement>
+      <Requirement uuid="a3a79e40-c8a7-51c0-b8cb-d158e8419d3b" id="R-MKT-05">
+        <Name>Activation-order handling</Name>
+        <Description>The system shall receive, authenticate, validate and execute activation orders containing direction, magnitude, start time and duration.</Description>
+      </Requirement>
+      <Requirement uuid="7877ea8b-fdee-5aa3-92b9-3c89deea2a8a" id="R-MKT-08">
+        <Name>Settlement result exchange</Name>
+        <Description>The external-platform interface shall exchange delivered quantities, prices, penalties, imbalance results and remuneration components with the responsible party.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-11">
+      <Name>Metering, verification, settlement and KPI reporting</Name>
+      <Description>Group of requirements providing grounds for operational control and project and market outcomes validation</Description>
+      <Requirement uuid="3ca7b27c-5f9e-5867-9376-1c8e35fee340" id="R-MVR-01">
+        <Name>Connection-point metering</Name>
+        <Description>The system shall measure net import/export at the relevant connection point with accuracy and interval resolution suitable for control and, where applicable, settlement.</Description>
+      </Requirement>
+      <Requirement uuid="7a10bf40-0495-5850-9ac8-fcc0ccaeec67" id="R-MVR-04">
+        <Name>Baseline calculation</Name>
+        <Description>Where service delivery is assessed against a baseline, the platform shall calculate and retain the applicable adjusted reference value and its input data.</Description>
+      </Requirement>
+      <Requirement uuid="4c364c9f-54b9-57e6-b3ff-6d1ddcad2efb" id="R-MVR-05">
+        <Name>Settlement-grade audit trail</Name>
+        <Description>Measurements used for financial settlement shall be immutable or tamper-evident, timestamped and traceable through all processing steps.</Description>
+      </Requirement>
+      <Requirement uuid="49d84993-5da7-5e98-a583-e32c874b9400" id="R-MVR-06">
+        <Name>KPI computation</Name>
+        <Description>The platform shall calculate the applicable project KPIs, including PV self-consumption, peak reduction, curtailment avoidance, operating cost, flexibility potential and charging-service performance.</Description>
+      </Requirement>
+      <Requirement uuid="e1230f65-6104-59dc-b155-0f8ea1fd2574" id="R-MVR-07">
+        <Name>Delivery report</Name>
+        <Description>The system shall generate reports comparing requested, scheduled and actual power/energy for each flexibility or market event.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-12">
+      <Name>Cybersecurity, privacy and access control</Name>
+      <Description>Group of requirements ensuring secure and privacy-preserving access to services and provide resilient operation of infrastructure</Description>
+      <Requirement uuid="01c51692-4202-576b-9fd1-ca189624577c" id="R-CYB-01">
+        <Name>Strong authentication</Name>
+        <Description>Human users, devices and external systems shall authenticate before accessing telemetry, configuration, commands, bids or personal data.</Description>
+      </Requirement>
+      <Requirement uuid="14ce30f0-aa00-501e-be40-24a838da81cc" id="R-CYB-03">
+        <Name>Encryption in transit</Name>
+        <Description>All communications crossing device, site, cloud or organisational trust boundaries shall use appropriate encryption in transit.</Description>
+      </Requirement>
+      <Requirement uuid="e06dd514-d9f3-5b09-ac94-de248ffd8afc" id="R-CYB-04">
+        <Name>Command integrity and anti-replay</Name>
+        <Description>Control commands and market activations shall be protected against unauthorised modification, duplication and replay.</Description>
+      </Requirement>
+    </RequirementCategory>
+    <RequirementCategory id="CAT-13">
+      <Name>Safety, fault handling and recovery</Name>
+      <Description>Group of requirements ensuring control platform never overrides asset or mobility safety constraints</Description>
+      <Requirement uuid="d00b4891-22ac-51ff-a001-2bddd55b71d4" id="R-SAF-01">
+        <Name>Asset safety-envelope enforcement</Name>
+        <Description>No EMS, CSMS or market command shall exceed the validated electrical, thermal, SoC, ramp-rate or manufacturer limits of an asset.</Description>
+      </Requirement>
+      <Requirement uuid="a133ccef-203a-52b4-8acf-094c863d217f" id="R-SAF-06">
+        <Name>Recovery validation</Name>
+        <Description>Following a fault or outage, the system shall verify communications, status, limits and metering before returning an asset to automatic control.</Description>
+      </Requirement>
+    </RequirementCategory>
+  </RequirementList>
+</IEC62559UseCaseArtefacts>
